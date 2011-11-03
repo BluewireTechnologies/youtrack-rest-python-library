@@ -1,0 +1,37 @@
+<component name="ProjectDictionaryState">
+  <dictionary name="user">
+    <words>
+      <w>assignee</w>
+      <w>bugnote</w>
+      <w>bugzilla</w>
+      <w>changetime</w>
+      <w>customfield</w>
+      <w>datetime</w>
+      <w>doroshko</w>
+      <w>func</w>
+      <w>hhmm</w>
+      <w>iter</w>
+      <w>login</w>
+      <w>logins</w>
+      <w>longdescs</w>
+      <w>mult</w>
+      <w>realname</w>
+      <w>severities</w>
+      <w>stdout</w>
+      <w>stoper</w>
+      <w>strptime</w>
+      <w>subsys</w>
+      <w>thetext</w>
+      <w>timedelta</w>
+      <w>timegm</w>
+      <w>timetuple</w>
+      <w>trac</w>
+      <w>tuple</w>
+      <w>tuples</w>
+      <w>userid</w>
+      <w>username</w>
+      <w>vers</w>
+      <w>youtrack</w>
+    </words>
+  </dictionary>
+</component>

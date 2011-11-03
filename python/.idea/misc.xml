@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DependencyValidationManager">
+    <option name="SKIP_IMPORT_STATEMENTS" value="false" />
+  </component>
+  <component name="ProjectResources">
+    <resource url="" location="$USER_HOME$/trac/trac-trunk/trac/db/api.py" />
+    <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 2.6.5 (/usr/bin/python2.6)" project-jdk-type="Python SDK" />
+  <component name="SvnBranchConfigurationManager">
+    <option name="myConfigurationMap">
+      <map>
+        <entry key="$PROJECT_DIR$">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="branchMap">
+                <map>
+                  <entry key="http://svn.labs.intellij.net/teamsys/branches">
+                    <value>
+                      <list />
+                    </value>
+                  </entry>
+                  <entry key="http://svn.labs.intellij.net/teamsys/tags">
+                    <value>
+                      <list />
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="branchUrls">
+                <list>
+                  <option value="http://svn.labs.intellij.net/teamsys/branches" />
+                  <option value="http://svn.labs.intellij.net/teamsys/tags" />
+                </list>
+              </option>
+              <option name="trunkUrl" value="http://svn.labs.intellij.net/teamsys/trunk" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="mySupportsUserInfoFilter" value="true" />
+  </component>
+</project>
+
