@@ -1,7 +1,7 @@
 import random
 import unittest
 from youtrack import YouTrackException, EnumBundle, EnumField, UserBundle
-from youtrack.connection import Connection, youtrack, os, os
+from youtrack.connection import Connection
 import math
 
 class ConnectionTest(unittest.TestCase):
