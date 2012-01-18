@@ -1,27 +1,29 @@
+import httplib2
 from xml.dom import minidom
 import youtrack
 from xml.dom import Node
 import urllib2
 import urllib
 from xml.sax.saxutils import escape, quoteattr
-import youtrack.urllib2_file
-import requests
+import urllib2_file
 
 class Connection(object):
     def __init__(self, url, login, password, proxy_info=None):
-        self.proxy_info = proxy_info
+        self.http = httplib2.Http() if proxy_info is None else httplib2.Http(proxy_info=proxy_info)
         self.url = url
         self.baseUrl = url + "/rest"
         self._login(login, password)
 
     def _login(self, login, password):
-        r = requests.post(self.baseUrl + "/user/login?login=" + login + "&password=" + password,
-            headers={'Content-Length': '0'}, proxies=self.proxy_info)
-        if r.status_code != 200:
-            raise youtrack.YouTrackException('/user/login', r)
-        self.headers = {'Cookie': r.headers['set-cookie'],
+        response, content = self.http.request(
+            self.baseUrl + "/user/login?login=" + login + "&password=" + password, 'POST',
+            headers={'Content-Length': '0'})
+        if response.status != 200:
+            raise youtrack.YouTrackException('/user/login', response, content)
+        self.headers = {'Cookie': response['set-cookie'],
                         'Cache-Control': 'no-cache'}
 
+        #print response
 
 
     def _req(self, method, url, body=None, ignoreStatus=None):
@@ -32,11 +34,13 @@ class Connection(object):
             headers['Content-Type'] = 'application/xml; charset=UTF-8'
             headers['Content-Length'] = str(len(body))
 
-        r = requests.request(method, (self.baseUrl + url).encode('utf-8'), headers=headers, data=body, proxies=self.proxy_info)
-        if r.status_code != 200 and r.status_code != 201 and (ignoreStatus != r.status_code):
-            raise youtrack.YouTrackException(url, r)
+        response, content = self.http.request((self.baseUrl + url).encode('utf-8'), method, headers=headers, body=body)
+        if response.status != 200 and response.status != 201 and (ignoreStatus != response.status):
+            raise youtrack.YouTrackException(url, response, content)
 
-        return r.headers, r.content
+        #print response
+
+        return response, content
 
     def _reqXml(self, method, url, body=None, ignoreStatus=None):
         response, content = self._req(method, url, body, ignoreStatus)
@@ -655,3 +659,5 @@ class Connection(object):
     }
 
 
+
+    

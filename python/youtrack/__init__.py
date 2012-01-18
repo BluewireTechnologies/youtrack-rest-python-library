@@ -7,17 +7,16 @@ from xml.dom.minidom import Document
 from xml.dom import minidom
 
 class YouTrackException(Exception):
-    def __init__(self, url, response):
+    def __init__(self, url, response, content):
         self.response = response
-        msg = 'Error for [' + url + "]: " + str(self.response.status_code)
+        self.content = content
+        msg = 'Error for [' + url + "]: " + str(response.status)
 
-        if response.error.msg is not None:
-            msg += ": " + response.error.msg
+        if response.reason is not None:
+            msg += ": " + response.reason
 
-        headers = response.headers
-        content = response.content
-        if headers.has_key('content-type'):
-            ct = headers["content-type"]
+        if response.has_key('content-type'):
+            ct = response["content-type"]
             if ct is not None and ct.find('text/html') == -1:
                 try:
                     xml = minidom.parseString(content)
