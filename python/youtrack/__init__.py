@@ -240,6 +240,8 @@ class ProjectCustomField(YouTrackObject):
 class UserBundle(YouTrackObject):
     def __init__(self, xml = None, youtrack = None):
         YouTrackObject.__init__(self, xml, youtrack)
+        self.users = []
+        self.groups = []
 
     def _update(self, xml):
 

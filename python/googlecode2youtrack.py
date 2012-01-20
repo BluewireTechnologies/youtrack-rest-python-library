@@ -337,7 +337,7 @@ def googlecode2youtrack(source_login, source_password, target_url, target_login,
                 print "  Transfer attachment [" + name + "]"
                 content = urllib2.urlopen(urllib2.Request(url))
                 print target.createAttachment(projectId + "-" + issueId(issue), unquote(name).decode('utf-8'), content, target_login,
-                                     contentLength=int(content.headers.dict['content-length']),
+                                     contentLength=int(content._headers.dict['content-length']),
                                      #contentType=content.info().type, octet/stream always :(
                                      created=None,
                                      group=None)

@@ -2,19 +2,29 @@
   <dictionary name="user">
     <words>
       <w>assignee</w>
+      <w>atlassian</w>
       <w>bugnote</w>
       <w>bugzilla</w>
       <w>changetime</w>
       <w>customfield</w>
+      <w>customfieldtypes</w>
       <w>datetime</w>
       <w>doroshko</w>
       <w>func</w>
       <w>hhmm</w>
+      <w>importid</w>
       <w>iter</w>
+      <w>jira</w>
+      <w>jruby</w>
+      <w>jsessionid</w>
       <w>login</w>
       <w>logins</w>
       <w>longdescs</w>
       <w>mult</w>
+      <w>multicheckboxes</w>
+      <w>multikeyfield</w>
+      <w>opensymphony</w>
+      <w>radiobuttons</w>
       <w>realname</w>
       <w>severities</w>
       <w>stdout</w>

@@ -258,7 +258,7 @@ class newHTTPHandler(urllib2.BaseHandler):
         h = http_class(host) # will parse host:port
         if req.has_data():
             h.putrequest(req.get_method(), req.get_selector())
-            if not 'Content-type' in req.headers:
+            if not 'Content-type' in req._headers:
                 if len(v_files) > 0:
                     boundary = mimetools.choose_boundary()
                     l = send_data(v_vars, v_files, boundary)
@@ -268,7 +268,7 @@ class newHTTPHandler(urllib2.BaseHandler):
                 else:
                     h.putheader('Content-type',
                                 'application/x-www-form-urlencoded')
-                    if not 'Content-length' in req.headers:
+                    if not 'Content-length' in req._headers:
                         h.putheader('Content-length', '%d' % len(data))
         else:
             h.putrequest(req.get_method(), req.get_selector())
@@ -278,9 +278,9 @@ class newHTTPHandler(urllib2.BaseHandler):
         h.putheader('Host', sel_host or host)
         for name, value in self.parent.addheaders:
             name = name.capitalize()
-            if name not in req.headers:
+            if name not in req._headers:
                 h.putheader(name, value)
-        for k, v in req.headers.items():
+        for k, v in req._headers.items():
             h.putheader(k, v)
         # httplib will attempt to connect() here.  be prepared
         # to convert a socket error to a URLError.

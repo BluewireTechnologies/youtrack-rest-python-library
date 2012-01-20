@@ -600,8 +600,10 @@ class Connection(object):
             request = "/admin/customfield/userBundle/%s/" % urllib.quote(bundle.name.encode('utf-8'))
             if isinstance(value, youtrack.User):
                 request += "individual/%s/" % value.login
-            else:
+            elif isinstance(value, youtrack.Group):
                 request += "group/%s/" % urllib.quote(value.name.encode('utf-8'))
+            else:
+                request += "individual/%s/" % value
         return self._put(request)
 
     def removeValueFromBundle(self, bundle, value):
