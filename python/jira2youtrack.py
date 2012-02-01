@@ -39,7 +39,7 @@ def create_yt_issue_from_jira_issue(target, issue, project_id):
                 yt_comment = Comment()
                 yt_comment.text = comment['body']
                 create_user(target, comment['author'])
-                yt_comment.author = comment['author']['name']
+                yt_comment.author = comment['author']['name'].replace(' ', '_')
                 yt_comment.created = to_unix_date(comment['created'])
                 yt_comment.updated = to_unix_date(comment['updated'])
                 yt_issue['comments'].append(yt_comment)
@@ -58,11 +58,20 @@ def create_yt_issue_from_jira_issue(target, issue, project_id):
                         yt_issue[field_name] = get_value_presentation(field_type, value)
     return yt_issue
 
+
 def process_labels(target, issue):
     tags = issue['fields']['labels']['value']
     for tag in tags:
-        tag = tag.replace(' ', '_')
-        target.executeCommand(issue['key'], 'tag ' + tag)
+    #        tag = tag.replace(' ', '_')
+    #        tag = tag.replace('-', '_')
+        try:
+            target.executeCommand(issue['key'], 'tag ' + tag)
+        except YouTrackException:
+            try:
+                target.executeCommand(issue['key'], ' tag ' + tag.replace(' ', '_').replace('-', '_'))
+            except YouTrackException, e:
+                print(str(e))
+
 
 def get_yt_field_name(jira_name):
     if jira_name in jira.FIELD_NAMES:
@@ -75,43 +84,52 @@ def get_yt_field_type(jira_type):
         return jira.FIELD_TYPES[jira_type]
     return None
 
-def process_links(target, issue, links):
-    for link in issue['fields']['links']['value']:
+
+def process_links(target, issue, yt_links):
+    links = issue['fields']['links']['value'] + issue['fields']['sub-tasks']['value']
+    for link in links:
         is_directed = 'direction' in link
-        target = issue['key']
-        source = link['issueKey']
+        target_issue = issue['key']
+        source_issue = link['issueKey']
+
+        if int(target_issue[6:]) > int(source_issue[6:]):
+            continue
+
         try:
+            link_description = link['type']['description'] if 'description' in link['type'] else link['type']['name']
             if is_directed:
-                target.createIssueLinkTypeDetailed(link['name'], link['description'], link['description'], False)
+                target.createIssueLinkTypeDetailed(link['type']['name'], link_description, link_description, False)
             else:
-                outward = 'is ' + link['name']
-                inward = link['description']
-                if link['direction'] == u'OUTBOUND':
+                outward = 'is ' + link['type']['name']
+                inward = link_description
+                if link['type']['direction'] == u'OUTBOUND':
                     c = outward
                     outward = inward
                     inward = outward
-                    c = source
-                    source = target
-                    target = c
-                target.createIssueLinkTypeDetailed(link['name'], outward, inward, True)
+                    c = source_issue
+                    source_issue = target_issue
+                    target_issue = c
+                target.createIssueLinkTypeDetailed(link['type']['name'], outward, inward, True)
         except YouTrackException:
             pass
         yt_link = Link()
-        yt_link.typeName = link['name']
-        yt_link.source = source
-        yt_link.target = target
-        links.append(yt_link)
+        yt_link.typeName = link['type']['name']
+        yt_link.source = source_issue
+        yt_link.target = target_issue
+        yt_links.append(yt_link)
 
 
 def create_user(target, value):
     try:
-        target.createUserDetailed(value['name'], value['displayName'], 'fare_email', 'fake_jabber')
+        target.createUserDetailed(value['name'].replace(' ', '_'), value['displayName'], 'fare_email', 'fake_jabber')
     except YouTrackException, e:
         print(str(e))
+
 
 def create_value(target, value, field_name, field_type, project_id):
     if field_type.startswith('user'):
         create_user(target, value)
+        value['name'] = value['name'].replace(' ', '_')
     if field_name in jira.EXISTING_FIELDS:
         return
     if field_name.lower() not in [field.name.lower() for field in target.getProjectCustomFields(project_id)]:
@@ -135,10 +153,17 @@ def create_value(target, value, field_name, field_type, project_id):
     except YouTrackException:
         pass
 
-def to_unix_date(time_string) :
-    time_string = time_string[:time_string.rfind('.')].replace('T', ' ')
-    dt = datetime.datetime.strptime(time_string, "%Y-%m-%d %H:%M:%S")
-    return str(calendar.timegm(dt.timetuple()) * 1000)
+
+def to_unix_date(time_string):
+    time = time_string[:time_string.rfind('.')].replace('T', ' ')
+    time_zone = time_string[-5:]
+    tz_diff = 1
+    if time_zone[0] == '-':
+        tz_diff = -1
+    tz_diff *= (int(time_zone[1:3]) * 60 + int(time_zone[3:5]))
+    dt = datetime.datetime.strptime(time, "%Y-%m-%d %H:%M:%S")
+    return str((calendar.timegm(dt.timetuple()) + tz_diff) * 1000)
+
 
 def get_value_presentation(field_type, value):
     if field_type == 'date':
@@ -156,7 +181,8 @@ def get_value_presentation(field_type, value):
 def process_attachments(source, target, issue):
     for attach in issue['fields']['attachment']['value']:
         attachment = JiraAttachment(attach, source)
-        create_user(target, attach['author'])
+        if 'author' in attach:
+            create_user(target, attach['author'])
         target.createAttachmentFromAttachment(issue['key'], attachment)
 
 
@@ -174,32 +200,36 @@ def jira2youtrack(source_url, source_login, source_password, target_url, target_
 
     target.createProjectDetailed(project_id, project_id, "", target_login)
 
-    for i in range(600, 700):
-        jira_issues = source.get_issues(project_id, i * 10, (i + 1) * 10)
-        target.importIssues(project_id, project_id + " assignees",
-            [create_yt_issue_from_jira_issue(target, issue, project_id) for issue in
-             jira_issues])
-        for issue in jira_issues:
-            process_labels(target, issue)
-            process_attachments(source, target, issue)
+    for i in range(0, 650):
+        try:
+            jira_issues = source.get_issues(project_id, i * 10, (i + 1) * 10)
+            target.importIssues(project_id, project_id + " assignees",
+                [create_yt_issue_from_jira_issue(target, issue, project_id) for issue in
+                 jira_issues])
+            for issue in jira_issues:
+                process_labels(target, issue)
+                process_attachments(source, target, issue)
+        except BaseException, e:
+            print(str(e))
 
-    for i in range(600, 700):
-        jira_issues = source.get_issues(project_id, i * 10, (i + 1) * 10)
+    for i in range(4, 350):
+        jira_issues = source.get_issues(project_id, i * 50, (i + 1) * 50)
         links = []
         for issue in jira_issues:
             process_links(target, issue, links)
-        target.importLinks(links)
+        print(target.importLinks(links))
+
 
 class JiraAttachment(object):
     def __init__(self, attach, source):
-        self.authorLogin = attach['author']['name']
+        self.authorLogin = attach['author']['name'].replace(' ', '_') if 'author' in attach else 'root'
         self._url = attach['content']
         self.name = attach['filename']
         self.created = to_unix_date(attach['created'])
         self._source = source
 
     def getContent(self):
-        return urllib2.urlopen(urllib2.Request(self._url, headers = self._source._headers))
+        return urllib2.urlopen(urllib2.Request(self._url, headers=self._source._headers))
 
 if __name__ == '__main__':
     main()

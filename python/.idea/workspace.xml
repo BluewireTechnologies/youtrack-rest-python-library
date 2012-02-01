@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bfb67218-c868-4b90-b6ff-44352675a3b4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jira/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jira/client.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jira2youtrack.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/user.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/user.xml" />
+    <list default="true" id="bfb67218-c868-4b90-b6ff-44352675a3b4" name="Default" comment="implement import from jira">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/deleteAllUsers.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/googlecode2youtrack.py" afterPath="$PROJECT_DIR$/googlecode2youtrack.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/urllib2_file.py" afterPath="$PROJECT_DIR$/urllib2_file.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/youtrack/__init__.py" afterPath="$PROJECT_DIR$/youtrack/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/youtrack/connection.py" afterPath="$PROJECT_DIR$/youtrack/connection.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jira/__init__.py" afterPath="$PROJECT_DIR$/jira/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jira2youtrack.py" afterPath="$PROJECT_DIR$/jira2youtrack.py" />
     </list>
     <ignored path="python.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,10 +32,17 @@
           <file leaf-file-name="jira2youtrack.py" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/jira2youtrack.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="205" column="0" selection-start="8074" selection-end="8074" vertical-scroll-proportion="1.3565769">
-                  <folding>
-                    <element signature="e#0#15#0" expanded="true" />
-                  </folding>
+                <state line="195" column="44" selection-start="7686" selection-end="7686" vertical-scroll-proportion="0.40570524">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/httplib2/__init__.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="1048" column="0" selection-start="44888" selection-end="44888" vertical-scroll-proportion="0.0">
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -48,7 +50,7 @@
           <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/jira/__init__.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="29" column="0" selection-start="1331" selection-end="1331" vertical-scroll-proportion="0.0">
+                <state line="20" column="37" selection-start="1025" selection-end="1025" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -58,17 +60,6 @@
             <entry file="file://$PROJECT_DIR$/jira/client.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-                  <folding>
-                    <element signature="e#0#11#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/csvClient/__init__.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="27" column="0" selection-start="1346" selection-end="1346" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -78,9 +69,7 @@
             <entry file="file://$PROJECT_DIR$/csvClient/defaultTracMapping.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state line="41" column="49" selection-start="1538" selection-end="1538" vertical-scroll-proportion="0.0">
-                  <folding>
-                    <element signature="e#0#16#0" expanded="true" />
-                  </folding>
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -92,7 +81,7 @@
           <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/youtrack/__init__.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="171" column="41" selection-start="6019" selection-end="6019" vertical-scroll-proportion="-8.64">
+                <state line="84" column="0" selection-start="2891" selection-end="2891" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -101,25 +90,16 @@
           <file leaf-file-name="connection.py" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/youtrack/connection.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="101" column="63" selection-start="4295" selection-end="4295" vertical-scroll-proportion="0.5147541">
+                <state line="231" column="0" selection-start="10155" selection-end="10155" vertical-scroll-proportion="0.09508716">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="youtrack2youtrack.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/youtrack2youtrack.py">
+          <file leaf-file-name="csv2youtrack.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/csv2youtrack.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="58" column="21" selection-start="3134" selection-end="3134" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="fb2youtrack.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/fb2youtrack.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="275" column="43" selection-start="11500" selection-end="11500" vertical-scroll-proportion="-9.4">
+                <state line="96" column="39" selection-start="3482" selection-end="3489" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -159,7 +139,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/fbugz/defaultFBugz.py" />
         <option value="$PROJECT_DIR$/fbugz/__init__.py" />
         <option value="$PROJECT_DIR$/youtrack/test.py" />
         <option value="$PROJECT_DIR$/youtrack/importHelper.py" />
@@ -172,8 +151,9 @@
         <option value="$PROJECT_DIR$/youtrack/__init__.py" />
         <option value="$PROJECT_DIR$/jira/client.py" />
         <option value="$PROJECT_DIR$/csvClient/defaultTracMapping.py" />
-        <option value="$PROJECT_DIR$/jira/__init__.py" />
         <option value="$PROJECT_DIR$/youtrack/connection.py" />
+        <option value="$PROJECT_DIR$/deleteAllUsers.py" />
+        <option value="$PROJECT_DIR$/jira/__init__.py" />
         <option value="$PROJECT_DIR$/jira2youtrack.py" />
       </list>
     </option>
@@ -209,7 +189,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -228,64 +207,9 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="python" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="python" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="youtrack" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="python" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="python" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jira" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="python" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="python" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fbugz" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="python" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="python" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="csvClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="Favorites" />
     </panes>
   </component>
@@ -343,26 +267,6 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.jira2youtrack">
-    <configuration default="false" name="moveIssuesForPyCharm" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <module name="python" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/moveIssuesForPyCharm.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="MULTIPROCESS" value="false" />
-      <RunnerSettings RunnerId="PyDebugRunner" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PyDebugRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
     <configuration default="false" name="fb2youtrack" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -438,6 +342,26 @@
       <option name="PARAMETERS" value="" />
       <option name="MULTIPROCESS" value="false" />
       <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="deleteAllUsers" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <module name="python" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/deleteAllUsers.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="MULTIPROCESS" value="false" />
+      <RunnerSettings RunnerId="PyDebugRunner" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PyDebugRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
@@ -518,11 +442,11 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.moveIssuesForPyCharm" />
-      <item index="1" class="java.lang.String" itemvalue="Python.fb2youtrack" />
-      <item index="2" class="java.lang.String" itemvalue="Python.youtrack2youtrack" />
-      <item index="3" class="java.lang.String" itemvalue="Python.jira2youtrack" />
-      <item index="4" class="java.lang.String" itemvalue="Python.test" />
+      <item index="0" class="java.lang.String" itemvalue="Python.fb2youtrack" />
+      <item index="1" class="java.lang.String" itemvalue="Python.youtrack2youtrack" />
+      <item index="2" class="java.lang.String" itemvalue="Python.jira2youtrack" />
+      <item index="3" class="java.lang.String" itemvalue="Python.test" />
+      <item index="4" class="java.lang.String" itemvalue="Python.deleteAllUsers" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -578,17 +502,17 @@
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33" sideWeight="0.0" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.275" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14438502" sideWeight="0.67" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.312" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14759359" sideWeight="0.67" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.311" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329" sideWeight="0.6673797" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.397" sideWeight="0.99873096" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39687195" sideWeight="0.99873096" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286991" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.275" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -630,7 +554,7 @@
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
     <option name="CREATE_PATCH_EXPAND_DETAILS_DEFAULT" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="revert" />
+    <option name="LAST_COMMIT_MESSAGE" value="implement import from jira" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -663,128 +587,93 @@
     <MESSAGE value="JT-10790 AttributeError: 'str' object has no attribute 'toxml'" />
     <MESSAGE value="fix fogbugz" />
     <MESSAGE value="revert" />
+    <MESSAGE value="implement import from jira" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///usr/lib/python2.6/_strptime.py">
+    <entry file="file://$PROJECT_DIR$/fb2youtrack.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="324" column="0" selection-start="14025" selection-end="14025" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/csv2youtrack.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="39" selection-start="3482" selection-end="3489" vertical-scroll-proportion="0.33281004">
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/lib/python2.6/httplib.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="915" column="0" selection-start="31794" selection-end="31794" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bugzilla2youtrack.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="4" selection-start="1891" selection-end="1891" vertical-scroll-proportion="0.20859873">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/youtrack/importHelper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="142" column="19" selection-start="6491" selection-end="6491" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/csvClient/defaultTracMapping.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="49" selection-start="1538" selection-end="1538" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#16#0" expanded="true" />
-          </folding>
-        </state>
+        <state line="275" column="43" selection-start="11500" selection-end="11500" vertical-scroll-proportion="-9.4" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/csvClient/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="0" selection-start="1346" selection-end="1346" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="27" column="0" selection-start="1346" selection-end="1346" vertical-scroll-proportion="0.6117825" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fbugz/fbSOAPClient.py">
+    <entry file="file://$PROJECT_DIR$/youtrack2youtrack.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="182" column="37" selection-start="8879" selection-end="8879" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="58" column="21" selection-start="3134" selection-end="3134" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fb2youtrack.py">
+    <entry file="file://$PROJECT_DIR$/deleteAllUsers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="275" column="43" selection-start="11500" selection-end="11500" vertical-scroll-proportion="-9.4">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fbugz/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="16" selection-start="2178" selection-end="2178" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/youtrack/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="171" column="41" selection-start="6019" selection-end="6019" vertical-scroll-proportion="-8.64">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jira/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="0" selection-start="1331" selection-end="1331" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jira/client.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/youtrack/connection.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="63" selection-start="4295" selection-end="4295" vertical-scroll-proportion="0.5147541">
-          <folding />
-        </state>
+        <state line="3" column="0" selection-start="125" selection-end="125" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file:///usr/lib/python2.6/socket.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="401" column="0" selection-start="14258" selection-end="14258" vertical-scroll-proportion="9.360374">
+        <state line="498" column="24" selection-start="17639" selection-end="17639" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file:///usr/lib/python2.6/mimetools.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="0" selection-start="714" selection-end="714" vertical-scroll-proportion="0.46728972" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/httplib2/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1048" column="0" selection-start="44888" selection-end="44888" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jira/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="37" selection-start="1025" selection-end="1025" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jira/client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/csvClient/defaultTracMapping.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="49" selection-start="1538" selection-end="1538" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/youtrack/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="84" column="0" selection-start="2891" selection-end="2891" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/csv2youtrack.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="96" column="39" selection-start="3482" selection-end="3489" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fbugz/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="79" column="16" selection-start="2178" selection-end="2178" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fbugz/fbSOAPClient.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="182" column="37" selection-start="8879" selection-end="8879" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/youtrack/connection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="231" column="0" selection-start="10155" selection-end="10155" vertical-scroll-proportion="0.09508716">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jira2youtrack.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="205" column="0" selection-start="8074" selection-end="8074" vertical-scroll-proportion="1.3565769">
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
+        <state line="195" column="44" selection-start="7686" selection-end="7686" vertical-scroll-proportion="0.40570524">
+          <folding />
         </state>
       </provider>
     </entry>

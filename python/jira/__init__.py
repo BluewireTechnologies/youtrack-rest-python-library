@@ -18,7 +18,8 @@ FIELD_TYPES = {
 FIELD_NAMES = {
     u'reporter': 'reporterName',
     u'fixVersions': 'Fix versions',
-    u'versions': 'Affected versions'
+    u'versions': 'Affected versions',
+    u'status' : 'State'
 }
 
 EXISTING_FIELDS = ['numberInProject', 'projectShortName', 'summary', 'description', 'created',
