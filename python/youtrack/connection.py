@@ -1,3 +1,6 @@
+import calendar
+from mx.DateTime.NIST import now
+from zope.interface.tests.unitfixtures import IC
 import httplib2
 from xml.dom import minidom
 import youtrack
@@ -5,6 +8,7 @@ from xml.dom import Node
 import urllib2
 import urllib
 from xml.sax.saxutils import escape, quoteattr
+import json
 import urllib2_file
 
 class Connection(object):
@@ -23,7 +27,7 @@ class Connection(object):
         self.headers = {'Cookie': response['set-cookie'],
                         'Cache-Control': 'no-cache'}
 
-        #print response
+        #print responsetes
 
 
     def _req(self, method, url, body=None, ignoreStatus=None):
@@ -51,6 +55,11 @@ class Connection(object):
                     return minidom.parseString(content)
                 except Exception:
                     return ""
+            elif response['content-type'].find('application/json') != -1 and content is not None and content != '':
+                try:
+                    return json.loads(content)
+                except Exception:
+                    return ""
 
         if method == 'PUT' and ('location' in response.keys()):
             return 'Created: ' + response['location']
@@ -68,19 +77,31 @@ class Connection(object):
 
     def createIssue(self, project, assignee, summary, description, priority, type, subsystem, state, affectsVersion,
                     fixedVersion, fixedInBuild):
+        params = {'project' : project,
+                  'summary' : summary,
+                  'description' : description}
+        if assignee is not None:
+            params['assignee'] = assignee
+        if priority is not None:
+            params['priority'] = priority
+        if type is not None:
+            params['type'] = type
+        if subsystem is not None:
+            params['subsystem'] = subsystem
+        if state is not None:
+            params['state'] = state
+        if affectsVersion is not None:
+            params['affectsVersion'] = affectsVersion
+        if fixedVersion is not None:
+            params['fixVersion'] = fixedVersion
+        if fixedInBuild is not None:
+            params['fixedInBuild'] = fixedInBuild
+
         self._reqXml('PUT', '/issue?' +
-                            urllib.urlencode({
-                                'project': project,
-                                'assignee': assignee,
-                                'summary': summary,
-                                'description': description,
-                                'priority': priority,
-                                'type': type,
-                                'subsystem': subsystem,
-                                'state': state,
-                                'affectsVersion': affectsVersion,
-                                'fixedVersion': fixedVersion,
-                                'fixedInBuild': fixedInBuild}), '')
+                            urllib.urlencode(params), '')
+
+    def get_changes_for_issue(self, issue):
+        return [youtrack.IssueChange(change, self) for change in self._get("/issue/%s/changes" % issue).getElementsByTagName('change')]
 
     def getComments(self, id):
         response, content = self._req('GET', '/issue/' + id + '/comment')
@@ -98,38 +119,39 @@ class Connection(object):
 
     def createAttachmentFromAttachment(self, issueId, a):
         content = a.getContent()
-        return self.createAttachment(issueId, a.name, content, a.authorLogin,
-                                     contentLength=int(content.headers.dict['content-length']),
-                                     contentType=content.info().type,
-                                     created=a.created if hasattr(a, 'created') else None,
-                                     group=a.group if hasattr(a, 'group') else '')
+        return self.importAttachment(issueId, a.name, content, a.authorLogin,
+            contentLength=int(content.headers.dict['content-length']),
+            contentType=content.info().type,
+            created=a.created if hasattr(a, 'created') else None,
+            group=a.group if hasattr(a, 'group') else '')
 
-    def createAttachment(self, issueId, name, content, authorLogin='', contentType=None, contentLength=None,
-                         created=None, group=''):
+    def _process_attachmnets(self, authorLogin, content, contentLength, contentType, created, group, issueId, name,
+                             url_prefix='/issue/'):
         if contentLength is not None:
             content.contentLength = contentLength
-
         if contentType is not None:
             content.contentType = contentType
 
         #post_data = {'attachment': content}
         post_data = {name: content}
-
         headers = self.headers.copy()
         #headers['Content-Type'] = contentType
-
         # name without extension to workaround: http://youtrack.jetbrains.net/issue/JT-6110
         params = {#'name': os.path.splitext(name)[0],
                   'group': group,
                   'authorLogin': authorLogin,
                   }
-
         if created is not None:
             params['created'] = created
+        else:
+            try:
+                params['created'] = self.getIssue(issueId).created
+            except youtrack.YouTrackException:
+                params['created'] = str(calendar.timegm(now().timetuple()) * 1000)
 
-        r = urllib2.Request(self.baseUrl + '/issue/' + issueId + "/attachment?" +
+        r = urllib2.Request(self.baseUrl + url_prefix + issueId + "/attachment?" +
                             urllib.urlencode(params),
-                            headers=headers, data=post_data)
+            headers=headers, data=post_data)
         #r.set_proxy('localhost:8888', 'http')
         try:
             res = urllib2.urlopen(r)
@@ -137,8 +159,18 @@ class Connection(object):
             if e.code == 201:
                 return e.msg + ' ' + name
             raise e
-
         return res
+
+    def createAttachment(self, issueId, name, content, authorLogin='', contentType=None, contentLength=None,
+                         created=None, group=''):
+        return self._process_attachmnets(authorLogin, content, contentLength, contentType, created, group, issueId,
+            name)
+
+    def importAttachment(self, issue_id, name, content, authorLogin, contentType, contentLength, created=None,
+                         group=''):
+        return self._process_attachmnets(authorLogin, content, contentLength, contentType, created, group, issue_id,
+            name, '/import/')
+
 
     def getLinks(self, id, outwardOnly=False):
         response, content = self._req('GET', '/issue/' + urllib.quote(id) + '/link')
@@ -190,7 +222,7 @@ class Connection(object):
     def importIssuesXml(self, projectId, assigneeGroup, xml):
         return self._reqXml('PUT', '/import/' + urllib.quote(projectId) + '/issues?' +
                                    urllib.urlencode({'assigneeGroup': assigneeGroup}),
-                            xml, 400).toxml()
+            xml, 400).toxml()
 
     def importLinks(self, links):
         """ Import links, returns import result (http://confluence.jetbrains.net/display/YTD2/Import+Links)
@@ -202,7 +234,7 @@ class Connection(object):
         for l in links:
             # ignore typeOutward and typeInward returned by getLinks()
             xml += '  <link ' + "".join(attr + '=' + quoteattr(l[attr]) +
-                                             ' ' for attr in l if attr not in ['typeInward', 'typeOutward']) + '/>\n'
+                                        ' ' for attr in l if attr not in ['typeInward', 'typeOutward']) + '/>\n'
         xml += '</list>'
         print xml
         #TODO: convert response xml into python objects
@@ -249,7 +281,8 @@ class Connection(object):
 
             if comments:
                 for comment in comments:
-                    record += '    <comment ' + "".join(ca + '=' + quoteattr(comment[ca]) + ' ' for ca in comment) + '/>\n'
+                    record += '    <comment ' + "".join(
+                        ca + '=' + quoteattr(comment[ca]) + ' ' for ca in comment) + '/>\n'
 
             record += '  </issue>\n'
             xml += record
@@ -345,7 +378,7 @@ class Connection(object):
         return [youtrack.Build(e, self) for e in xml.documentElement.childNodes if e.nodeType == Node.ELEMENT_NODE]
 
 
-    def getUsers(self, params = dict([])):
+    def getUsers(self, params=dict([])):
         first = True
         users = []
         position = 0
@@ -390,7 +423,7 @@ class Connection(object):
     # TODO this function is deprecated
     def createSubsystem(self, projectId, s):
         return self.createSubsystemDetailed(projectId, s.name, s.isDefault,
-                                            s.defaultAssignee if s.defaultAssignee != '<no user>' else '')
+            s.defaultAssignee if s.defaultAssignee != '<no user>' else '')
 
     # TODO this function is deprecated
     def createSubsystemDetailed(self, projectId, name, isDefault, defaultAssigneeLogin):
@@ -402,7 +435,8 @@ class Connection(object):
 
     # TODO this function is deprecated
     def deleteSubsystem(self, projectId, name):
-        return self._reqXml('DELETE', '/admin/project/' + projectId + '/subsystem/' + urllib.quote(name.encode('utf-8')), '')
+        return self._reqXml('DELETE', '/admin/project/' + projectId + '/subsystem/' + urllib.quote(name.encode('utf-8'))
+            , '')
 
     # TODO this function is deprecated
     def createVersions(self, projectId, versions):
@@ -415,7 +449,7 @@ class Connection(object):
     # TODO this function is deprecated
     def createVersion(self, projectId, v):
         return self.createVersionDetailed(projectId, v.name, v.isReleased, v.isArchived, releaseDate=v.releaseDate,
-                                          description=v.description)
+            description=v.description)
 
     # TODO this function is deprecated
     def createVersionDetailed(self, projectId, name, isReleased, isArchived, releaseDate=None, description=''):
@@ -441,7 +475,7 @@ class Connection(object):
         xml = minidom.parseString(content)
         return [youtrack.Link(e, self) for e in xml.documentElement.childNodes if e.nodeType == Node.ELEMENT_NODE]
 
-    def executeCommand(self, issueId, command, comment=None, group=None):
+    def executeCommand(self, issueId, command, comment=None, group=None, run_as = None):
         params = {'command': command}
 
         if comment is not None:
@@ -449,6 +483,9 @@ class Connection(object):
 
         if group is not None:
             params['group'] = group
+
+        if run_as is not None:
+            params['runAs'] = run_as
 
         response, content = self._req('POST', '/issue/' + issueId + "/execute?" +
                                               urllib.urlencode(params), body='')
@@ -473,19 +510,20 @@ class Connection(object):
         auto_attached = False
         if hasattr(cf, "autoAttached"):
             auto_attached = cf.autoAttached
-        return self.createCustomFieldDetailed(cf.name, cf.type, cf.isPrivate, cf.visibleByDefault, auto_attached, params)
+        return self.createCustomFieldDetailed(cf.name, cf.type, cf.isPrivate, cf.visibleByDefault, auto_attached,
+            params)
 
     def createCustomFieldDetailed(self, customFieldName, typeName, isPrivate, defaultVisibility,
-                                  auto_attached = False, additional_params = dict([])):
+                                  auto_attached=False, additional_params=dict([])):
         params = {'type': typeName, 'isPrivate': str(isPrivate), 'defaultVisibility': str(defaultVisibility),
                   'autoAttached': str(auto_attached)}
         params.update(additional_params)
         for key in params:
-            if isinstance(params[key], unicode) :
+            if isinstance(params[key], unicode):
                 params[key] = params[key].encode('utf-8')
-        
+
         self._put('/admin/customfield/field/' + urllib.quote(customFieldName.encode('utf-8')) + '?' +
-                  urllib.urlencode(params),)
+                  urllib.urlencode(params), )
 
         return "Created"
 
@@ -509,15 +547,16 @@ class Connection(object):
 
     def createProjectCustomFieldDetailed(self, projectId, customFieldName, emptyFieldText, params=None):
         if not len(emptyFieldText.strip()):
-           emptyFieldText = u"No " + customFieldName
+            emptyFieldText = u"No " + customFieldName
         _params = {'emptyFieldText': emptyFieldText}
         if params is not None:
             _params.update(params)
         for key in _params:
-            if isinstance(_params[key], unicode) :
+            if isinstance(_params[key], unicode):
                 _params[key] = _params[key].encode('utf-8')
-        return self._put('/admin/project/' + projectId + '/customfield/' + urllib.quote(customFieldName.encode('utf-8')) + '?' +
-                         urllib.urlencode(_params))
+        return self._put(
+            '/admin/project/' + projectId + '/customfield/' + urllib.quote(customFieldName.encode('utf-8')) + '?' +
+            urllib.urlencode(_params))
 
     def deleteProjectCustomField(self, project_id, pcf_name):
         self._req('DELETE', '/admin/project/' + urllib.quote(project_id) + "/customfield/" + urllib.quote(pcf_name))
@@ -567,23 +606,23 @@ class Connection(object):
 
     def renameBundle(self, bundle, new_name):
         response, content = self._req("POST", "/admin/customfield/%s/%s?newName=%s" % (
-        self.bundle_paths[bundle.get_field_type()], bundle.name, new_name), "", ignoreStatus=301)
+            self.bundle_paths[bundle.get_field_type()], bundle.name, new_name), "", ignoreStatus=301)
         return response
 
     def createBundle(self, bundle):
         return self._reqXml('PUT', '/admin/customfield/' + self.bundle_paths[bundle.get_field_type()],
-                            body=bundle.toXml(), ignoreStatus=400)
+            body=bundle.toXml(), ignoreStatus=400)
 
     def deleteBundle(self, bundle):
         response, content = self._req("DELETE", "/admin/customfield/%s/%s" % (
-        self.bundle_paths[bundle.get_field_type()], bundle.name), "")
+            self.bundle_paths[bundle.get_field_type()], bundle.name), "")
         return response
 
     def addValueToBundle(self, bundle, value):
         request = ""
         if bundle.get_field_type() != "user":
             request = "/admin/customfield/%s/%s/" % (
-            self.bundle_paths[bundle.get_field_type()], urllib.quote(bundle.name.encode('utf-8')))
+                self.bundle_paths[bundle.get_field_type()], urllib.quote(bundle.name.encode('utf-8')))
             if isinstance(value, str):
                 request += urllib.quote(value, safe="")
             elif isinstance(value, unicode):

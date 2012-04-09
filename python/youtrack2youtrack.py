@@ -12,8 +12,15 @@ from youtrack.importHelper import *
 
 def main():
     try:
-        source_url, source_login, source_password, target_url, target_login, target_password = sys.argv[1:7]
-        project_ids = sys.argv[7:]
+    #        source_url, source_login, source_password, target_url, target_login, target_password = sys.argv[1:7]
+        source_url = "http://teamsys.labs.intellij.net"
+        source_login = "root"
+        source_password = "root"
+        target_url = "http://localhost:8081"
+        target_login = "root"
+        target_password = "root"
+        #        project_ids = sys.argv[7:]
+        project_ids = ['JT']
     except BaseException, e:
         print "Usage: youtrack2youtrack source_url source_login source_password target_url target_login target_password projectId"
         return
@@ -39,15 +46,16 @@ def create_bundle_from_bundle(source, target, bundle_name, bundle_type):
                              group.name.capitalize() not in target_bundle_group_names]
             for group in groups_to_add:
                 target.addValueToBundle(target_bundle, group)
-            # add individual users to bundle
+                # add individual users to bundle
             source_bundle_user_logins = [elem.login.capitalize() for elem in source_bundle.users]
             users_to_add = [user for user in target_bundle.users if
                             user.login.capitalize() not in source_bundle_user_logins]
             for user in users_to_add:
                 target.addValueToBundle(target_bundle, user)
-            return 
+            return
         target_value_names = [element.name.encode('utf-8').capitalize() for element in target_bundle.values]
-        for value in [elem for elem in source_bundle.values if elem.name.encode('utf-8').capitalize() not in target_value_names]:
+        for value in [elem for elem in source_bundle.values if
+                      elem.name.encode('utf-8').capitalize() not in target_value_names]:
             target.addValueToBundle(target_bundle, value)
     else:
         users = []
@@ -57,7 +65,6 @@ def create_bundle_from_bundle(source, target, bundle_name, bundle_type):
             users = [source.getUser(elem.owner) for elem in source_bundle.values if elem.owner is not None]
         import_users(source, target, list(set(users)))
         print target.createBundle(source_bundle)
-
 
 
 def import_users(source, target, users):
@@ -90,14 +97,14 @@ def create_project_custom_field(target, field, project_id):
 
 
 def youtrack2youtrack(source_url, source_login, source_password, target_url, target_login, target_password,
-                      project_ids):
+                      project_ids, query = ''):
     if not len(project_ids):
         print "You should sign at least one project to import"
         return
 
     source = Connection(source_url, source_login, source_password)
     target = Connection(target_url, target_login,
-                        target_password) #, proxy_info = httplib2.ProxyInfo(socks.PROXY_TYPE_HTTP, 'localhost', 8888)
+        target_password) #, proxy_info = httplib2.ProxyInfo(socks.PROXY_TYPE_HTTP, 'localhost', 8888)
 
     print "Import issue link types"
     for ilt in source.getIssueLinkTypes():
@@ -132,6 +139,11 @@ def youtrack2youtrack(source_url, source_login, source_password, target_url, tar
             target.createCustomField(source_cf)
 
     for projectId in project_ids:
+        source = Connection(source_url, source_login, source_password)
+        target = Connection(target_url, target_login,
+            target_password) #, proxy_info = httplib2.ProxyInfo(socks.PROXY_TYPE_HTTP, 'localhost', 8888)
+
+
         # copy project, subsystems, versions
         project = source.getProject(projectId)
 
@@ -173,48 +185,72 @@ def youtrack2youtrack(source_url, source_login, source_password, target_url, tar
         createdUsers = set([])
 
         while True:
-            print "Get issues from " + str(start) + " to " + str(start + max)
-            issues = source.getIssues(projectId, '', start, max)
+            try:
+                print "Get issues from " + str(start) + " to " + str(start + max)
+                issues = source.getIssues(projectId, query, start, max)
 
-            if len(issues) <= 0:
-                break
+                if len(issues) <= 0:
+                    break
 
-            users = set([])
+                users = set([])
 
-            for issue in issues:
-                print "Collect users for issue [ " + issue.id + "]"
+                for issue in issues:
+                    print "Collect users for issue [ " + issue.id + "]"
 
-                if issue.reporterName not in createdUsers:
-                    users.add(issue.getReporter())
-                if issue.hasAssignee() and issue.assigneeName not in createdUsers:
-                    users.add(issue.getAssignee())
-                    #TODO: http://youtrack.jetbrains.net/issue/JT-6100
-                if issue.updaterName not in createdUsers:
-                    users.add(issue.getUpdater())
-                    
-                for comment in issue.getComments():
-                    if comment.author not in createdUsers:
-                        users.add(comment.getAuthor())
+                    if issue.reporterName not in createdUsers:
+                        users.add(issue.getReporter())
+                    if issue.hasAssignee() and issue.assigneeName not in createdUsers:
+                        users.add(issue.getAssignee())
+                        #TODO: http://youtrack.jetbrains.net/issue/JT-6100
+                    if issue.updaterName not in createdUsers:
+                        users.add(issue.getUpdater())
 
-                print "Collect links for issue [ " + issue.id + "]"
-                links.extend(issue.getLinks(True))
+                    for comment in issue.getComments():
+                        if comment.author not in createdUsers:
+                            users.add(comment.getAuthor())
 
-            users = users.difference(createdUsers)
+                    print "Collect links for issue [ " + issue.id + "]"
+                    links.extend(issue.getLinks(True))
 
-            import_users(source, target, users)
+                    # fix problem with comment.text
+                    for comment in issue.getComments():
+                        if not hasattr(comment, "text") or (len(comment.text) == 0):
+                            setattr(comment, 'text', 'no text')
 
-            createdUsers = createdUsers.union(users)
+                users = users.difference(createdUsers)
 
-            print "Create issues [" + str(len(issues)) + "]"
-            print target.importIssues(projectId, project.name + ' Assignees', issues)
+                import_users(source, target, users)
 
-            print "Transfer attachments"
-            for issue in issues:
-                for a in issue.getAttachments():
-                    print "Transfer attachment of " + issue.id + ": " + a.name
-                    # TODO: add authorLogin to workaround http://youtrack.jetbrains.net/issue/JT-6082
-                    a.authorLogin = target_login
-                    target.createAttachmentFromAttachment(issue.id, a)
+                createdUsers = createdUsers.union(users)
+
+                print "Create issues [" + str(len(issues)) + "]"
+                print target.importIssues(projectId, project.name + ' Assignees', issues)
+
+                print "Transfer attachments"
+                for issue in issues:
+                    attachments = issue.getAttachments()
+                    users = set([])
+
+                    for a in attachments:
+                        author = a.getAuthor()
+                        if author is not None:
+                            users.add(author)
+                    users = users.difference(createdUsers)
+                    import_users(source, target, users)
+                    createdUsers = createdUsers.union(users)
+
+                    for a in attachments:
+                        print "Transfer attachment of " + issue.id + ": " + a.name
+                        # TODO: add authorLogin to workaround http://youtrack.jetbrains.net/issue/JT-6082
+                        a.authorLogin = target_login
+                        try:
+                            target.createAttachmentFromAttachment(issue.id, a)
+                        except:
+                            print("can't import attachmnet [ %s ]" % a.name)
+
+
+            except:
+                print('Cant process issues from ' + str(start) + ' to ' + str(start + max))
 
             start += max
 
