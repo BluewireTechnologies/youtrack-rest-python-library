@@ -97,8 +97,7 @@ class Connection(object):
         if fixedInBuild is not None:
             params['fixedInBuild'] = fixedInBuild
 
-        self._reqXml('PUT', '/issue?' +
-                            urllib.urlencode(params), '')
+        return self._reqXml('PUT', '/issue?' + urllib.urlencode(params), '')
 
     def get_changes_for_issue(self, issue):
         return [youtrack.IssueChange(change, self) for change in self._get("/issue/%s/changes" % issue).getElementsByTagName('change')]
