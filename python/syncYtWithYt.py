@@ -1,27 +1,56 @@
 from youtrack import YouTrackException
 from youtrack.connection import Connection
 from youtrack2youtrack import youtrack2youtrack
+from datetime import datetime
+import time
 
-last_run = 0
 project_id = "JT"
 tag = "sync"
 fields_to_sync = ['state', 'type', 'priority', 'subsystem', 'assigneeName', 'fixVersions', 'affectedVersions']
 priority_mapping= {'0':'Show-stopper', '1':'Critical', '2':'Major', '3':'Normal', '4':'Minor'}
 query = "tag: " + tag
-master_url = "http://localhost:8088"
-slave_url = "http://localhost:8888"
+master_url = "http://unit-276:8888"
+slave_url = "http://unit-276:8088"
+batch = 100
+config_name = 'sync_config'
+config_time_format = '%Y-%m-%d %H:%M:%S:%f'
+
+last_run = datetime(2012, 1, 1)
+current_run = datetime.now()
+try:
+    with open(config_name, 'r') as config_file:
+        try:
+            last_run = datetime.strptime(config_file.readline(), config_time_format)
+        except ValueError:
+            last_run = datetime(2012, 1, 1)
+except IOError:
+    with open(config_name, 'w') as config_file:
+        config_file.write('')
+
+
+
+with open(config_name, 'w') as config_file:
+    last_run_str = current_run.strftime(config_time_format)
+    config_file.write(last_run_str)
+
+
+def get_formatted_for_query(_datetime):
+    return _datetime.strftime("%m-%dT%H:%M:%S")
+
+def get_in_milliseconds(_datetime):
+    return int(round(1e+3*time.mktime(_datetime.timetuple()) + 1e-3*_datetime.microsecond))
 
 def get_updated_issues(yt, after):
-    return yt.getIssues(project_id, query, 0, 100)
+    refined_query = query + " updated: " + get_formatted_for_query(last_run) + " .. " + get_formatted_for_query(current_run)
+    return yt.getIssues(project_id, refined_query, 0, batch)
 
 def get_issue_changes(yt, issue, after):
 #    yt.headers['Accepts'] = 'application/json;charset=utf-8'
     result = yt.get_changes_for_issue(issue.id)
+    last_sync_time = get_in_milliseconds(after)
     new_changes = []
     for change in result:
-        if change['updated'] < after:
-            break
-        else:
+        if change['updated'] > last_sync_time:
             new_changes.append(change)
     return new_changes
 
@@ -37,30 +66,35 @@ def apply_changes_to_issue(to_yt, from_yt, issue_id, changes, fields_to_ignore =
         for field in change.fields:
             field_name = field.name.lower()
             if field.name != 'links' and field_name in fields_to_sync and field_name not in fields_to_ignore:
-                for value in field.new_value:
+                for field_value in field.new_value:
                     changed_fields.add(field_name)
-                    command += field_name + " " + value + " "
+                    command += get_command_set_value_to_field(field_name, field_value)
         if (not len(command)) and comment is not None:
             command = comment
-        to_yt.executeCommand(project_id + "-" + issue_id, command, comment, run_as=run_as)
+        to_yt.executeCommand(issue_id, command, comment, run_as=run_as)
+        #print "Executing command: " + command + " for issue " + issue_id + " in " + to_yt
     return changed_fields
 
+def get_command_set_value_to_field(field, field_value):
+    command = ""
+    if len(field_value):
+        if isinstance(field_value, list):
+            for value in field_value:
+                command += field + " " + value + " "
+        else:
+            if field == 'priority':
+                field_value = priority_mapping[field_value]
+            if field == 'assigneeName':
+                field = 'Assignee'
+            command += field + " " + field_value + " "
+    return command
 
 def apply_changes_to_new_issue(yt, issue_id_to_apply, original_issue):
     command = ""
     for field in fields_to_sync:
         if hasattr(original_issue, field):
             field_value = original_issue[field]
-            if len(field_value):
-                if isinstance(field_value, list):
-                    for value in field_value:
-                        command += field + " " + value + " "
-                else:
-                    if field == 'priority':
-                        field_value = priority_mapping[field_value]
-                    if field == 'assigneeName':
-                        field = 'Assignee'
-                    command += field + " " + field_value + " "
+            command += get_command_set_value_to_field(field, field_value)
 
     yt.executeCommand(issue_id_to_apply, command)
     for comment in original_issue.getComments():
@@ -92,7 +126,7 @@ except YouTrackException:
     create_and_attach_sync_field(slave, project_id, master_sync_field_name)
     go_on = True
     start = 0
-    amount = 100
+    amount = batch
     while go_on:
         go_on = False
         issues = slave.getIssues(project_id, '', start, amount)
@@ -113,7 +147,7 @@ changed_in_master = [issue for issue in updated_master_issues if issue.numberInP
 changed_in_slave = [issue for issue in updated_slave_issues if
                     master_sync_field_name not in issue or issue[
                                                                master_sync_field_name] not in updated_slave_issue_ids]
-changed_in_both = [issue for issue in updated_slave_issue_ids if
+changed_in_both = [issue for issue in updated_slave_issues if
                    master_sync_field_name in issue and issue[master_sync_field_name] in updated_master_issue_ids]
 
 links_to_be_added_in_slave = []
@@ -138,7 +172,7 @@ for issue in changed_in_slave:
 
 for issue in changed_in_master:
     links_to_be_added_in_slave += issue.getLinks(True)
-    slave_issues = slave.getIssues(project_id, master_sync_field_name + ": " + issue.id, 0, 1)
+    slave_issues = slave.getIssues(project_id, master_sync_field_name + ": " + issue.numberInProject, 0, 1)
     if len(slave_issues):
         slave_issue_id = slave_issues[0].id
         changes = get_issue_changes(master, issue, last_run)
