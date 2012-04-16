@@ -14,6 +14,9 @@ slave_url = "http://unit-276:8088"
 batch = 100
 config_name = 'sync_config'
 config_time_format = '%Y-%m-%d %H:%M:%S:%f'
+query_time_format = '%m-%dT%H:%M:%S'
+links_to_be_added_in_slave = []
+links_to_be_added_in_master = []
 
 last_run = datetime(2012, 1, 1)
 current_run = datetime.now()
@@ -27,30 +30,25 @@ except IOError:
     with open(config_name, 'w') as config_file:
         config_file.write('')
 
-
-
-with open(config_name, 'w') as config_file:
-    last_run_str = current_run.strftime(config_time_format)
-    config_file.write(last_run_str)
-
-
 def get_formatted_for_query(_datetime):
-    return _datetime.strftime("%m-%dT%H:%M:%S")
+    return _datetime.strftime(query_time_format)
 
 def get_in_milliseconds(_datetime):
     return int(round(1e+3*time.mktime(_datetime.timetuple()) + 1e-3*_datetime.microsecond))
 
-def get_updated_issues(yt, after):
-    refined_query = query + " updated: " + get_formatted_for_query(last_run) + " .. " + get_formatted_for_query(current_run)
-    return yt.getIssues(project_id, refined_query, 0, batch)
+def get_updated_issues(yt, start, updated_after, updated_before):
+    refined_query = query + " updated: " + get_formatted_for_query(updated_after) + " .. " + get_formatted_for_query(updated_before)
+    return yt.getIssues(project_id, refined_query, start, batch)
 
-def get_issue_changes(yt, issue, after):
+def get_issue_changes(yt, issue, after, before):
 #    yt.headers['Accepts'] = 'application/json;charset=utf-8'
     result = yt.get_changes_for_issue(issue.id)
-    last_sync_time = get_in_milliseconds(after)
+    after_ms = get_in_milliseconds(after)
+    before_ms = get_in_milliseconds(before)
     new_changes = []
     for change in result:
-        if change['updated'] > last_sync_time:
+        change_time = change['updated']
+        if (change_time > after_ms) & (change_time < before_ms):
             new_changes.append(change)
     return new_changes
 
@@ -83,7 +81,8 @@ def get_command_set_value_to_field(field, field_value):
                 command += field + " " + value + " "
         else:
             if field == 'priority':
-                field_value = priority_mapping[field_value]
+                if field_value in priority_mapping.keys():
+                    field_value = priority_mapping[field_value]
             if field == 'assigneeName':
                 field = 'Assignee'
             command += field + " " + field_value + " "
@@ -112,6 +111,51 @@ def create_and_attach_sync_field(yt, sync_project_id, sync_field_name):
     if not sync_field_attached:
         yt.createProjectCustomFieldDetailed(project_id, sync_field_name, 'No sync')
 
+def import_sync_issues_to_slave():
+    youtrack2youtrack(master_url, "root", "root", slave_url, "root", "root", [project_id], query)
+    create_and_attach_sync_field(slave, project_id, master_sync_field_name)
+    go_on = True
+    start = 0
+    while go_on:
+        go_on = False
+        issues = slave.getIssues(project_id, '', start, batch)
+        start += batch
+        for issue in issues:
+            go_on = True
+            slave.executeCommand(issue.id, master_sync_field_name + " " + issue.numberInProject)
+
+def merge_links(slave_links, master_links):
+    if len(master_links):
+        global links_to_be_added_in_slave
+        links_to_be_added_in_slave += [link for link in master_links if link not in slave_links]
+    if len(slave_links):
+        global links_to_be_added_in_master
+        links_to_be_added_in_slave += [link for link in slave_links if link not in master_links]
+
+def sync_to_master(slave_issue):
+    assert slave_issue[master_sync_field_name] is not None
+    master_issue = master.getIssue(project_id + '-' + slave_issue[master_sync_field_name])
+    slave_changes = get_issue_changes(slave, slave_issue, last_run, current_run)
+    master_changes = get_issue_changes(master, master_issue, last_run, current_run)
+    changed_fields = apply_changes_to_issue(slave, master, slave_issue.id, master_changes)
+    apply_changes_to_issue(master, slave, master_issue.id, slave_changes, changed_fields)
+    merge_links(slave_issue.getLinks(True), master_issue.getLinks(True))
+
+def sync_to_slave(master_issue):
+    slave_issues = slave.getIssues(project_id, master_sync_field_name + ": " + master_issue.numberInProject, 0, 1)
+    if len(slave_issues):
+        slave_issue = slave_issues[0]
+        master_changes = get_issue_changes(master, master_issue, last_run, current_run)
+        apply_changes_to_issue(slave, master, slave_issue.id, master_changes)
+        merge_links(slave_issue.getLinks(True), master_issue.getLinks(True))
+    else:
+        created_issue_number = slave.createIssue(project_id, None, master_issue.summary, master_issue.description, None, None, None, None, None, None, None).rpartition('-')[2]
+        slave_issue_id = project_id + "-" + created_issue_number
+        apply_changes_to_new_issue(slave, slave_issue_id, master_issue)
+        slave.executeCommand(slave_issue_id, master_sync_field_name + " " + issue.numberInProject)
+        slave.executeCommand(slave_issue_id, "tag " + tag)
+        merge_links([], master_issue.getLinks(True))
+
 master_sync_field_name = 'masterIssueId'
 
 master = Connection(master_url, "root", "root")
@@ -121,86 +165,42 @@ try:
     slave.getProject(project_id)
     create_and_attach_sync_field(slave, project_id, master_sync_field_name)
 except YouTrackException:
-    #import project from master
-    youtrack2youtrack(master_url, "root", "root", slave_url, "root", "root", [project_id], query)
-    create_and_attach_sync_field(slave, project_id, master_sync_field_name)
-    go_on = True
-    start = 0
-    amount = batch
-    while go_on:
-        go_on = False
-        issues = slave.getIssues(project_id, '', start, amount)
-        start += amount
-        for issue in issues:
-            go_on = True
-            slave.executeCommand(issue.id, master_sync_field_name + " " + issue.numberInProject)
+    import_sync_issues_to_slave()
 
+#synchronize sync-issues updated in slave
+start = 0
+updated_sync_slave_issues = get_updated_issues(slave, start, last_run, current_run)
+uploaded = len(updated_sync_slave_issues)
+processed_sync_master_issues = []
+while uploaded:
+    for slave_issue in updated_sync_slave_issues:
+        sync_to_master(slave_issue)
+        processed_sync_master_issues.append(master.getIssue(project_id + '-' + slave_issue[master_sync_field_name]))
+    start += uploaded
+    updated_sync_slave_issues = get_updated_issues(slave, start, last_run, current_run)
+    uploaded = len(updated_sync_slave_issues)
 
-updated_master_issues = get_updated_issues(master, last_run)
-updated_slave_issues = get_updated_issues(slave, last_run)
-
-updated_slave_issue_ids = [issue[master_sync_field_name] for issue in updated_slave_issues if
-                           master_sync_field_name in issue and issue[master_sync_field_name] is not None]
-updated_master_issue_ids = [issue.numberInProject for issue in updated_master_issues]
-
-changed_in_master = [issue for issue in updated_master_issues if issue.numberInProject not in updated_slave_issue_ids]
-changed_in_slave = [issue for issue in updated_slave_issues if
-                    master_sync_field_name not in issue or issue[
-                                                               master_sync_field_name] not in updated_slave_issue_ids]
-changed_in_both = [issue for issue in updated_slave_issues if
-                   master_sync_field_name in issue and issue[master_sync_field_name] in updated_master_issue_ids]
-
-links_to_be_added_in_slave = []
-links_to_be_removed_in_slave = []
-links_to_be_added_in_master = []
-links_to_be_removed_in_master = []
-
-for issue in changed_in_slave:
-    links_to_be_added_in_master += issue.getLinks(True)
-    if master_sync_field_name in issue:
-        master_issue_id = issue[master_sync_field_name]
-        if master_issue_id is not None:
-            changes = get_issue_changes(slave, issue, last_run)
-            apply_changes_to_issue(master, slave, master_issue_id, changes)
-            continue
-        #if we are here now, it means that issue is not currently in master instance, so create it!
-    created_issue_number = master.createIssue(project_id, None, issue.summary, issue.description, None, None, None, None, None, None, None).rpartition('-')[2]
-    master_issue_id = project_id + "-" + created_issue_number
-    apply_changes_to_new_issue(master, master_issue_id, issue)
-    master.executeCommand(master_issue_id, "tag " + tag)
-    slave.executeCommand(issue.id, master_sync_field_name + " " + created_issue_number)
-
-for issue in changed_in_master:
-    links_to_be_added_in_slave += issue.getLinks(True)
-    slave_issues = slave.getIssues(project_id, master_sync_field_name + ": " + issue.numberInProject, 0, 1)
-    if len(slave_issues):
-        slave_issue_id = slave_issues[0].id
-        changes = get_issue_changes(master, issue, last_run)
-        apply_changes_to_issue(slave, master, slave_issue_id, changes)
-    else:
-        created_issue_number = slave.createIssue(project_id, None, issue.summary, issue.description, None, None, None, None, None, None, None).rpartition('-')[2]
-        slave_issue_id = project_id + "-" + created_issue_number
-        apply_changes_to_new_issue(slave, slave_issue_id, issue)
-        slave.executeCommand(slave_issue_id, master_sync_field_name + " " + issue.numberInProject)
-        slave.executeCommand(slave_issue_id, "tag " + tag)
-
-for issue in changed_in_both:
-    links_to_be_added_in_master += issue.getLinks(True)
-    slave_changes = get_issue_changes(slave, issue, last_run)
-    master_issue_id = project_id + "-" + issue[master_sync_field_name]
-    links_to_be_added_in_slave += master.getIssue(master_issue_id).getLinks(True)
-    master_changes = get_issue_changes(master, master.getIssue(master_issue_id), last_run)
-    merge_and_apply_changes(slave, issue.id, slave_changes, master, master_issue_id, master_changes)
+#synchronize sync-issues updated only in master
+start = 0
+updated_sync_master_issues = get_updated_issues(master, start, last_run, current_run)
+uploaded = len(updated_sync_master_issues)
+while uploaded:
+    updated_only_in_master = [issue for issue in updated_sync_master_issues if issue not in processed_sync_master_issues]
+    for master_issue in updated_only_in_master:
+        sync_to_slave(master_issue)
+    start += uploaded
+    updated_sync_master_issues = get_updated_issues(master, start, last_run, current_run)
+    uploaded = len(updated_sync_master_issues)
 
 for link in links_to_be_added_in_slave:
-    source = link.source
+#    source = link.source
 #    link.source = link.target
 #    link.target = source
     link.source = slave.getIssues(project_id, master_sync_field_name + ": " + link.source.rpartition('-')[2], 0, 1)[0].id
     link.target = slave.getIssues(project_id, master_sync_field_name + ": " + link.traget.rpartition('-')[2], 0, 1)[0].id
 
 for link in links_to_be_added_in_master:
-    source = link.source
+#    source = link.source
 #    link.source = link.target
 #    link.target = source
     link.source = project_id + "-" + slave.getIssue(link.source)[master_sync_field_name]
@@ -209,4 +209,7 @@ for link in links_to_be_added_in_master:
 slave.importLinks(links_to_be_added_in_slave)
 master.importLinks(links_to_be_added_in_master)
 
+#write time of script evaluation finish as last run time
+with open(config_name, 'w') as config_file:
+    config_file.write(datetime.now().strftime(config_time_format))
 
