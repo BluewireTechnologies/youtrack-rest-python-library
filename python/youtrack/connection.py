@@ -75,8 +75,8 @@ class Connection(object):
     def getIssue(self, id):
         return youtrack.Issue(self._get("/issue/" + id), self)
 
-    def createIssue(self, project, assignee, summary, description, priority, type, subsystem, state, affectsVersion,
-                    fixedVersion, fixedInBuild):
+    def createIssue(self, project, assignee, summary, description, priority=None, type=None, subsystem=None, state=None, affectsVersion=None,
+                    fixedVersion=None, fixedInBuild=None):
         params = {'project' : project,
                   'summary' : summary,
                   'description' : description}
