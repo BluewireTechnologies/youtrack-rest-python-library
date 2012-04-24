@@ -68,14 +68,16 @@ def create_bundle_from_bundle(source, target, bundle_name, bundle_type):
 
 
 def import_users(source, target, users):
+    if not len(users): return
     print "Create users [" + str(len(users)) + "]"
     for user in users:
         if not("email" in user.__dict__):
             user.email = "<no email>"
     print target.importUsers(users)
+    created_groups = target.getGroups()
     for yt_user in users:
         user_groups = source.getUserGroups(yt_user.login)
-        for group in user_groups:
+        for group in [group for group in user_groups if group not in created_groups]:
             try:
                 target.createGroup(group)
             except Exception, ex:
@@ -95,7 +97,6 @@ def create_project_custom_field(target, field, project_id):
         emptyFieldText = field.emtyFieldText
     target.createProjectCustomFieldDetailed(project_id, field.name, emptyFieldText, params)
 
-
 def youtrack2youtrack(source_url, source_login, source_password, target_url, target_login, target_password,
                       project_ids, query = ''):
     if not len(project_ids):
@@ -105,6 +106,13 @@ def youtrack2youtrack(source_url, source_login, source_password, target_url, tar
     source = Connection(source_url, source_login, source_password)
     target = Connection(target_url, target_login,
         target_password) #, proxy_info = httplib2.ProxyInfo(socks.PROXY_TYPE_HTTP, 'localhost', 8888)
+
+    yt2yt(source, target, project_ids, query)
+
+def yt2yt(source, target, project_ids, query = ''):
+    if not len(project_ids):
+        print "You should sign at least one project to import"
+        return
 
     print "Import issue link types"
     for ilt in source.getIssueLinkTypes():

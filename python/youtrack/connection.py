@@ -334,6 +334,11 @@ class Connection(object):
     def getGroup(self, name):
         return youtrack.Group(self._get("/admin/group/" + urllib.quote(name.encode('utf-8'))), self)
 
+    def getGroups(self):
+        response, content = self._req('GET', '/admin/group')
+        xml = minidom.parseString(content)
+        [youtrack.Group(e, self) for e in xml.documentElement.childNodes if e.nodeType == Node.ELEMENT_NODE]
+
     def getUserGroups(self, userName):
         response, content = self._req('GET', '/admin/user/%s/group' % userName)
         xml = minidom.parseString(content)
