@@ -342,9 +342,12 @@ class UserBundle(YouTrackObject):
     def get_all_users(self):
         all_users = self.users
         for group in self.groups:
+            #returns objects containing only login and url info
             group_users = self.youtrack.getUsers({'group': group.name.encode('utf-8')})
             for user in group_users:
-                all_users.append(user)
+                # re-request credentials separately for each user to get more details
+                refined_user = self.youtrack.getUser(user.login)
+                all_users.append(refined_user)
         return list(set(all_users))
 
 
