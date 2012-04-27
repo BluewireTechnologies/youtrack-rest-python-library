@@ -337,7 +337,7 @@ class Connection(object):
     def getGroups(self):
         response, content = self._req('GET', '/admin/group')
         xml = minidom.parseString(content)
-        [youtrack.Group(e, self) for e in xml.documentElement.childNodes if e.nodeType == Node.ELEMENT_NODE]
+        return [youtrack.Group(e, self) for e in xml.documentElement.childNodes if e.nodeType == Node.ELEMENT_NODE]
 
     def getUserGroups(self, userName):
         response, content = self._req('GET', '/admin/user/%s/group' % userName)
