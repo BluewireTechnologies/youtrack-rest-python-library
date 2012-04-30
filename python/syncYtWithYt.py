@@ -1,6 +1,6 @@
 from youtrack import YouTrackException
 from youtrack.connection import Connection
-from youtrack2youtrack import youtrack2youtrack, LinkCollector
+from youtrack2youtrack import youtrack2youtrack
 from datetime import datetime
 import time
 import csv
@@ -279,19 +279,19 @@ def apply_to_issues(issues_getter, action, excluded_ids=None, log_header=''):
     return processed_issue_ids_set
 
 def get_tagged_only_in_slave(start, batch):
-    rq = 'tag: ' + tag + ' ' + master_sync_field_name + ':  {' + empty_field_text + '}'
+    rq = query + ' ' + master_sync_field_name + ':  {' + empty_field_text + '}'
     return slave.getIssues(project_id, rq, start, batch)
 
 def get_tagged_in_master(start, batch):
-    rq = 'tag: ' + tag
+    rq = query
     return master.getIssues(project_id, rq, start, batch)
 
 def get_updated_in_slave_from_last_run(start, batch):
-    rq = 'tag: ' + tag + ' updated: ' + get_formatted_for_query(last_run) + " .. " + get_formatted_for_query(current_run)
+    rq = query + ' updated: ' + get_formatted_for_query(last_run) + " .. " + get_formatted_for_query(current_run)
     return slave.getIssues(project_id, rq, start, batch)
 
 def get_updated_in_master_from_last_run(start, batch):
-    rq = 'tag: ' + tag + ' updated: ' + get_formatted_for_query(last_run) + " .. " + get_formatted_for_query(current_run)
+    rq = query + ' updated: ' + get_formatted_for_query(last_run) + " .. " + get_formatted_for_query(current_run)
     return master.getIssues(project_id, rq, start, batch)
 
 def get_project(slave, project_id):

@@ -1,14 +1,10 @@
 # migrate project from youtrack to youtrack
-
 from youtrack.connection import Connection, youtrack
-import httplib2
-import socks
 #from sets import Set
-import youtrack
-import sys
-from youtrack.importHelper import *
 
 #httplib2.debuglevel=4
+from sync.users import UserImporter
+from sync.links import LinkImporter
 
 def main():
     try:
@@ -94,7 +90,7 @@ def youtrack2youtrack(source_url, source_login, source_password, target_url, tar
 
     #links = []
     user_importer = UserImporter(source, target)
-    link_collector = LinkCollector(source, target)
+    link_importer = LinkImporter(source, target)
 
     cf_names_to_import = set([]) # names of cf prototypes that should be imported
     for project_id in project_ids:
@@ -124,7 +120,7 @@ def youtrack2youtrack(source_url, source_login, source_password, target_url, tar
             target_password) #, proxy_info = httplib2.ProxyInfo(socks.PROXY_TYPE_HTTP, 'localhost', 8888)
         #reset connections to avoid disconnections
         user_importer.resetConnections(source, target)
-        link_collector.resetConnections(source, target)
+        link_importer.resetConnections(source, target)
 
         # copy project, subsystems, versions
         project = source.getProject(projectId)
@@ -141,7 +137,7 @@ def youtrack2youtrack(source_url, source_login, source_password, target_url, tar
         except youtrack.YouTrackException:
             target.createProject(project)
 
-        link_collector.addAvailableIssuesFrom(projectId)
+        link_importer.addAvailableIssuesFrom(projectId)
         project_custom_fields = source.getProjectCustomFields(projectId)
         # create bundles and additional values
         for pcf_ref in project_custom_fields:
@@ -188,7 +184,7 @@ def youtrack2youtrack(source_url, source_login, source_password, target_url, tar
 
 
                     print "Collect links for issue [ " + issue.id + "]"
-                    link_collector.collectLinks(issue.getLinks(True))
+                    link_importer.collectLinks(issue.getLinks(True))
                     #links.extend(issue.getLinks(True))
 
                     # fix problem with comment.text
@@ -200,7 +196,7 @@ def youtrack2youtrack(source_url, source_login, source_password, target_url, tar
 
                 print "Create issues [" + str(len(issues)) + "]"
                 print target.importIssues(projectId, project.name + ' Assignees', issues)
-                link_collector.addAvailableIssues(issues)
+                link_importer.addAvailableIssues(issues)
 
                 print "Transfer attachments"
                 for issue in issues:
@@ -228,91 +224,8 @@ def youtrack2youtrack(source_url, source_login, source_password, target_url, tar
             start += max
 
     print "Import issue links"
-    link_collector.importLinks()
+    link_importer.importCollectedLinks()
 
-class UserImporter(object):
-    def __init__(self, source, target):
-        self.source = source
-        self.target = target
-        self.created_user_logins = set([user.login for user in target.getUsers()])
-        self.created_group_names = set([group.name for group in target.getGroups()])
-
-    def resetConnections(self, source, target):
-        self.source = source
-        self.target = target
-
-    def importUsers(self, users):
-        if not len(users): return
-        new_users = [user for user in users if user.login not in self.created_user_logins]
-        if not len(new_users): return
-        print "Create users [" + str(len(new_users)) + "]"
-        for user in new_users:
-            if not hasattr(user, "email"): user.email = "<no email>"
-        print self.target.importUsers(new_users)
-        for yt_user in new_users:
-            user_groups = self.source.getUserGroups(yt_user.login)
-            for group in user_groups:
-                if group.name not in self.created_group_names:
-                    try:
-                        self.target.createGroup(group)
-                        self.created_group_names.add(group.name)
-                    except Exception, ex:
-                        print repr(ex).encode('utf-8')
-                try:
-                    self.target.setUserGroup(yt_user.login, group.name)
-                except:
-                    pass
-            self.created_user_logins.add(yt_user.login)
-
-class LinkCollector(object):
-    def __init__(self, source, target, project_id=None):
-        self.source = source
-        self.target = target
-        self.created_issue_ids = self._get_all_issue_ids_set(self.target, project_id) if project_id else set([])
-        self.links = []
-
-    def resetConnections(self, source, target):
-        self.source = source
-        self.target = target
-
-    def _get_all_issue_ids_set(self, yt, project_id):
-        start = 0
-        batch = 50
-        result = set([])
-        while True:
-            issues = yt.getIssues(project_id, '', start, batch)
-            if not len(issues): break
-            for issue in issues:
-                result.add(issue.id)
-        return result
-
-    def addAvailableIssuesFrom(self, project_id):
-            self.created_issue_ids |= self._get_all_issue_ids_set(self.target, project_id) if project_id else set([])
-
-    def addAvailableIssues(self, issues):
-        self.created_issue_ids |= set([issue.id for issue in issues])
-
-    def addAvailableIssue(self, issue):
-        self.created_issue_ids.add(issue.id)
-
-    def collectLinks(self, links):
-        self.links += links
-
-    def importLinks(self):
-        maxLinks = 100
-        links_to_import = []
-        for link in self.links:
-            if link.target not in self.created_issue_ids:
-                print 'Failed to import link ' + link.source + '->' + link.target + ' because ' + link.target + ' was not imported'
-            elif link.source not in self.created_issue_ids:
-                print 'Failed to import link ' + link.source + '->' + link.target + ' because ' + link.source + ' was not imported'
-            else:
-                links_to_import.append(link)
-                if len(links_to_import) == maxLinks:
-                    print self.target.importLinks(links_to_import)
-                    links_to_import = []
-        if len(links_to_import):
-            print self.target.importLinks(links_to_import)
 
 if __name__ == "__main__":
     main()

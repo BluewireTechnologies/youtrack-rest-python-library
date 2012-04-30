@@ -251,6 +251,35 @@ class Role(YouTrackObject):
     def __init__(self, xml=None, youtrack=None):
         YouTrackObject.__init__(self, xml, youtrack)
 
+class UserRole(YouTrackObject):
+    def __init__(self, xml=None, youtrack=None):
+        self.projects = []
+        YouTrackObject.__init__(self, xml, youtrack)
+
+    def _update(self, xml):
+        if xml is None:
+            return
+        if isinstance(xml, Document):
+            xml = xml.documentElement
+
+        self.name = xml.getAttribute("name")
+        projects = xml.getElementsByTagName("projectRef")
+        self.projects = [p.getAttribute("id") for p in projects] if projects is not None else []
+
+    def toXml(self):
+        result = '<userRole name="%s">' % self.name.encode('utf-8')
+        if len(self.projects):
+            result += '<projects>'
+            result += "".join('<projectRef id="%s" url="dirty_hack"/>' % project.encode('utf-8') for project in self.projects)
+            result += '</projects>'
+        else:
+            result += '<projects/>'
+        result += '</userRole>'
+        return result
+
+class Permission(YouTrackObject):
+    def __init__(self, xml=None, youtrack=None):
+        YouTrackObject.__init__(self, xml, youtrack)
 
 class Project(YouTrackObject):
     def __init__(self, xml=None, youtrack=None):

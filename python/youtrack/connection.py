@@ -36,7 +36,7 @@ class Connection(object):
         if method == 'PUT' or method == 'POST':
             headers = headers.copy()
             headers['Content-Type'] = 'application/xml; charset=UTF-8'
-            headers['Content-Length'] = str(len(body))
+            headers['Content-Length'] = str(len(body)) if body else '0'
 
         response, content = self.http.request((self.baseUrl + url).encode('utf-8'), method, headers=headers, body=body)
         if response.status != 200 and response.status != 201 and (ignoreStatus != response.status):
@@ -353,8 +353,53 @@ class Connection(object):
             '/admin/group/%s?description=noDescription&autoJoin=false' % group.name.replace(' ', '%20'))
         return content
 
+    def addUserRoleToGroup(self, group, userRole):
+        url_group_name = urllib.quote(group.name)
+        url_role_name = urllib.quote(userRole.name)
+        response, content = self._req('PUT', '/admin/group/%s/role/%s' % (url_group_name, url_role_name), body=userRole.toXml())
+        return content
+
     def getRole(self, name):
         return youtrack.Role(self._get("/admin/role/" + urllib.quote(name)), self)
+
+    def getRoles(self):
+        response, content = self._req('GET', '/admin/role')
+        xml = minidom.parseString(content)
+        return [youtrack.Role(e, self) for e in xml.documentElement.childNodes if e.nodeType == Node.ELEMENT_NODE]
+
+    def getGroupRoles(self, group_name):
+        response, content = self._req('GET', '/admin/group/%s/role' % urllib.quote(group_name))
+        xml = minidom.parseString(content)
+        return [youtrack.UserRole(e, self) for e in xml.documentElement.childNodes if e.nodeType == Node.ELEMENT_NODE]
+
+    def createRole(self, role):
+        url_role_name = urllib.quote(role.name)
+        url_role_dscr = urllib.quote(role.description) if hasattr(role, 'description') else ''
+        content = self._put('/admin/role/%s?description=%s' % (url_role_name, url_role_dscr))
+        return content
+
+    def changeRole(self, role, new_name, new_description):
+        url_role_name = urllib.quote(role.name)
+        url_new_name = urllib.quote(new_name)
+        url_new_dscr = urllib.quote(new_description)
+        content = self._req('POST', '/admin/role/%s?newName=%s&description=%s' % (url_role_name, url_new_name, url_new_dscr))
+        return content
+
+    def addPermissionToRole(self, role, permission):
+        url_role_name = urllib.quote(role.name)
+        url_prm_name = urllib.quote(permission.name)
+        content = self._req('POST', '/admin/role/%s/permission/%s' % (url_role_name, url_prm_name))
+        return content
+
+    def getRolePermissions(self, role):
+        response, content = self._req('GET', '/admin/role/%s/permission' % urllib.quote(role.name))
+        xml = minidom.parseString(content)
+        return [youtrack.Permission(e, self) for e in xml.documentElement.childNodes if e.nodeType == Node.ELEMENT_NODE]
+
+    def getPermissions(self):
+        response, content = self._req('GET', '/admin/permission')
+        xml = minidom.parseString(content)
+        return [youtrack.Permission(e, self) for e in xml.documentElement.childNodes if e.nodeType == Node.ELEMENT_NODE]
 
     def getSubsystem(self, projectId, name):
         response, content = self._req('GET', '/admin/project/' + projectId + '/subsystem/' + urllib.quote(name))
