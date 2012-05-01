@@ -90,7 +90,7 @@ def youtrack2youtrack(source_url, source_login, source_password, target_url, tar
 
     #links = []
     user_importer = UserImporter(source, target)
-    link_importer = LinkImporter(source, target)
+    link_importer = LinkImporter(target)
 
     cf_names_to_import = set([]) # names of cf prototypes that should be imported
     for project_id in project_ids:
@@ -120,7 +120,7 @@ def youtrack2youtrack(source_url, source_login, source_password, target_url, tar
             target_password) #, proxy_info = httplib2.ProxyInfo(socks.PROXY_TYPE_HTTP, 'localhost', 8888)
         #reset connections to avoid disconnections
         user_importer.resetConnections(source, target)
-        link_importer.resetConnections(source, target)
+        link_importer.resetConnections(target)
 
         # copy project, subsystems, versions
         project = source.getProject(projectId)

@@ -214,6 +214,14 @@ class Link(YouTrackObject):
     def __init__(self, xml=None, youtrack=None):
         YouTrackObject.__init__(self, xml, youtrack)
 
+    def __hash__(self):
+        return hash((self.typeName, self.source, self.target))
+
+    def __eq__(self, other):
+        return isinstance(other, Link) and self.typeName == other.typeName and self.source == other.source and self.target == other.target
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
 class Attachment(YouTrackObject):
     def __init__(self, xml=None, youtrack=None):

@@ -1,3 +1,4 @@
+from sync.links import LinkSynchronizer, IssueBinder
 from youtrack import YouTrackException
 from youtrack.connection import Connection
 from youtrack2youtrack import youtrack2youtrack
@@ -27,8 +28,6 @@ query_time_format = '%m-%dT%H:%M:%S'
 master_sync_field_name = 'Sync with'
 empty_field_text = 'No sync with'
 
-links_to_be_added_in_slave = []
-links_to_be_added_in_master = []
 last_run = datetime(2012, 1, 1) #default value
 current_run = datetime.now()
 
@@ -137,7 +136,7 @@ def apply_changes_to_new_issue(yt, issue_id_to_apply, original_issue):
     for comment in original_issue.getComments():
         executeSyncCommand(yt, issue_id_to_apply, "comment", comment.text, comment.author)
 
-def addSyncComment(yt, issue_id, comment_text, run_as):
+def add_sync_comment(yt, issue_id, comment_text, run_as):
     if comment_text is not None and comment_text != '':
         yt.executeCommand(issue_id, '', comment=comment_text, run_as=run_as)
         yt_name = 'Master' if yt == master else 'Slave'
@@ -153,9 +152,9 @@ def merge_comments(slave_id, master_id):
         slave_unique = [cm for cm in slave_comments if cm.text not in master_texts]
         master_unique = [cm for cm in master_comments if cm.text not in slave_texts]
         for cm in slave_unique:
-            addSyncComment(master, master_id, cm.text, cm.author)
+            add_sync_comment(master, master_id, cm.text, cm.author)
         for cm in master_unique:
-            addSyncComment(slave, slave_id, cm.text, cm.author)
+            add_sync_comment(slave, slave_id, cm.text, cm.author)
 
 def merge_and_apply_changes(left_yt, left_issue_id, left_changes, right_yt, right_issue_id, right_changes):
     changed_fields = apply_changes_to_issue(right_yt, left_yt, right_issue_id, left_changes)
@@ -171,10 +170,11 @@ def create_and_attach_sync_field(yt, sync_project_id, sync_field_name):
 
 def clone_issue(yt_to, issue_from):
     try:
-        created_issue_number = yt_to.createIssue(project_id, None, issue_from.summary, issue_from.description).rpartition('-')[2]
+        safe_summary = issue_from.summary if hasattr(issue_from, 'summary') else ''
+        safe_description = issue_from.description if hasattr(issue_from, 'description') else ''
+        created_issue_number = yt_to.createIssue(project_id, None, safe_summary, safe_description).rpartition('-')[2]
         #fail if summary or description are too long
     except YouTrackException:
-#       created_issue_number = yt_to.importIssues(project_id, project_id + ' Assignee' ,[issue_from]).rpartition('-')[2]
         created_issue_number = None
 
     yt_name = 'Master' if yt_to == master else 'Slave'
@@ -188,22 +188,13 @@ def clone_issue(yt_to, issue_from):
         print '[Sync, ' + issue_from.id + ' in ' + yt_opp + '] failed to import to ' + yt_name
         return None
 
-
-def merge_links(slave_links, master_links):
-    if len(master_links):
-        global links_to_be_added_in_slave
-        links_to_be_added_in_slave += [link for link in master_links if link not in slave_links]
-    if len(slave_links):
-        global links_to_be_added_in_master
-        links_to_be_added_in_master += [link for link in slave_links if link not in master_links]
-
 def import_to_master(slave_issue):
     master_issue_id = clone_issue(master, slave_issue)
     if master_issue_id:
         slave_to_master_map[str(slave_issue.id)] = master_issue_id
         master.executeCommand(master_issue_id, "tag " + tag)
         slave.executeCommand(slave_issue.id, master_sync_field_name + " " + master_issue_id.rpartition('-')[2])
-        merge_links(slave_issue.getLinks(True), [])
+        link_synchronizer.collectLinksToSync(slave_issue, None)
     return master_issue_id
 
 def sync_to_master(slave_issue):
@@ -213,7 +204,7 @@ def sync_to_master(slave_issue):
         master_changes = get_issue_changes(master, master_issue, last_run, current_run)
         changed_fields = apply_changes_to_issue(slave, master, slave_issue.id, master_changes)
         apply_changes_to_issue(master, slave, master_issue.id, slave_changes, changed_fields)
-        merge_links(slave_issue.getLinks(True), master_issue.getLinks(True))
+        link_synchronizer.collectLinksToSync(slave_issue, master_issue)
         merge_comments(slave_issue.id, master_issue.id)
         return master_issue.id
     else:
@@ -225,7 +216,7 @@ def import_to_slave(master_issue):
         slave_to_master_map[slave_issue_id] = str(master_issue.id)
         slave.executeCommand(slave_issue_id, master_sync_field_name + " " + master_issue.numberInProject)
         slave.executeCommand(slave_issue_id, "tag " + tag)
-        merge_links([], master_issue.getLinks(True))
+        link_synchronizer.collectLinksToSync(None, master_issue)
     return slave_issue_id
 
 def sync_to_slave(master_issue):
@@ -234,31 +225,11 @@ def sync_to_slave(master_issue):
         slave_issue = slave_issues[0]
         master_changes = get_issue_changes(master, master_issue, last_run, current_run)
         apply_changes_to_issue(slave, master, slave_issue.id, master_changes)
-        merge_links(slave_issue.getLinks(True), master_issue.getLinks(True))
+        link_synchronizer.collectLinksToSync(slave_issue, master_issue)
         merge_comments(slave_issue.id, master_issue.id)
         return slave_issue.id
     else:
         return import_to_slave(master_issue)
-
-def sync_links():
-    def check_link(yt, link):
-        source_issue_tagged = len(yt.getIssues(project_id, 'issue id: ' + link.source + ' ' + query, 0, 1))
-        target_issue_tagged = len(yt.getIssues(project_id, 'issue id: ' + link.target + ' ' + query, 0, 1))
-        return source_issue_tagged and target_issue_tagged
-
-    for link in links_to_be_added_in_slave:
-        link.source = slave.getIssues(project_id, master_sync_field_name + ": " + link.source.rpartition('-')[2], 0, 1)[0].id
-        link.target = slave.getIssues(project_id, master_sync_field_name + ": " + link.target.rpartition('-')[2], 0, 1)[0].id
-
-    for link in links_to_be_added_in_master:
-        link.source = project_id + "-" + slave.getIssue(link.source)[master_sync_field_name]
-        link.target = project_id + "-" + slave.getIssue(link.target)[master_sync_field_name]
-
-    valid_links_to_be_added_in_slave = [link for link in links_to_be_added_in_slave if check_link(slave, link)]
-    valid_links_to_be_added_in_master = [link for link in links_to_be_added_in_master if check_link(master, link)]
-
-    if len(valid_links_to_be_added_in_slave): slave.importLinks(valid_links_to_be_added_in_slave)
-    if len(valid_links_to_be_added_in_master): master.importLinks(valid_links_to_be_added_in_master)
 
 def apply_to_issues(issues_getter, action, excluded_ids=None, log_header=''):
     if not issues_getter or not action: return
@@ -322,43 +293,49 @@ slave_to_master_map = read_sync_map()
 
 master = Connection(master_url, master_root_login, master_root_password)
 slave = Connection(slave_url, slave_root_login, slave_root_password)
+issue_binder = IssueBinder(master, slave, project_id, master_sync_field_name)
+link_synchronizer = LinkSynchronizer(master, slave, issue_binder)
 
-if get_project(slave, project_id):
-    create_and_attach_sync_field(slave, project_id, master_sync_field_name)
+try:
+    if get_project(slave, project_id):
+        create_and_attach_sync_field(slave, project_id, master_sync_field_name)
 
-    #1. synchronize sync-issues in slave which have no synchronized clone in master
-    imported_slave_ids_set = apply_to_issues(get_tagged_only_in_slave,
-        import_to_master,
-        log_header='[Sync, Importing new issues from slave to master]')
+        #1. synchronize sync-issues in slave which have no synchronized clone in master
+        imported_slave_ids_set = apply_to_issues(get_tagged_only_in_slave,
+            import_to_master,
+            log_header='[Sync, Importing new issues from slave to master]')
 
-    #2. synchronize sync-issues in master which have no synchronized clone in slave
-    sync_set = set(slave_to_master_map.values())
-    imported_master_ids_set = apply_to_issues(get_tagged_in_master,
-        import_to_slave,
-        excluded_ids=sync_set,
-        log_header='[Sync, Importing new issues from master to slave]')
+        #2. synchronize sync-issues in master which have no synchronized clone in slave
+        sync_set = set(slave_to_master_map.values())
+        imported_master_ids_set = apply_to_issues(get_tagged_in_master,
+            import_to_slave,
+            excluded_ids=sync_set,
+            log_header='[Sync, Importing new issues from master to slave]')
 
-    #3. synchronize sync-issues updated in slave which have synchronized clone in master
-    updated_slave_ids_set = apply_to_issues(get_updated_in_slave_from_last_run,
-        sync_to_master,
-        excluded_ids=imported_slave_ids_set,
-        log_header='[Sync, Merging sync issues updated in slave]')
+        #3. synchronize sync-issues updated in slave which have synchronized clone in master
+        updated_slave_ids_set = apply_to_issues(get_updated_in_slave_from_last_run,
+            sync_to_master,
+            excluded_ids=imported_slave_ids_set,
+            log_header='[Sync, Merging sync issues updated in slave]')
 
-    #4. synchronize sync-issues updated in master which have synchronized clone in slave (if clone hasn't been updated)
-    updated_master_ids_set = slave_ids_set_to_sync_ids_set(updated_slave_ids_set) | imported_master_ids_set
-    apply_to_issues(get_updated_in_master_from_last_run,
-        sync_to_slave,
-        excluded_ids=updated_master_ids_set,
-        log_header='[Sync, Merging sync issues updated in master and unchanged in slave]')
+        #4. synchronize sync-issues updated in master which have synchronized clone in slave (if clone hasn't been updated)
+        updated_master_ids_set = slave_ids_set_to_sync_ids_set(updated_slave_ids_set) | imported_master_ids_set
+        apply_to_issues(get_updated_in_master_from_last_run,
+            sync_to_slave,
+            excluded_ids=updated_master_ids_set,
+            log_header='[Sync, Merging sync issues updated in master and unchanged in slave]')
 
-    #links synchronization
-    sync_links()
-else:
-    import_project(slave, project_id)
+        #links synchronization
+        link_synchronizer.syncCollectedLinks()
+    else:
+        import_project(slave, project_id)
 
-#write set of master-ids of synchronized issues
-write_sync_map(slave_to_master_map)
+except Exception, e:
+    print e
+finally:
+    #write set of master-ids of synchronized issues
+    write_sync_map(slave_to_master_map)
 
-#write time of script evaluation finish as last run time
-with open(config_name, 'w') as config_file:
-    config_file.write(datetime.now().strftime(config_time_format))
+    #write time of script evaluation finish as last run time
+    with open(config_name, 'w') as config_file:
+        config_file.write(datetime.now().strftime(config_time_format))
