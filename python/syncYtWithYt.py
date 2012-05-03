@@ -108,23 +108,35 @@ def log_action(action_name, yt, message, run_as=None):
 
 def log_error(error):
     print error
-    if LOGGING: error_file.write(str(error) + '\n')
+    if LOGGING:
+        error_file.write(str(error) + '\n')
+        error_file.write('---------------------------------------------------------\n')
+
+def try_to_sync_user(to_yt, from_yt, login):
+    try:
+        to_yt.getUser(login)
+    except YouTrackException:
+        try:
+            user_to_import = from_yt.getUser(login)
+            if not VERBOSE_MODE:
+                to_yt.importUsers([user_to_import])
+            log_action('Import user', to_yt, 'imported user: \"' + str(user_to_import.login) + '\"', login)
+        except YouTrackException, e:
+            log_action('Import user', to_yt, 'failed to import user: \"' + login + '\" - could not find in opposite youtrack')
+            log_error(e)
+            return False
+    return True
 
 def apply_changes_to_issue(to_yt, from_yt, issue_id, changes, fields_to_ignore=None):
     if not fields_to_ignore: fields_to_ignore = []
     changed_fields = set()
     for change in changes:
         run_as = change.updater_name
-        try:
-            to_yt.getUser(run_as)
-        except YouTrackException:
-            user_to_import = from_yt.getUser(run_as)
-            if not VERBOSE_MODE:
-                to_yt.importUsers([user_to_import])
-            log_action('Import user', to_yt, 'imported user: \"' + user_to_import + '\"', run_as)
+        try_to_sync_user(to_yt, from_yt, run_as)
         comment = None
-        if len(change.comments):
-            comment = change.comments[0]
+        #comments doesn't extracted from change
+#        if len(change.comments):
+#            comment = change.comments[0]
         command = ''
         for field in change.fields:
             field_name = field.name.lower()
@@ -132,7 +144,7 @@ def apply_changes_to_issue(to_yt, from_yt, issue_id, changes, fields_to_ignore=N
                 for field_value in field.new_value:
                     changed_fields.add(field_name)
                     command += get_command_set_value_to_field(field_name, field_value)
-        executeSyncCommand(to_yt, issue_id, command, comment, run_as)
+        executeSyncCommand(to_yt, issue_id, command, comment=comment, run_as=run_as)
     return changed_fields
 
 def get_command_set_value_to_field(field, field_value):
@@ -158,12 +170,13 @@ def apply_changes_to_new_issue(yt, issue_id_to_apply, original_issue):
     for comment in original_issue.getComments():
         executeSyncCommand(yt, issue_id_to_apply, "comment", comment.text, comment.author)
 
-def add_sync_comment(yt, issue_id, comment_text, run_as):
+def sync_comment(to_yt, from_yt, issue_id, comment_text, run_as):
     if comment_text is not None and comment_text != '':
         try:
+            try_to_sync_user(to_yt, from_yt, run_as)
             if not VERBOSE_MODE:
-                yt.executeCommand(issue_id, '', comment=comment_text, run_as=run_as)
-            log_action(issue_id, yt, 'added comment: \"' + comment_text[0:8] + '...\"', run_as)
+                to_yt.executeCommand(issue_id, '', comment=comment_text, run_as=run_as)
+            log_action(issue_id, to_yt, 'added comment: \"' + comment_text[0:8] + '...\"', run_as)
         except YouTrackException, e:
             log_error(e)
 
@@ -183,9 +196,11 @@ def clone_issue(yt_to, issue_from):
     try:
         safe_summary = issue_from.summary if hasattr(issue_from, 'summary') else ''
         safe_description = issue_from.description if hasattr(issue_from, 'description') else ''
-        created_issue_number = yt_to.createIssue(project_id, None, safe_summary, safe_description).rpartition('-')[2]
-        #fail if summary or description are too long
-    except YouTrackException, e:
+        created_issue_number = None
+        if not VERBOSE_MODE:
+            created_issue_number = yt_to.createIssue(project_id, None, safe_summary, safe_description).rpartition('-')[2]
+        #fail if summary or description are too long or can't convert to unicode params
+    except Exception, e:
         log_error(e)
         log_action(str(issue_from.id) + '->?', yt_to, 'failed to create' )
         return None
@@ -243,8 +258,7 @@ def apply_to_issues(issues_getter, action, excluded_ids=None, log_header=''):
         for issue in issues:
             sync_id = str(issue.id)
             if not (excluded_ids and sync_id in excluded_ids):
-                action(issue)
-                processed_issue_ids_set.add(sync_id)
+                if action(issue): processed_issue_ids_set.add(sync_id)
         print log_header + ' processed ' + str(start + len(issues)) + ' issues'
         start += batch
         issues = issues_getter(start, batch)
@@ -306,7 +320,7 @@ def merge_links_and_comments(slave, master, s_to_m):
 #        link_synchronizer.collectLinksToSync(slave_issue, master_issue)
         counter += 1
         if counter % batch == 0:
-            print "[Sync, comment synchronisation] processed " + counter + " issues"
+            print "[Sync, comment synchronisation] processed " + str(counter) + " issues"
 #    print "[Sync, link synchronisation] Started...."
 #    link_synchronizer.syncCollectedLinks()
 
@@ -319,12 +333,10 @@ def merge_comments(slave_id, master_id):
         slave_unique = [cm for cm in slave_comments if cm.text[0:8] not in master_texts]
         master_unique = [cm for cm in master_comments if cm.text[0:8] not in slave_texts]
         for cm in slave_unique:
-            add_sync_comment(master, master_id, cm.text, cm.author)
+            sync_comment(master, slave, master_id, cm.text, cm.author)
         for cm in master_unique:
-            add_sync_comment(slave, slave_id, cm.text, cm.author)
+            sync_comment(slave, master, slave_id, cm.text, cm.author)
 
-
-#VERBOSE_MODE = True
 
 last_run = read_last_run()
 slave_to_master_map = read_sync_map()
