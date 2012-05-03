@@ -7,6 +7,7 @@ import time
 import csv
 
 VERBOSE_MODE = False
+LOGGING = True
 
 project_id = "JT"
 tag = "sync"
@@ -28,6 +29,8 @@ slave_to_master_map = {}
 config_name = 'sync_config'
 config_time_format = '%Y-%m-%d %H:%M:%S:%f'
 query_time_format = '%m-%dT%H:%M:%S'
+log_file_name_format = 'log_%d_%m_%Y'
+error_file_name_format = 'error_%d_%m_%Y'
 master_sync_field_name = 'Sync with'
 empty_field_text = 'No sync with'
 
@@ -89,14 +92,23 @@ def get_issue_changes(yt, issue, after, before):
 
 def executeSyncCommand(yt, issue_id, command, comment=None, run_as=None):
     if command != '':
-        if not VERBOSE_MODE:
-            try:
+        try:
+            if not VERBOSE_MODE:
                 yt.executeCommand(issue_id, command, comment=comment, run_as=run_as)
-            except YouTrackException, e:
-                print e
-        yt_name = 'Master' if yt == master else 'Slave'
-        user_login = (master_root_login if yt == master else slave_root_login) if run_as is None else run_as
-        print '[Sync, ' + issue_id + ' in ' + yt_name + '] applied command: \"' + command + '\" on behalf of ' + user_login
+            log_action(issue_id, yt, 'applied command: \"' + command + '\"', run_as)
+        except YouTrackException, e:
+            log_error(e)
+
+def log_action(action_name, yt, message, run_as=None):
+    yt_name = 'Master' if yt == master else 'Slave'
+    user_login = (master_root_login if yt == master else slave_root_login) if run_as is None else run_as
+    line = '[Sync, ' + action_name + ' in ' + yt_name + '] ' + message + ' on behalf of ' + user_login
+    print line
+    if LOGGING: log_file.write(line + '\n')
+
+def log_error(error):
+    print error
+    if LOGGING: error_file.write(str(error) + '\n')
 
 def apply_changes_to_issue(to_yt, from_yt, issue_id, changes, fields_to_ignore=None):
     if not fields_to_ignore: fields_to_ignore = []
@@ -106,7 +118,10 @@ def apply_changes_to_issue(to_yt, from_yt, issue_id, changes, fields_to_ignore=N
         try:
             to_yt.getUser(run_as)
         except YouTrackException:
-            to_yt.importUsers([from_yt.getUser(run_as)])
+            user_to_import = from_yt.getUser(run_as)
+            if not VERBOSE_MODE:
+                to_yt.importUsers([user_to_import])
+            log_action('Import user', to_yt, 'imported user: \"' + user_to_import + '\"', run_as)
         comment = None
         if len(change.comments):
             comment = change.comments[0]
@@ -145,14 +160,12 @@ def apply_changes_to_new_issue(yt, issue_id_to_apply, original_issue):
 
 def add_sync_comment(yt, issue_id, comment_text, run_as):
     if comment_text is not None and comment_text != '':
-        if not VERBOSE_MODE:
-            try:
+        try:
+            if not VERBOSE_MODE:
                 yt.executeCommand(issue_id, '', comment=comment_text, run_as=run_as)
-            except YouTrackException, e:
-                print e
-        yt_name = 'Master' if yt == master else 'Slave'
-        user_login = (master_root_login if yt == master else slave_root_login) if run_as is None else run_as
-        print '[Sync, ' + issue_id + ' in ' + yt_name + '] added comment: \"' + comment_text[0:8] + '...\" from ' + user_login
+            log_action(issue_id, yt, 'added comment: \"' + comment_text[0:8] + '...\"', run_as)
+        except YouTrackException, e:
+            log_error(e)
 
 def merge_and_apply_changes(left_yt, left_issue_id, left_changes, right_yt, right_issue_id, right_changes):
     changed_fields = apply_changes_to_issue(right_yt, left_yt, right_issue_id, left_changes)
@@ -173,19 +186,15 @@ def clone_issue(yt_to, issue_from):
         created_issue_number = yt_to.createIssue(project_id, None, safe_summary, safe_description).rpartition('-')[2]
         #fail if summary or description are too long
     except YouTrackException, e:
-        created_issue_number = None
-        print e
+        log_error(e)
+        log_action(str(issue_from.id) + '->?', yt_to, 'failed to create' )
+        return None
 
-    yt_name = 'Master' if yt_to == master else 'Slave'
     if created_issue_number:
         created_issue_id = project_id + '-' + created_issue_number
-        print '[Sync, ' + created_issue_id + ' in ' + yt_name + '] created'
+        log_action(created_issue_id, yt_to, 'created')
         apply_changes_to_new_issue(yt_to, created_issue_id, issue_from)
         return created_issue_id
-    else:
-        yt_opp = 'Master' if yt_to == slave else 'Slave'
-        print '[Sync, ' + issue_from.id + ' in ' + yt_opp + '] failed to import to ' + yt_name
-        return None
 
 def import_to_master(slave_issue):
     master_issue_id = clone_issue(master, slave_issue)
@@ -227,7 +236,7 @@ def sync_to_slave(master_issue):
 def apply_to_issues(issues_getter, action, excluded_ids=None, log_header=''):
     if not issues_getter or not action: return
     start = 0
-    print log_header + ' Started'
+    print log_header + ' started...'
     issues = issues_getter(start, batch)
     processed_issue_ids_set = set([])
     while len(issues):
@@ -236,10 +245,10 @@ def apply_to_issues(issues_getter, action, excluded_ids=None, log_header=''):
             if not (excluded_ids and sync_id in excluded_ids):
                 action(issue)
                 processed_issue_ids_set.add(sync_id)
-        print log_header + ' Processed ' + str(start + len(issues)) + ' issues'
+        print log_header + ' processed ' + str(start + len(issues)) + ' issues'
         start += batch
         issues = issues_getter(start, batch)
-    print log_header + ' Action applied to ' + str(len(processed_issue_ids_set)) + ' issues'
+    print log_header + ' action applied to ' + str(len(processed_issue_ids_set)) + ' issues'
     return processed_issue_ids_set
 
 def get_tagged_only_in_slave(start, batch):
@@ -288,7 +297,7 @@ def merge_links_and_comments(slave, master, s_to_m):
 #    link_synchronizer = LinkSynchronizer(master_importer, slave_importer, issue_binder)
 #    link_synchronizer.setVerboseMode(VERBOSE_MODE)
 
-    print "[Sync, comment synchronisation] Started...."
+    print "[Sync, comment synchronisation] started...."
     counter = 0
     for issue_id in s_to_m.keys():
         slave_issue = slave.getIssue(issue_id)
@@ -297,7 +306,7 @@ def merge_links_and_comments(slave, master, s_to_m):
 #        link_synchronizer.collectLinksToSync(slave_issue, master_issue)
         counter += 1
         if counter % batch == 0:
-            print "[Sync, comment synchronisation] Processed " + counter + " issues"
+            print "[Sync, comment synchronisation] processed " + counter + " issues"
 #    print "[Sync, link synchronisation] Started...."
 #    link_synchronizer.syncCollectedLinks()
 
@@ -319,6 +328,8 @@ def merge_comments(slave_id, master_id):
 
 last_run = read_last_run()
 slave_to_master_map = read_sync_map()
+log_file = open(current_run.strftime(log_file_name_format), 'w')
+error_file = open(current_run.strftime(error_file_name_format), 'w')
 
 master = Connection(master_url, master_root_login, master_root_password)
 slave = Connection(slave_url, slave_root_login, slave_root_password)
@@ -358,9 +369,12 @@ try:
         import_project(slave, project_id)
 
 except Exception, e:
-    print e
+    log_error(e)
 finally:
-    #write set of master-ids of synchronized issues
+    log_file.close()
+    error_file.close()
+
+    #write dictionary of synchronized issues
     write_sync_map(slave_to_master_map)
 
     #write time of script evaluation finish as last run time
