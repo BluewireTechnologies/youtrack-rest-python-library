@@ -177,7 +177,7 @@ class Connection(object):
         res = []
         for c in [e for e in xml.documentElement.childNodes if e.nodeType == Node.ELEMENT_NODE]:
             link = youtrack.Link(c, self)
-            if link.source != id or not outwardOnly:
+            if link.source == id or not outwardOnly:
                 res.append(link)
         return res
 

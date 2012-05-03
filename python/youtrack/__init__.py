@@ -154,7 +154,7 @@ class Issue(YouTrackObject):
         if getattr(self, 'links', None) is None:
             return self.youtrack.getLinks(self.id, outwardOnly)
         else:
-            return [l for l in self.links if l.source != self.id or not outwardOnly]
+            return [l for l in self.links if l.source == self.id or not outwardOnly]
 
 
 class Comment(YouTrackObject):

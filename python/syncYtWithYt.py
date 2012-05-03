@@ -1,4 +1,4 @@
-from sync.links import LinkSynchronizer, IssueBinder
+from sync.links import LinkSynchronizer, IssueBinder, LinkImporter
 from youtrack import YouTrackException
 from youtrack.connection import Connection
 from youtrack2youtrack import youtrack2youtrack
@@ -6,10 +6,13 @@ from datetime import datetime
 import time
 import csv
 
+VERBOSE_MODE = False
+
 project_id = "JT"
 tag = "sync"
-fields_to_sync = ['state', 'type', 'priority', 'subsystem', 'assignee', 'fixVersions', 'affectedVersions']
+fields_to_sync = ['state', 'type', 'priority', 'subsystem', 'assignee', 'fix versions', 'affected versions']
 priority_mapping= {'0':'Show-stopper', '1':'Critical', '2':'Major', '3':'Normal', '4':'Minor'}
+field_name_mapping = {'assignee':'assigneeName', 'fix versions':'fixVersions', 'affected versions':'affectedVersions'}
 query = "tag: " + tag
 
 master_url = "http://unit-1"
@@ -84,12 +87,16 @@ def get_issue_changes(yt, issue, after, before):
             new_changes.append(change)
     return new_changes
 
-def executeSyncCommand(yt, issue_id, command, comment, run_as):
+def executeSyncCommand(yt, issue_id, command, comment=None, run_as=None):
     if command != '':
-        yt.executeCommand(issue_id, command, comment=comment, run_as=run_as)
+        if not VERBOSE_MODE:
+            try:
+                yt.executeCommand(issue_id, command, comment=comment, run_as=run_as)
+            except YouTrackException, e:
+                print e
         yt_name = 'Master' if yt == master else 'Slave'
         user_login = (master_root_login if yt == master else slave_root_login) if run_as is None else run_as
-        print '[Sync, ' + issue_id + ' in ' + yt_name + '] apply command: \"' + command + '\" as ' + user_login
+        print '[Sync, ' + issue_id + ' in ' + yt_name + '] applied command: \"' + command + '\" on behalf of ' + user_login
 
 def apply_changes_to_issue(to_yt, from_yt, issue_id, changes, fields_to_ignore=None):
     if not fields_to_ignore: fields_to_ignore = []
@@ -128,7 +135,7 @@ def get_command_set_value_to_field(field, field_value):
 def apply_changes_to_new_issue(yt, issue_id_to_apply, original_issue):
     command = ''
     for field in fields_to_sync:
-        internal_field = 'assigneeName' if field == 'assignee' else field
+        internal_field = field_name_mapping.get(field) if field_name_mapping.has_key(field) else field
         if hasattr(original_issue, internal_field):
             field_value = original_issue[internal_field]
             command += get_command_set_value_to_field(field, field_value)
@@ -138,23 +145,14 @@ def apply_changes_to_new_issue(yt, issue_id_to_apply, original_issue):
 
 def add_sync_comment(yt, issue_id, comment_text, run_as):
     if comment_text is not None and comment_text != '':
-        yt.executeCommand(issue_id, '', comment=comment_text, run_as=run_as)
+        if not VERBOSE_MODE:
+            try:
+                yt.executeCommand(issue_id, '', comment=comment_text, run_as=run_as)
+            except YouTrackException, e:
+                print e
         yt_name = 'Master' if yt == master else 'Slave'
         user_login = (master_root_login if yt == master else slave_root_login) if run_as is None else run_as
         print '[Sync, ' + issue_id + ' in ' + yt_name + '] added comment: \"' + comment_text[0:8] + '...\" from ' + user_login
-
-def merge_comments(slave_id, master_id):
-    slave_comments = slave.getComments(slave_id)
-    master_comments = master.getComments(master_id)
-    if len(slave_comments) or len(master_comments):
-        master_texts = [cm.text for cm in master_comments]
-        slave_texts = [cm.text for cm in slave_comments]
-        slave_unique = [cm for cm in slave_comments if cm.text not in master_texts]
-        master_unique = [cm for cm in master_comments if cm.text not in slave_texts]
-        for cm in slave_unique:
-            add_sync_comment(master, master_id, cm.text, cm.author)
-        for cm in master_unique:
-            add_sync_comment(slave, slave_id, cm.text, cm.author)
 
 def merge_and_apply_changes(left_yt, left_issue_id, left_changes, right_yt, right_issue_id, right_changes):
     changed_fields = apply_changes_to_issue(right_yt, left_yt, right_issue_id, left_changes)
@@ -174,8 +172,9 @@ def clone_issue(yt_to, issue_from):
         safe_description = issue_from.description if hasattr(issue_from, 'description') else ''
         created_issue_number = yt_to.createIssue(project_id, None, safe_summary, safe_description).rpartition('-')[2]
         #fail if summary or description are too long
-    except YouTrackException:
+    except YouTrackException, e:
         created_issue_number = None
+        print e
 
     yt_name = 'Master' if yt_to == master else 'Slave'
     if created_issue_number:
@@ -192,9 +191,8 @@ def import_to_master(slave_issue):
     master_issue_id = clone_issue(master, slave_issue)
     if master_issue_id:
         slave_to_master_map[str(slave_issue.id)] = master_issue_id
-        master.executeCommand(master_issue_id, "tag " + tag)
-        slave.executeCommand(slave_issue.id, master_sync_field_name + " " + master_issue_id.rpartition('-')[2])
-        link_synchronizer.collectLinksToSync(slave_issue, None)
+        executeSyncCommand(master, master_issue_id, "tag " + tag)
+        executeSyncCommand(slave, slave_issue.id, master_sync_field_name + " " + master_issue_id.rpartition('-')[2])
     return master_issue_id
 
 def sync_to_master(slave_issue):
@@ -204,8 +202,6 @@ def sync_to_master(slave_issue):
         master_changes = get_issue_changes(master, master_issue, last_run, current_run)
         changed_fields = apply_changes_to_issue(slave, master, slave_issue.id, master_changes)
         apply_changes_to_issue(master, slave, master_issue.id, slave_changes, changed_fields)
-        link_synchronizer.collectLinksToSync(slave_issue, master_issue)
-        merge_comments(slave_issue.id, master_issue.id)
         return master_issue.id
     else:
         return import_to_master(slave_issue)
@@ -214,9 +210,8 @@ def import_to_slave(master_issue):
     slave_issue_id = clone_issue(slave, master_issue)
     if slave_issue_id:
         slave_to_master_map[slave_issue_id] = str(master_issue.id)
-        slave.executeCommand(slave_issue_id, master_sync_field_name + " " + master_issue.numberInProject)
-        slave.executeCommand(slave_issue_id, "tag " + tag)
-        link_synchronizer.collectLinksToSync(None, master_issue)
+        executeSyncCommand(slave, slave_issue_id, master_sync_field_name + " " + master_issue.numberInProject)
+        executeSyncCommand(slave, slave_issue_id, "tag " + tag)
     return slave_issue_id
 
 def sync_to_slave(master_issue):
@@ -225,8 +220,6 @@ def sync_to_slave(master_issue):
         slave_issue = slave_issues[0]
         master_changes = get_issue_changes(master, master_issue, last_run, current_run)
         apply_changes_to_issue(slave, master, slave_issue.id, master_changes)
-        link_synchronizer.collectLinksToSync(slave_issue, master_issue)
-        merge_comments(slave_issue.id, master_issue.id)
         return slave_issue.id
     else:
         return import_to_slave(master_issue)
@@ -282,19 +275,53 @@ def import_project(slave, project_id):
     issues = slave.getIssues(project_id, '', start, batch)
     while len(issues):
         for issue in issues:
-            slave.executeCommand(issue.id, master_sync_field_name + " " + issue.numberInProject)
-            slave.executeCommand(issue.id, "tag " + tag)
+            executeSyncCommand(slave, issue.id, master_sync_field_name + " " + issue.numberInProject)
+            executeSyncCommand(slave, issue.id, "tag " + tag)
             slave_to_master_map[str(issue.id)] = str(issue.id)
         start += batch
         issues = slave.getIssues(project_id, '', start, batch)
+
+def merge_links_and_comments(slave, master, s_to_m):
+#    issue_binder = IssueBinder(s_to_m)
+#    slave_importer = LinkImporter(slave, project_id, query)
+#    master_importer = LinkImporter(master, project_id, query)
+#    link_synchronizer = LinkSynchronizer(master_importer, slave_importer, issue_binder)
+#    link_synchronizer.setVerboseMode(VERBOSE_MODE)
+
+    print "[Sync, comment synchronisation] Started...."
+    counter = 0
+    for issue_id in s_to_m.keys():
+        slave_issue = slave.getIssue(issue_id)
+        master_issue = master.getIssue(s_to_m[issue_id])
+        merge_comments(slave_issue.id, master_issue.id)
+#        link_synchronizer.collectLinksToSync(slave_issue, master_issue)
+        counter += 1
+        if counter % batch == 0:
+            print "[Sync, comment synchronisation] Processed " + counter + " issues"
+#    print "[Sync, link synchronisation] Started...."
+#    link_synchronizer.syncCollectedLinks()
+
+def merge_comments(slave_id, master_id):
+    slave_comments = slave.getComments(slave_id)
+    master_comments = master.getComments(master_id)
+    if len(slave_comments) or len(master_comments):
+        master_texts = set([cm.text[0:8] for cm in master_comments])
+        slave_texts = set([cm.text[0:8] for cm in slave_comments])
+        slave_unique = [cm for cm in slave_comments if cm.text[0:8] not in master_texts]
+        master_unique = [cm for cm in master_comments if cm.text[0:8] not in slave_texts]
+        for cm in slave_unique:
+            add_sync_comment(master, master_id, cm.text, cm.author)
+        for cm in master_unique:
+            add_sync_comment(slave, slave_id, cm.text, cm.author)
+
+
+#VERBOSE_MODE = True
 
 last_run = read_last_run()
 slave_to_master_map = read_sync_map()
 
 master = Connection(master_url, master_root_login, master_root_password)
 slave = Connection(slave_url, slave_root_login, slave_root_password)
-issue_binder = IssueBinder(master, slave, project_id, master_sync_field_name)
-link_synchronizer = LinkSynchronizer(master, slave, issue_binder)
 
 try:
     if get_project(slave, project_id):
@@ -325,8 +352,8 @@ try:
             excluded_ids=updated_master_ids_set,
             log_header='[Sync, Merging sync issues updated in master and unchanged in slave]')
 
-        #links synchronization
-        link_synchronizer.syncCollectedLinks()
+        #links and comments synchronization
+        merge_links_and_comments(slave, master, slave_to_master_map)
     else:
         import_project(slave, project_id)
 
