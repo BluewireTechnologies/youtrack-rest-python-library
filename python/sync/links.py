@@ -13,6 +13,12 @@ class LinkImporter(object):
     def resetConnections(self, target):
         self.target = target
 
+    def setYoutrackName(self, name):
+        self.target_name = name
+
+    def setLogHeader(self, header):
+        self.header = header
+
     def _get_all_issue_ids_set(self, yt, project_id, query):
         if not query: query = ''
         start = 0
@@ -46,22 +52,22 @@ class LinkImporter(object):
         links_to_import = []
         for link in links:
             if link.target not in self.created_issue_ids:
-                print 'Failed to import link ' + self._getPrettyLink(link) + ' because ' + link.target + ' was not imported'
+                print self.header + ' failed to import link ' + self._getPrettyLink(link) + ' to ' + self.target_name + ' because ' + link.target + ' was not imported'
             elif link.source not in self.created_issue_ids:
-                print 'Failed to import link ' + self._getPrettyLink(link) + ' because ' + link.source + ' was not imported'
+                print self.header + 'failed to import link ' + self._getPrettyLink(link) + ' to ' + self.target_name + ' because ' + link.source + ' was not imported'
             else:
                 links_to_import.append(link)
                 if len(links_to_import) == maxLinks:
-                    if not self.verbose_mode:
-                        self.target.importLinks(links_to_import)
-                    for link in links_to_import:
-                        print 'Import ' + self._getPrettyLink(link)
+                    self._import_links_batch(links_to_import)
                     links_to_import = []
         if len(links_to_import):
-            if not self.verbose_mode:
-                self.target.importLinks(links_to_import)
-            for link in links_to_import:
-                print 'Import ' + self._getPrettyLink(link)
+            self._import_links_batch(links_to_import)
+
+    def _import_links_batch(self, links_to_import):
+        if not self.verbose_mode:
+            self.target.importLinks(links_to_import)
+        for link in links_to_import:
+            print self.header + ' imported ' + self._getPrettyLink(link) + ' to ' + self.target_name
 
     def importCollectedLinks(self):
         self.importLinks(self.links)
@@ -91,24 +97,23 @@ class LinkSynchronizer(object):
         slave_valid_links = [link for link in slave_links if self.slaveLinkImporter.checkLink(link)]
         master_valid_links =  [link for link in master_links if self.masterLinkImporter.checkLink(link)]
 
-        #transfer all links to the master notation
-        for slave_link in slave_valid_links:
-            slave_link.source = self.issue_binder.slaveIssueIdToMasterIssueId(slave_link.source)
-            slave_link.target = self.issue_binder.slaveIssueIdToMasterIssueId(slave_link.target)
-        slave_links_set = set(slave_valid_links)
-        master_links_set = set(master_valid_links)
+        to_master_links = set([self._convertSlaveLinkForMaster(link) for link in slave_valid_links]) - set(master_valid_links)
+        to_slave_links = set([self._convertMasterLinkForSlave(link) for link in master_valid_links]) - set(slave_valid_links)
 
-        if len(slave_links):
-            links_to_ba_added_in_master = slave_links_set - master_links_set
-            self.masterLinkImporter.collectLinks(links_to_ba_added_in_master)
+        self.masterLinkImporter.collectLinks(to_master_links)
+        self.slaveLinkImporter.collectLinks(to_slave_links)
 
-        if len(master_links):
-            links_to_ba_added_in_slave = master_links_set - slave_links_set
-            # transfer links to be added in slave back to the slave notation
-            for link_to_be_added in links_to_ba_added_in_slave:
-                link_to_be_added.source = self.issue_binder.masterIssueIdToSlaveIssueId(link_to_be_added.source)
-                link_to_be_added.target = self.issue_binder.masterIssueIdToSlaveIssueId(link_to_be_added.target)
-            self.slaveLinkImporter.collectLinks(links_to_ba_added_in_slave)
+    def _convertSlaveLinkForMaster(self, slave_link):
+        link_copy = copy.copy(slave_link)
+        link_copy.source = self.issue_binder.slaveIssueIdToMasterIssueId(slave_link.source)
+        link_copy.target = self.issue_binder.slaveIssueIdToMasterIssueId(slave_link.target)
+        return link_copy
+
+    def _convertMasterLinkForSlave(self, master_link):
+        link_copy = copy.copy(master_link)
+        link_copy.source = self.issue_binder.masterIssueIdToSlaveIssueId(master_link.source)
+        link_copy.target = self.issue_binder.masterIssueIdToSlaveIssueId(master_link.target)
+        return link_copy
 
     def syncCollectedLinks(self):
         self.slaveLinkImporter.importCollectedLinks()

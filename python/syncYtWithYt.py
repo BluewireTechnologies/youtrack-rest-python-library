@@ -305,24 +305,30 @@ def import_project(slave, project_id):
         issues = slave.getIssues(project_id, '', start, batch)
 
 def merge_links_and_comments(slave, master, s_to_m):
-#    issue_binder = IssueBinder(s_to_m)
-#    slave_importer = LinkImporter(slave, project_id, query)
-#    master_importer = LinkImporter(master, project_id, query)
-#    link_synchronizer = LinkSynchronizer(master_importer, slave_importer, issue_binder)
-#    link_synchronizer.setVerboseMode(VERBOSE_MODE)
+    header_links = "[Sync, Link synchronisation]"
+    header_comments = "[Sync, Comment synchronisation]"
+    issue_binder = IssueBinder(s_to_m)
+    slave_importer = LinkImporter(slave, project_id, query)
+    slave_importer.setYoutrackName('Slave')
+    slave_importer.setLogHeader(header_links)
+    master_importer = LinkImporter(master, project_id, query)
+    master_importer.setYoutrackName('Master')
+    master_importer.setLogHeader(header_links)
+    link_synchronizer = LinkSynchronizer(master_importer, slave_importer, issue_binder)
+    link_synchronizer.setVerboseMode(VERBOSE_MODE)
 
-    print "[Sync, comment synchronisation] started...."
+    print header_comments + " started..."
     counter = 0
     for issue_id in s_to_m.keys():
         slave_issue = slave.getIssue(issue_id)
         master_issue = master.getIssue(s_to_m[issue_id])
         merge_comments(slave_issue.id, master_issue.id)
-#        link_synchronizer.collectLinksToSync(slave_issue, master_issue)
+        link_synchronizer.collectLinksToSync(slave_issue, master_issue)
         counter += 1
         if counter % batch == 0:
-            print "[Sync, comment synchronisation] processed " + str(counter) + " issues"
-#    print "[Sync, link synchronisation] Started...."
-#    link_synchronizer.syncCollectedLinks()
+            print header_comments + " processed " + str(counter) + " issues"
+    print header_links + " started..."
+    link_synchronizer.syncCollectedLinks()
 
 def merge_comments(slave_id, master_id):
     slave_comments = slave.getComments(slave_id)
