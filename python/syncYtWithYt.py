@@ -1,3 +1,4 @@
+#import sys
 from sync.links import IssueBinder
 from sync.logging import Logger
 from sync.youtracks import YouTrackSynchronizer
@@ -9,7 +10,7 @@ from datetime import timedelta
 import ConfigParser
 import csv
 
-sync_map_name = 'sync_map'
+sync_map_file_name = 'sync_map'
 config_file_name = 'sync_config'
 config_time_format = '%Y-%m-%d %H:%M:%S:%f'
 default_last_run = datetime(2012, 1, 1)
@@ -17,6 +18,13 @@ section_name = 'Synchronization'
 csv.register_dialect('mapper', delimiter=':', quoting=csv.QUOTE_NONE)
 
 def main():
+
+#    try:
+#        config_file_name = sys.argv(0)
+#    except BaseException:
+#        print "Usage: syncYtWithYt config_file_name"
+#        return
+
     config = ConfigParser.RawConfigParser()
     try:
         config.read(config_file_name)
@@ -36,8 +44,7 @@ def main():
     try:
         last_run_str = config.get(section_name, 'last_run')
         last_run = datetime.strptime(last_run_str, config_time_format)
-    except BaseException, e:
-        print e
+    except BaseException:
         last_run = default_last_run
 
     try:
@@ -83,19 +90,19 @@ def main():
 
 def read_sync_map():
     try:
-        with open(sync_map_name, 'r') as sync_map_file:
+        with open(sync_map_file_name, 'r') as sync_map_file:
             reader = csv.reader(sync_map_file, 'mapper')
             result = {}
             for row in reader:
               result[row[0]] = row[1]
             return result
     except IOError:
-        with open(sync_map_name, 'w') as sync_map_file:
+        with open(sync_map_file_name, 'w') as sync_map_file:
             sync_map_file.write('')
         return {}
 
 def write_sync_map(ids_map):
-    with open(sync_map_name, 'w') as sync_map_file:
+    with open(sync_map_file_name, 'w') as sync_map_file:
         writer = csv.writer(sync_map_file, 'mapper')
         for key in ids_map.keys():
             writer.writerow([key, ids_map[key]])
