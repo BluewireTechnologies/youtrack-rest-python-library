@@ -1,0 +1,13 @@
+[Synchronization]
+#master_url = http://unit-1
+#master_root_login = root
+#master_root_password = root
+#slave_url = http://unit-2
+#slave_root_login = root
+#slave_root_password = root
+#project_id = JT
+#query = tag: sync
+#fields_to_sync = state, type, priority, subsystem, assignee, fix versions, affected versions
+#debug_mode = False
+#last_run = 2012-05-10 18:53:59:856000
+

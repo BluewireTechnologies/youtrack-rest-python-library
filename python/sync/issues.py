@@ -41,18 +41,12 @@ class AsymmetricIssueMerger(object):
         safe_summary = issue_from.summary if hasattr(issue_from, 'summary') else ''
         safe_description = issue_from.description if hasattr(issue_from, 'description') else ''
         created_issue_id = self.master_executor.createIssue(self.project_id, safe_summary, safe_description, issue_from.id)
-        if created_issue_id:
-            self._sync(created_issue_id, issue_from.id, None, self.current_run)
-            self.issue_binder.addBinding(created_issue_id, issue_from.id)
-            return created_issue_id
-        else: return None
+        if created_issue_id: self._sync(created_issue_id, issue_from.id, None, self.current_run)
+        return created_issue_id
 
     def clone_issue_to_slave(self, issue_from):
         safe_summary = issue_from.summary if hasattr(issue_from, 'summary') else ''
         safe_description = issue_from.description if hasattr(issue_from, 'description') else ''
         created_issue_id = self.slave_executor.createIssue(self.project_id, safe_summary, safe_description, issue_from.id)
-        if created_issue_id:
-            self._sync(issue_from.id, created_issue_id, None, self.current_run)
-            self.issue_binder.addBinding(issue_from.id, created_issue_id)
-            return created_issue_id
-        else: return None
+        if created_issue_id: self._sync(issue_from.id, created_issue_id, None, self.current_run)
+        return created_issue_id

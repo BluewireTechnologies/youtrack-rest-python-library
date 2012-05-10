@@ -82,67 +82,12 @@ class LinkImporter(object):
         return link.source in self.created_issue_ids and link.target in self.created_issue_ids
 
 class LinkSynchronizer(object):
-    def __init__(self, master_importer, slave_importer, binder):
-        self.issue_binder = binder
-        self.slaveLinkImporter = slave_importer
-        self.masterLinkImporter = master_importer
-
-    def setVerboseMode(self, mode):
-        self.slaveLinkImporter.setDebugMode(mode)
-        self.masterLinkImporter.setDebugMode(mode)
-
-    def collectLinksToSync(self, master_issue, slave_issue):
-
-        slave_links = slave_issue.getLinks(True) if slave_issue else []
-        master_links = master_issue.getLinks(True) if master_issue else []
-
-        slave_valid_links = [link for link in slave_links if self.slaveLinkImporter.checkLink(link)]
-        master_valid_links =  [link for link in master_links if self.masterLinkImporter.checkLink(link)]
-
-        to_master_links = set([self._convertSlaveLinkForMaster(link) for link in slave_valid_links]) - set(master_valid_links)
-        to_slave_links = set([self._convertMasterLinkForSlave(link) for link in master_valid_links]) - set(slave_valid_links)
-
-        self.masterLinkImporter.collectLinks(to_master_links)
-        self.slaveLinkImporter.collectLinks(to_slave_links)
-
-    def collectLinksToSyncById(self, master_issue_id, slave_issue_id):
-
-        slave_links = self.slaveLinkImporter.target.getLinks(slave_issue_id, True) if slave_issue_id else []
-        master_links = self.masterLinkImporter.target.getLinks(slave_issue_id, True) if master_issue_id else []
-
-        slave_valid_links = [link for link in slave_links if self.slaveLinkImporter.checkLink(link)]
-        master_valid_links =  [link for link in master_links if self.masterLinkImporter.checkLink(link)]
-
-        to_master_links = set([self._convertSlaveLinkForMaster(link) for link in slave_valid_links]) - set(master_valid_links)
-        to_slave_links = set([self._convertMasterLinkForSlave(link) for link in master_valid_links]) - set(slave_valid_links)
-
-        self.masterLinkImporter.collectLinks(to_master_links)
-        self.slaveLinkImporter.collectLinks(to_slave_links)
-
-    def _convertSlaveLinkForMaster(self, slave_link):
-        link_copy = copy.copy(slave_link)
-        link_copy.source = self.issue_binder.slaveIssueIdToMasterIssueId(slave_link.source)
-        link_copy.target = self.issue_binder.slaveIssueIdToMasterIssueId(slave_link.target)
-        return link_copy
-
-    def _convertMasterLinkForSlave(self, master_link):
-        link_copy = copy.copy(master_link)
-        link_copy.source = self.issue_binder.masterIssueIdToSlaveIssueId(master_link.source)
-        link_copy.target = self.issue_binder.masterIssueIdToSlaveIssueId(master_link.target)
-        return link_copy
-
-    def syncCollectedLinks(self):
-        self.slaveLinkImporter.importCollectedLinks()
-        self.masterLinkImporter.importCollectedLinks()
-
-class LinkSynchronizer2(object):
     def __init__(self, master_executor, slave_executor, binder):
         self.issue_binder = binder
         self.slaveExecutor = slave_executor
         self.masterExecutor = master_executor
         self.master_links = []
         self.slave_links = []
-
 
     def collectLinksToSyncById(self, master_issue_id, slave_issue_id):
 
