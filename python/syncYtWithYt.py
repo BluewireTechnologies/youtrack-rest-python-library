@@ -1,4 +1,5 @@
 from sync.links import LinkSynchronizer, IssueBinder, LinkImporter
+from sync.states import get_command_for_state_change
 from youtrack import YouTrackException
 from youtrack.connection import Connection
 from youtrack2youtrack import youtrack2youtrack
@@ -6,7 +7,7 @@ from datetime import datetime
 import time
 import csv
 
-VERBOSE_MODE = False
+VERBOSE_MODE = True
 LOGGING = True
 
 project_id = "JT"
@@ -97,20 +98,30 @@ def executeSyncCommand(yt, issue_id, command, comment=None, run_as=None):
                 yt.executeCommand(issue_id, command, comment=comment, run_as=run_as)
             log_action(issue_id, yt, 'applied command: \"' + command + '\"', run_as)
         except YouTrackException, e:
-            log_error(e)
+            log_error(e, issue_id, yt, 'failed to apply command: \"' + command + '\"', run_as)
+            log_action(issue_id, yt, 'failed to apply command: \"' + command + '\"', run_as)
 
 def log_action(action_name, yt, message, run_as=None):
     yt_name = 'Master' if yt == master else 'Slave'
     user_login = (master_root_login if yt == master else slave_root_login) if run_as is None else run_as
     line = '[Sync, ' + action_name + ' in ' + yt_name + '] ' + message + ' on behalf of ' + user_login
     print line
-    if LOGGING: log_file.write(line + '\n')
+    try:
+        if LOGGING: log_file.write(str(line) + '\n')
+    except UnicodeError, e:
+        print e
 
-def log_error(error):
-    print error
+def log_error(error, action_name, yt, message, run_as=None):
     if LOGGING:
-        error_file.write(str(error) + '\n')
-        error_file.write('---------------------------------------------------------\n')
+        yt_name = 'Unknown' if None else 'Master' if yt == master else 'Slave'
+        user_login = (master_root_login if yt == master else slave_root_login) if run_as is None else run_as
+        line = '[Sync, ' + action_name + ' in ' + yt_name + '] ' + message + ' on behalf of ' + user_login
+        try:
+            error_file.write(str(line) + '\n')
+            error_file.write(str(error) + '\n')
+            error_file.write('---------------------------------------------------------\n')
+        except UnicodeError, e:
+            print e
 
 def try_to_sync_user(to_yt, from_yt, login):
     try:
@@ -123,40 +134,47 @@ def try_to_sync_user(to_yt, from_yt, login):
             log_action('Import user', to_yt, 'imported user: \"' + str(user_to_import.login) + '\"', login)
         except YouTrackException, e:
             log_action('Import user', to_yt, 'failed to import user: \"' + login + '\" - could not find in opposite youtrack')
-            log_error(e)
+            log_error(e, 'Import user', to_yt, 'failed to import user: \"' + login + '\" - could not find in opposite youtrack')
             return False
     return True
+
+
+def convert_change_to_command(issue_id, change, changed_fields, fields_to_ignore, from_yt, to_yt):
+    run_as = change.updater_name
+    try_to_sync_user(to_yt, from_yt, run_as)
+    command = ''
+    for field in change.fields:
+        field_name = field.name.lower()
+        if field.name != 'links' and field_name in fields_to_sync and field_name not in fields_to_ignore:
+            if field_name == 'state':
+                with_state_machine = to_yt == master
+                try:
+                    command += get_command_for_state_change(field, with_state_machine)
+                except AttributeError, e:
+                    message = 'failed to apply change: State:' + field.old_value[0] + '->' + field.new_value[0]
+                    log_error(e, issue_id, to_yt, message, run_as)
+                    log_action(issue_id, to_yt, message, run_as)
+            else:
+                for field_value in field.new_value:
+                    command += get_command_set_value_to_field(field_name, field_value)
+            changed_fields.add(field_name)
+    return command, run_as
+
 
 def apply_changes_to_issue(to_yt, from_yt, issue_id, changes, fields_to_ignore=None):
     if not fields_to_ignore: fields_to_ignore = []
     changed_fields = set()
     for change in changes:
-        run_as = change.updater_name
-        try_to_sync_user(to_yt, from_yt, run_as)
-        comment = None
-        #comments doesn't extracted from change
-#        if len(change.comments):
-#            comment = change.comments[0]
-        command = ''
-        for field in change.fields:
-            field_name = field.name.lower()
-            if field.name != 'links' and field_name in fields_to_sync and field_name not in fields_to_ignore:
-                for field_value in field.new_value:
-                    changed_fields.add(field_name)
-                    command += get_command_set_value_to_field(field_name, field_value)
-        executeSyncCommand(to_yt, issue_id, command, comment=comment, run_as=run_as)
+        command, run_as = convert_change_to_command(issue_id, change, changed_fields, fields_to_ignore, from_yt, to_yt)
+        executeSyncCommand(to_yt, issue_id, command, run_as=run_as)
     return changed_fields
 
-def get_command_set_value_to_field(field, field_value):
+def get_command_set_value_to_field(field, new_field_value):
     command = ""
-    if len(field_value):
-        if isinstance(field_value, list):
-            for value in field_value:
-                command += field + " " + value + " "
-        else:
-            if field == 'priority' and field_value in priority_mapping.keys():
-                field_value = priority_mapping[field_value]
-            command += field + " " + field_value + " "
+    if new_field_value:
+            if field == 'priority' and new_field_value in priority_mapping.keys():
+                new_field_value = priority_mapping[new_field_value]
+            command += field + " " + new_field_value + " "
     return command
 
 def apply_changes_to_new_issue(yt, issue_id_to_apply, original_issue):
@@ -177,12 +195,9 @@ def sync_comment(to_yt, from_yt, issue_id, comment_text, run_as):
             if not VERBOSE_MODE:
                 to_yt.executeCommand(issue_id, '', comment=comment_text, run_as=run_as)
             log_action(issue_id, to_yt, 'added comment: \"' + comment_text[0:8] + '...\"', run_as)
-        except YouTrackException, e:
-            log_error(e)
-
-def merge_and_apply_changes(left_yt, left_issue_id, left_changes, right_yt, right_issue_id, right_changes):
-    changed_fields = apply_changes_to_issue(right_yt, left_yt, right_issue_id, left_changes)
-    apply_changes_to_issue(left_yt, right_yt, left_issue_id, right_changes, changed_fields)
+        except Exception, e:
+            log_error(e, issue_id, to_yt, 'failed to add comment: \"' + comment_text[0:8] + '...\"', run_as)
+            log_action(issue_id, to_yt, 'failed to add comment: \"' + comment_text[0:8] + '...\"', run_as)
 
 def create_and_attach_sync_field(yt, sync_project_id, sync_field_name):
     sync_field_created = any(field.name == sync_field_name for field in yt.getCustomFields())
@@ -201,7 +216,7 @@ def clone_issue(yt_to, issue_from):
             created_issue_number = yt_to.createIssue(project_id, None, safe_summary, safe_description).rpartition('-')[2]
         #fail if summary or description are too long or can't convert to unicode params
     except Exception, e:
-        log_error(e)
+        log_error(e, str(issue_from.id) + '->?', yt_to, 'failed to create' )
         log_action(str(issue_from.id) + '->?', yt_to, 'failed to create' )
         return None
 
@@ -323,10 +338,10 @@ def merge_links_and_comments(slave, master, s_to_m):
         slave_issue = slave.getIssue(issue_id)
         master_issue = master.getIssue(s_to_m[issue_id])
         merge_comments(slave_issue.id, master_issue.id)
-        link_synchronizer.collectLinksToSync(slave_issue, master_issue)
+        link_synchronizer.collectLinksToSync(master_issue, slave_issue)
         counter += 1
-        if counter % batch == 0:
-            print header_comments + " processed " + str(counter) + " issues"
+#        if counter % batch == 0:
+#            print header_comments + " processed " + str(counter) + " issues"
     print header_links + " started..."
     link_synchronizer.syncCollectedLinks()
 
@@ -354,32 +369,32 @@ slave = Connection(slave_url, slave_root_login, slave_root_password)
 
 try:
     if get_project(slave, project_id):
-        create_and_attach_sync_field(slave, project_id, master_sync_field_name)
-
-        #1. synchronize sync-issues in slave which have no synchronized clone in master
-        imported_slave_ids_set = apply_to_issues(get_tagged_only_in_slave,
-            import_to_master,
-            log_header='[Sync, Importing new issues from slave to master]')
-
-        #2. synchronize sync-issues in master which have no synchronized clone in slave
-        sync_set = set(slave_to_master_map.values())
-        imported_master_ids_set = apply_to_issues(get_tagged_in_master,
-            import_to_slave,
-            excluded_ids=sync_set,
-            log_header='[Sync, Importing new issues from master to slave]')
-
-        #3. synchronize sync-issues updated in slave which have synchronized clone in master
-        updated_slave_ids_set = apply_to_issues(get_updated_in_slave_from_last_run,
-            sync_to_master,
-            excluded_ids=imported_slave_ids_set,
-            log_header='[Sync, Merging sync issues updated in slave]')
-
-        #4. synchronize sync-issues updated in master which have synchronized clone in slave (if clone hasn't been updated)
-        updated_master_ids_set = slave_ids_set_to_sync_ids_set(updated_slave_ids_set) | imported_master_ids_set
-        apply_to_issues(get_updated_in_master_from_last_run,
-            sync_to_slave,
-            excluded_ids=updated_master_ids_set,
-            log_header='[Sync, Merging sync issues updated in master and unchanged in slave]')
+#        create_and_attach_sync_field(slave, project_id, master_sync_field_name)
+#
+#        #1. synchronize sync-issues in slave which have no synchronized clone in master
+#        imported_slave_ids_set = apply_to_issues(get_tagged_only_in_slave,
+#            import_to_master,
+#            log_header='[Sync, Importing new issues from slave to master]')
+#
+#        #2. synchronize sync-issues in master which have no synchronized clone in slave
+#        sync_set = set(slave_to_master_map.values())
+#        imported_master_ids_set = apply_to_issues(get_tagged_in_master,
+#            import_to_slave,
+#            excluded_ids=sync_set,
+#            log_header='[Sync, Importing new issues from master to slave]')
+#
+#        #3. synchronize sync-issues updated in slave which have synchronized clone in master
+#        updated_slave_ids_set = apply_to_issues(get_updated_in_slave_from_last_run,
+#            sync_to_master,
+#            excluded_ids=imported_slave_ids_set,
+#            log_header='[Sync, Merging sync issues updated in slave]')
+#
+#        #4. synchronize sync-issues updated in master which have synchronized clone in slave (if clone hasn't been updated)
+#        updated_master_ids_set = slave_ids_set_to_sync_ids_set(updated_slave_ids_set) | imported_master_ids_set
+#        apply_to_issues(get_updated_in_master_from_last_run,
+#            sync_to_slave,
+#            excluded_ids=updated_master_ids_set,
+#            log_header='[Sync, Merging sync issues updated in master and unchanged in slave]')
 
         #links and comments synchronization
         merge_links_and_comments(slave, master, slave_to_master_map)
@@ -387,7 +402,7 @@ try:
         import_project(slave, project_id)
 
 except Exception, e:
-    log_error(e)
+    log_error(e, 'Unknown', None, 'failed')
 finally:
     log_file.close()
     error_file.close()
