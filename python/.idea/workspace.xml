@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bfb67218-c868-4b90-b6ff-44352675a3b4" name="Default" comment="">
+    <list default="true" id="bfb67218-c868-4b90-b6ff-44352675a3b4" name="Default" comment="small bugs related to command apply in the synchronization script fixed">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/googleCode/spock.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/googleCode2youtrack.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/googlecode2youtrack.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/user.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/user.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/syncYtWithYt.py" afterPath="$PROJECT_DIR$/syncYtWithYt.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bugzilla2youtrack.py" afterPath="$PROJECT_DIR$/bugzilla2youtrack.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/googleCode/__init__.py" afterPath="$PROJECT_DIR$/googleCode/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/googleCode/chromium.py" afterPath="$PROJECT_DIR$/googleCode/chromium.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/googleCode/youtrackAndroid.py" afterPath="$PROJECT_DIR$/googleCode/youtrackAndroid.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jira/__init__.py" afterPath="$PROJECT_DIR$/jira/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jira2youtrack.py" afterPath="$PROJECT_DIR$/jira2youtrack.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/youtrack/connection.py" afterPath="$PROJECT_DIR$/youtrack/connection.py" />
     </list>
-    <list id="d3847385-ad1a-4777-aa3d-907095886442" name="settings" comment="settings">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/python.iml" afterPath="$PROJECT_DIR$/.idea/python.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-    </list>
+    <list id="d3847385-ad1a-4777-aa3d-907095886442" name="settings" comment="settings" />
     <ignored path="python.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="$PROJECT_DIR$/.idea/misc.xml" changelist="bfb67218-c868-4b90-b6ff-44352675a3b4" time="1333985013328" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,10 +37,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="connection.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/youtrack/connection.py">
+      <file leaf-file-name="googleCode2youtrack.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/googleCode2youtrack.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="652" column="58" selection-start="29699" selection-end="29699" vertical-scroll-proportion="0.0">
+            <state line="45" column="63" selection-start="1861" selection-end="1861" vertical-scroll-proportion="0.39534885">
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -44,81 +49,63 @@
         </entry>
       </file>
       <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/youtrack/__init__.py">
+        <entry file="file://$PROJECT_DIR$/bugzilla/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="255" column="8" selection-start="8526" selection-end="8526" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="syncYtWithYt.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/syncYtWithYt.py">
+      <file leaf-file-name="bzClient.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bugzilla/bzClient.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="81" selection-start="976" selection-end="976" vertical-scroll-proportion="0.33231708">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="youtrack2youtrack.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/youtrack2youtrack.py">
+      <file leaf-file-name="defaultBzMapping.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bugzilla/defaultBzMapping.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="98" column="4" selection-start="4458" selection-end="4458" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pydevd.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+      <file leaf-file-name="bugzilla2youtrack.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bugzilla2youtrack.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1053" column="0" selection-start="44894" selection-end="44894" vertical-scroll-proportion="0.0">
+            <state line="23" column="39" selection-start="668" selection-end="668" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="urllib.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/Python27/Lib/urllib.py">
+      <file leaf-file-name="spock.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/googleCode/spock.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1257" column="0" selection-start="45330" selection-end="45330" vertical-scroll-proportion="0.0">
+            <state line="13" column="51" selection-start="441" selection-end="441" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="minidom.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/Python27/Lib/xml/dom/minidom.py">
+      <file leaf-file-name="chromium.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/googleCode/chromium.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1923" column="0" selection-start="65476" selection-end="65476" vertical-scroll-proportion="0.0">
+            <state line="32" column="4" selection-start="875" selection-end="1770" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="csv2youtrack.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/csv2youtrack.py">
+      <file leaf-file-name="connection.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/youtrack/connection.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="96" column="39" selection-start="3482" selection-end="3489" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/fbugz/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="79" column="16" selection-start="2178" selection-end="2178" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="fbSOAPClient.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/fbugz/fbSOAPClient.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="182" column="37" selection-start="8879" selection-end="8879" vertical-scroll-proportion="0.0">
+            <state line="278" column="88" selection-start="12509" selection-end="12509" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -132,35 +119,35 @@
     </FindUsagesManager>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="CHECKOUT_INCLUDE_TAGS" value="false" />
+    <option name="UPDATE_CHANGES_POLICY" value="STASH" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/youtrack/importHelper.py" />
-        <option value="$PROJECT_DIR$/fbugz/embaddedFogBugz.py" />
-        <option value="$PROJECT_DIR$/youtrack2youtrack.py" />
-        <option value="$PROJECT_DIR$/fbugz/fbSOAPClient.py" />
-        <option value="$PROJECT_DIR$/fb2youtrack.py" />
-        <option value="$PROJECT_DIR$/jira/mapping.py" />
-        <option value="$PROJECT_DIR$/test.py" />
-        <option value="$PROJECT_DIR$/youtrack/__init__.py" />
         <option value="$PROJECT_DIR$/jira/client.py" />
         <option value="$PROJECT_DIR$/csvClient/defaultTracMapping.py" />
         <option value="$PROJECT_DIR$/deleteAllUsers.py" />
-        <option value="$PROJECT_DIR$/jira/__init__.py" />
-        <option value="$PROJECT_DIR$/jira2youtrack.py" />
         <option value="$PROJECT_DIR$/youtrackRestSamples.py" />
-        <option value="$PROJECT_DIR$/youtrack/connection.py" />
         <option value="$PROJECT_DIR$/syncYtWithYt.py" />
+        <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/jira/__init__.py" />
+        <option value="$PROJECT_DIR$/googlecode2youtrack.py" />
+        <option value="$PROJECT_DIR$/jira2youtrack.py" />
+        <option value="$PROJECT_DIR$/googleCode/__init__.py" />
+        <option value="$PROJECT_DIR$/googleCode/youtrackAndroid.py" />
+        <option value="$PROJECT_DIR$/youtrack/connection.py" />
+        <option value="$PROJECT_DIR$/googleCode/chromium.py" />
+        <option value="$PROJECT_DIR$/googleCode/spock.py" />
+        <option value="$PROJECT_DIR$/bugzilla2youtrack.py" />
+        <option value="$PROJECT_DIR$/google2youtrack.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1176" />
+    <option name="y" value="24" />
+    <option name="width" value="1920" />
+    <option name="height" value="1152" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -188,6 +175,16 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -206,14 +203,32 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
           <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
+            <PATH_ELEMENT>
+              <option name="myItemId" value="python" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="python" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="googleCode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="python" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="python" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bugzilla" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -274,25 +289,7 @@
       <PyConsoleSettings />
     </option>
   </component>
-  <component name="RunManager" selected="Python.syncYtWithYt">
-    <configuration default="false" name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <module name="python" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="MULTIPROCESS" value="false" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.google2youtrack">
     <configuration default="false" name="deleteAllUsers" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -372,6 +369,26 @@
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
+    <configuration default="false" name="jira2youtrack" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <module name="python" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/jira2youtrack.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="MULTIPROCESS" value="false" />
+      <RunnerSettings RunnerId="PyDebugRunner" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PyDebugRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
     <configuration default="true" type="tests" factoryName="py.test">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -448,12 +465,33 @@
       <option name="USE_PATTERN" value="false" />
       <method />
     </configuration>
-    <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.test" />
-      <item index="1" class="java.lang.String" itemvalue="Python.deleteAllUsers" />
-      <item index="2" class="java.lang.String" itemvalue="Python.syncYtWithYt" />
-      <item index="3" class="java.lang.String" itemvalue="Python.youtrackRestSamples" />
-      <item index="4" class="java.lang.String" itemvalue="Python's test.Unittests in ConnectionTest.test_createIssue" />
+    <configuration default="false" name="google2youtrack" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <module name="python" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/googleCode2youtrack.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="MULTIPROCESS" value="false" />
+      <RunnerSettings RunnerId="PyDebugRunner" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PyDebugRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <list size="6">
+      <item index="0" class="java.lang.String" itemvalue="Python.deleteAllUsers" />
+      <item index="1" class="java.lang.String" itemvalue="Python.syncYtWithYt" />
+      <item index="2" class="java.lang.String" itemvalue="Python.youtrackRestSamples" />
+      <item index="3" class="java.lang.String" itemvalue="Python's test.Unittests in ConnectionTest.test_createIssue" />
+      <item index="4" class="java.lang.String" itemvalue="Python.jira2youtrack" />
+      <item index="5" class="java.lang.String" itemvalue="Python.google2youtrack" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -487,24 +525,25 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1176" extended-state="0" />
+    <frame x="0" y="24" width="1920" height="1152" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3297244" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297244" sideWeight="0.3253205" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.329" sideWeight="0.3253205" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15224358" sideWeight="0.67027557" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31003937" sideWeight="0.48504272" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16256684" sideWeight="0.671" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38709676" sideWeight="0.8326203" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31003937" sideWeight="0.51121795" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39665353" sideWeight="0.99873096" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.274" sideWeight="0.5090909" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.388" sideWeight="0.9037433" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286991" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="100" y="124" width="1720" height="952" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2746063" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.274" sideWeight="0.48716578" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3297244" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -544,10 +583,7 @@
     <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
     <option name="CREATE_PATCH_EXPAND_DETAILS_DEFAULT" value="true" />
-    <option name="SHOW_FILE_HISTORY_DETAILS" value="true" />
-    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
     <option name="LAST_COMMIT_MESSAGE" value="small bugs related to command apply in the synchronization script fixed" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
@@ -599,91 +635,90 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/csvClient/defaultTracMapping.py">
+    <entry file="file://$PROJECT_DIR$/gdata/projecthosting/client.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="49" selection-start="1538" selection-end="1538" vertical-scroll-proportion="0.0" />
+        <state line="41" column="22" selection-start="1287" selection-end="1287" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://C:/Python27/Lib/socket.py">
+    <entry file="file:///usr/lib/python2.6/socket.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="223" column="0" selection-start="7712" selection-end="7712" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/youtrackRestSamples.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="9" selection-start="789" selection-end="789" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/httplib2/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="847" column="0" selection-start="34173" selection-end="34173" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://C:/Python27/Lib/httplib.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="940" column="0" selection-start="33307" selection-end="33307" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.PyCharm20/system/python_stubs/-762174762/__builtin__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="994" column="8" selection-start="31789" selection-end="31789" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/youtrack/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="255" column="8" selection-start="8526" selection-end="8526" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/youtrack2youtrack.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="4" selection-start="4458" selection-end="4458" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1053" column="0" selection-start="44894" selection-end="44894" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Python27/Lib/urllib.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1257" column="0" selection-start="45330" selection-end="45330" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://C:/Python27/Lib/xml/dom/minidom.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1923" column="0" selection-start="65476" selection-end="65476" vertical-scroll-proportion="0.0" />
+        <state line="396" column="0" selection-start="14079" selection-end="14079" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/csv2youtrack.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="39" selection-start="3482" selection-end="3489" vertical-scroll-proportion="0.0" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fbugz/__init__.py">
+    <entry file="file://$PROJECT_DIR$/googleCode/youtrackAndroid.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="16" selection-start="2178" selection-end="2178" vertical-scroll-proportion="0.0" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fbugz/fbSOAPClient.py">
+    <entry file="file:///usr/lib/python2.6/urllib2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="182" column="37" selection-start="8879" selection-end="8879" vertical-scroll-proportion="0.0" />
+        <state line="517" column="0" selection-start="17093" selection-end="17093" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file:///usr/lib/python2.6/ssl.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="292" column="0" selection-start="9840" selection-end="9840" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gdata/client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="325" column="44" selection-start="12257" selection-end="12257" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bugzilla/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bugzilla/bzClient.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bugzilla/defaultBzMapping.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bugzilla2youtrack.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="39" selection-start="668" selection-end="668" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/googleCode/spock.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="51" selection-start="441" selection-end="441" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/googleCode/chromium.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="4" selection-start="875" selection-end="1770" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/youtrack/connection.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="652" column="58" selection-start="29699" selection-end="29699" vertical-scroll-proportion="0.0">
+        <state line="278" column="88" selection-start="12509" selection-end="12509" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/googleCode2youtrack.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="45" column="63" selection-start="1861" selection-end="1861" vertical-scroll-proportion="0.39534885">
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/syncYtWithYt.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="81" selection-start="976" selection-end="976" vertical-scroll-proportion="0.33231708">
-          <folding />
         </state>
       </provider>
     </entry>

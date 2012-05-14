@@ -105,7 +105,8 @@ def to_yt_issue(bz_issue) :
     if bz_issue.status in bugzilla.STATUS:
         issue.state = bugzilla.STATUS[bz_issue.status]
     elif bz_issue.resolution in bugzilla.RESOLUTION:
-        issue.state = bugzilla.RESOLUTION[bz_issue.resolution]
+        issue['Resolution'] = bugzilla.RESOLUTION[bz_issue.resolution]
+        issue.state = "Fixed"
     # comments
     issue.comments = []
     first = True

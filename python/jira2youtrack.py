@@ -19,7 +19,7 @@ def main():
     target_url = "http://localhost:8081"
     target_login = "root"
     target_password = "root"
-    project_id = "JRUBY"
+    project_id = "GROOVY"
     jira2youtrack(source_url, source_login, source_password, target_url, target_login, target_password, project_id)
 
 #    print("Usage: jira2youtrack.py source_url source_login source_password "
@@ -38,8 +38,12 @@ def create_yt_issue_from_jira_issue(target, issue, project_id):
             for comment in field['value']:
                 yt_comment = Comment()
                 yt_comment.text = comment['body']
-                create_user(target, comment['author'])
-                yt_comment.author = comment['author']['name'].replace(' ', '_')
+                comment_author_name = "guest"
+                if 'author' in comment:
+                    comment_author = comment['author']
+                    create_user(target, comment_author)
+                    comment_author_name = comment_author['name']
+                yt_comment.author = comment_author_name.replace(' ', '_')
                 yt_comment.created = to_unix_date(comment['created'])
                 yt_comment.updated = to_unix_date(comment['updated'])
                 yt_issue['comments'].append(yt_comment)
@@ -92,7 +96,10 @@ def process_links(target, issue, yt_links):
         target_issue = issue['key']
         source_issue = link['issueKey']
 
-        if int(target_issue[6:]) > int(source_issue[6:]):
+        try:
+            if int(target_issue[6:]) > int(source_issue[6:]):
+                continue
+        except:
             continue
 
         try:
@@ -197,22 +204,22 @@ def jira2youtrack(source_url, source_login, source_password, target_url, target_
 
     source = JiraClient(source_url, source_login, source_password)
     target = Connection(target_url, target_login, target_password)
+#
+#    target.createProjectDetailed(project_id, project_id, "", target_login)
+#
+#    for i in range(0, 5500):
+#        try:
+#            jira_issues = source.get_issues(project_id, i * 10, (i + 1) * 10)
+#            target.importIssues(project_id, project_id + " assignees",
+#                [create_yt_issue_from_jira_issue(target, issue, project_id) for issue in
+#                 jira_issues])
+#            for issue in jira_issues:
+#                process_labels(target, issue)
+#                process_attachments(source, target, issue)
+#        except BaseException, e:
+#            print(str(e))
 
-    target.createProjectDetailed(project_id, project_id, "", target_login)
-
-    for i in range(0, 650):
-        try:
-            jira_issues = source.get_issues(project_id, i * 10, (i + 1) * 10)
-            target.importIssues(project_id, project_id + " assignees",
-                [create_yt_issue_from_jira_issue(target, issue, project_id) for issue in
-                 jira_issues])
-            for issue in jira_issues:
-                process_labels(target, issue)
-                process_attachments(source, target, issue)
-        except BaseException, e:
-            print(str(e))
-
-    for i in range(4, 350):
+    for i in range(0, 5500):
         jira_issues = source.get_issues(project_id, i * 50, (i + 1) * 50)
         links = []
         for issue in jira_issues:

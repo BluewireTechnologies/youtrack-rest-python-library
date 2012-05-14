@@ -137,9 +137,10 @@ class Connection(object):
         #headers['Content-Type'] = contentType
         # name without extension to workaround: http://youtrack.jetbrains.net/issue/JT-6110
         params = {#'name': os.path.splitext(name)[0],
-                  'group': group,
                   'authorLogin': authorLogin,
                   }
+        if group is not None:
+            params["group"] = group
         if created is not None:
             params['created'] = created
         else:
