@@ -12,14 +12,7 @@ from youtrack.importHelper import create_bundle_safe
 jt_fields = []
 
 def main():
-    #source_url, source_login, source_password, target_url, target_login, target_password, project_id = sys.argv[1:8]
-    source_url = "http://jira.codehaus.org"
-    source_login = "anna.zhdan"
-    source_password = "94829482"
-    target_url = "http://localhost:8081"
-    target_login = "root"
-    target_password = "root"
-    project_id = "GROOVY"
+    source_url, source_login, source_password, target_url, target_login, target_password, project_id = sys.argv[1:]
     jira2youtrack(source_url, source_login, source_password, target_url, target_login, target_password, project_id)
 
 #    print("Usage: jira2youtrack.py source_url source_login source_password "
