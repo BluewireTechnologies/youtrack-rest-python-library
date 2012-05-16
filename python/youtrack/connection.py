@@ -208,8 +208,7 @@ class Connection(object):
             Example: importUsers([{'login':'vadim', 'fullName':'vadim', 'email':'eee@ss.com', 'jabber':'fff@fff.com'},
                                   {'login':'maxim', 'fullName':'maxim', 'email':'aaa@ss.com', 'jabber':'www@fff.com'}])
         """
-        if len(users) <= 0:
-            return
+        if len(users) <= 0: return
 
         xml = '<list>\n'
         for u in users:
@@ -327,6 +326,11 @@ class Connection(object):
         """
         return youtrack.Project(self._get("/admin/project/" + urllib.quote(projectId)), self)
 
+    def getProjectIds(self):
+        response, content = self._req('GET', '/admin/project/')
+        xml = minidom.parseString(content)
+        return [e.getAttribute('id') for e in xml.documentElement.childNodes if e.nodeType == Node.ELEMENT_NODE]
+
     def getProjectAssigneeGroups(self, projectId):
         response, content = self._req('GET', '/admin/project/' + urllib.quote(projectId) + '/assignee/group')
         xml = minidom.parseString(content)
@@ -340,13 +344,18 @@ class Connection(object):
         xml = minidom.parseString(content)
         return [youtrack.Group(e, self) for e in xml.documentElement.childNodes if e.nodeType == Node.ELEMENT_NODE]
 
+    def deleteGroup(self, name):
+        return self._req('DELETE', "/admin/group/" + urllib.quote(name.encode('utf-8')))
+
     def getUserGroups(self, userName):
-        response, content = self._req('GET', '/admin/user/%s/group' % userName)
+        response, content = self._req('GET', '/admin/user/%s/group' % urllib.quote(userName.encode('utf-8')))
         xml = minidom.parseString(content)
         return [youtrack.Group(e, self) for e in xml.documentElement.childNodes if e.nodeType == Node.ELEMENT_NODE]
 
     def setUserGroup(self, user_name, group_name):
-        response, content = self._req('POST', '/admin/user/%s/group/%s' % (user_name, group_name), body='')
+        encoded_user_name = urllib.quote(user_name.encode('utf-8'))
+        encoded_group_name = urllib.quote(group_name.encode('utf-8'))
+        response, content = self._req('POST', '/admin/user/%s/group/%s' % (encoded_user_name, encoded_group_name), body='')
         return response
 
     def createGroup(self, group):
@@ -439,9 +448,19 @@ class Connection(object):
             xml = minidom.parseString(content)
             newUsers = [youtrack.User(e, self) for e in xml.documentElement.childNodes if
                         e.nodeType == Node.ELEMENT_NODE]
-            if len(newUsers) == 0:
-                return users
+            if not len(newUsers): return users
             users += newUsers
+
+
+    def getUsersTen(self, start):
+        response, content = self._req('GET', "/admin/user/?start=%s" % str(start))
+        xml = minidom.parseString(content)
+        users = [youtrack.User(e, self) for e in xml.documentElement.childNodes if
+                    e.nodeType == Node.ELEMENT_NODE]
+        return users
+
+    def deleteUser(self, login):
+        return self._req('DELETE', "/admin/user/" + urllib.quote(login.encode('utf-8')))
 
     # TODO this function is deprecated
     def createBuild(self):

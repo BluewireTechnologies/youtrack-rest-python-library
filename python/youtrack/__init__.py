@@ -261,6 +261,7 @@ class Role(YouTrackObject):
 
 class UserRole(YouTrackObject):
     def __init__(self, xml=None, youtrack=None):
+        self.name = ''
         self.projects = []
         YouTrackObject.__init__(self, xml, youtrack)
 
@@ -383,8 +384,12 @@ class UserBundle(YouTrackObject):
             group_users = self.youtrack.getUsers({'group': group.name.encode('utf-8')})
             for user in group_users:
                 # re-request credentials separately for each user to get more details
-                refined_user = self.youtrack.getUser(user.login)
-                all_users.append(refined_user)
+                try:
+                    refined_user = self.youtrack.getUser(user.login)
+                    all_users.append(refined_user)
+                except YouTrackException, e:
+                    print "Error on extracting user info for [" + str(user.login) + "] user won't be imported"
+                    print e
         return list(set(all_users))
 
 

@@ -9,7 +9,7 @@ from sync.links import LinkImporter
 def main():
     try:
     #        source_url, source_login, source_password, target_url, target_login, target_password = sys.argv[1:7]
-        source_url = "http://teamsys.labs.intellij.net"
+        source_url = "http://localhost:8080"
         source_login = "root"
         source_password = "root"
         target_url = "http://localhost:8081"
@@ -35,7 +35,7 @@ def create_bundle_from_bundle(source, target, bundle_name, bundle_type, user_imp
         target_bundle = target.getBundle(bundle_type, bundle_name)
         if isinstance(source_bundle, youtrack.UserBundle):
             # get users and try to import them
-            user_importer.importUsers(set(source_bundle.get_all_users()))
+            user_importer.importUsersRecursively(set(source_bundle.get_all_users()))
             # get field and calculate not existing groups
             target_bundle_group_names = [elem.name.capitalize() for elem in target_bundle.groups]
             groups_to_add = [group for group in target_bundle.groups if
@@ -55,11 +55,14 @@ def create_bundle_from_bundle(source, target, bundle_name, bundle_type, user_imp
             target.addValueToBundle(target_bundle, value)
     else:
         users = set([])
+        groups = []
         if isinstance(source_bundle, youtrack.UserBundle):
+            groups = source_bundle.groups
             users = set(source_bundle.get_all_users())
         elif isinstance(source_bundle, youtrack.OwnedFieldBundle):
             users = set([source.getUser(elem.owner) for elem in source_bundle.values if elem.owner is not None])
-        user_importer.importUsers(users)
+        user_importer.importUsersRecursively(users)
+        user_importer.importGroupsWithoutUsers(groups)
         print target.createBundle(source_bundle)
 
 def create_project_custom_field(target, field, project_id):
@@ -70,6 +73,24 @@ def create_project_custom_field(target, field, project_id):
     if hasattr(field, "emptyFieldText"):
         emptyFieldText = field.emtyFieldText
     target.createProjectCustomFieldDetailed(project_id, field.name, emptyFieldText, params)
+
+def create_project_stub(source, target, projectId, user_importer):
+    project = source.getProject(projectId)
+
+    print "Create project stub [" + project.name + "]"
+    lead = source.getUser(project.lead)
+
+    print "Create project lead [" + lead.login + "]"
+    user_importer.importUser(lead)
+
+    try:
+        target.getProject(projectId)
+    except youtrack.YouTrackException:
+        target.createProject(project)
+
+    return target.getProject(projectId)
+
+
 
 def youtrack2youtrack(source_url, source_login, source_password, target_url, target_login, target_password,
                       project_ids, query = ''):
@@ -88,9 +109,20 @@ def youtrack2youtrack(source_url, source_login, source_password, target_url, tar
         except youtrack.YouTrackException, e:
             print e.message
 
-    #links = []
-    user_importer = UserImporter(source, target)
+    user_importer = UserImporter(source, target, caching_users=True)
     link_importer = LinkImporter(target)
+
+    #create all projects with minimum info and project lead set
+    created_projects = []
+    for project_id in project_ids:
+        created = create_project_stub(source, target, project_id, user_importer)
+        created_projects.append(created)
+
+    #save created project ids to create correct group roles afterwards
+    user_importer.addCreatedProjects([project.id for project in created_projects])
+    #import project leads with group they are included and roles assigned to these groups
+    user_importer.importUsersRecursively([target.getUser(project.lead) for project in created_projects])
+    #afterwards in a script any user import imply recursive import
 
     cf_names_to_import = set([]) # names of cf prototypes that should be imported
     for project_id in project_ids:
@@ -111,7 +143,6 @@ def youtrack2youtrack(source_url, source_login, source_password, target_url, tar
         else:
             if hasattr(source_cf, "defaultBundle"):
                 create_bundle_from_bundle(source, target, source_cf.defaultBundle, source_cf.type, user_importer)
-
             target.createCustomField(source_cf)
 
     for projectId in project_ids:
@@ -124,18 +155,6 @@ def youtrack2youtrack(source_url, source_login, source_password, target_url, tar
 
         # copy project, subsystems, versions
         project = source.getProject(projectId)
-
-        print "Import project [" + project.name + "]"
-        lead = source.getUser(project.lead)
-
-        print "Create project lead [" + lead.login + "]"
-#        print target.createUser(lead)
-        user_importer.importUsers([lead])
-
-        try:
-            target.getProject(projectId)
-        except youtrack.YouTrackException:
-            target.createProject(project)
 
         link_importer.addAvailableIssuesFrom(projectId)
         project_custom_fields = source.getProjectCustomFields(projectId)
@@ -192,7 +211,7 @@ def youtrack2youtrack(source_url, source_login, source_password, target_url, tar
                         if not hasattr(comment, "text") or (len(comment.text) == 0):
                             setattr(comment, 'text', 'no text')
 
-                user_importer.importUsers(users)
+                user_importer.importUsersRecursively(users)
 
                 print "Create issues [" + str(len(issues)) + "]"
                 print target.importIssues(projectId, project.name + ' Assignees', issues)
@@ -207,7 +226,7 @@ def youtrack2youtrack(source_url, source_login, source_password, target_url, tar
                         author = a.getAuthor()
                         if author is not None:
                             users.add(author)
-                    user_importer.importUsers(users)
+                    user_importer.importUsersRecursively(users)
 
                     for a in attachments:
                         print "Transfer attachment of " + issue.id + ": " + a.name
