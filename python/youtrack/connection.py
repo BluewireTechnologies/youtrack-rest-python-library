@@ -351,7 +351,7 @@ class Connection(object):
 
     def createGroup(self, group):
         content = self._put(
-            '/admin/group/%s?description=noDescription&autoJoin=false' % group.name.replace(' ', '%20'))
+            '/admin/group/%s?autoJoin=false' % group.name.replace(' ', '%20'))
         return content
 
     def addUserRoleToGroup(self, group, userRole):
