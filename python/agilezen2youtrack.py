@@ -11,7 +11,8 @@ def main():
     target_url = "http://localhost:8081"
     target_login = "root"
     target_password = "root"
-    agilezen2youtrack(source_url, source_token, target_url, target_login, target_password)
+    project_names_to_import = [u'dotAny']
+    agilezen2youtrack(source_url, source_token, target_url, target_login, target_password, project_names_to_import)
 
 
 def to_yt_user(user):
@@ -67,32 +68,39 @@ def add_value_to_custom_field(target, project_id, field_name, field_value):
     except YouTrackException:
         pass
 
+
 def get_created_date_for_story(story):
     return str(to_unix_date(story[u'metrics'][u'createTime']))
+
 
 def to_yt_issue(target, project_id, story):
     parent = Issue()
     parent.numberInProject = str(story[u'id'])
     parent.summary = story[u'text']
     parent['Size'] = story[u'size']
+    parent['Type'] = 'Feature'
     parent.created = get_created_date_for_story(story)
     color = story[u'color']
     add_value_to_custom_field(target, project_id, 'Color', color)
     parent['Color'] = color
     priority = story[u'priority']
-    add_value_to_custom_field(target, project_id, 'Priority', priority)
-    parent['Priority'] = priority
-    parent['Deadline'] = str(to_unix_date(story[u'deadline']))
+    if len(priority):
+        add_value_to_custom_field(target, project_id, 'Priority', priority)
+        parent['Priority'] = priority
+    if u'deadline' in story:
+        parent['Deadline'] = str(to_unix_date(story[u'deadline']))
     status = story[u'status']
     add_value_to_custom_field(target, project_id, 'Status', status)
     parent['Status'] = status
     parent['Phase'] = story[u'phase'][u'name']
     creator = story[u'creator']
     import_user(target, creator)
-    owner = story[u'owner']
-    import_user(target, owner)
+    if u'owner' in story:
+        owner = story[u'owner']
+        import_user(target, owner)
+        parent['Assignee'] = owner[u'userName']
+
     parent.reporterName = creator[u'userName']
-    parent['Assignee'] = owner[u'userName']
     parent.comments = []
     if u'comments' in story:
         for comment in story[u'comments']:
@@ -108,10 +116,11 @@ def to_yt_sub_task(target, project_id, story, task):
     issue.reporterName = story[u'creator'][u'userName']
     issue.created = str(to_unix_date(task[u'createTime']))
     if u'finishTime' in task:
-        issue.resolved = task[u'finishTime']
+        issue.resolved = str(to_unix_date(task[u'finishTime']))
     status = task[u'status']
     add_value_to_custom_field(target, project_id, "Status", status)
     issue['Status'] = status
+    issue['Type'] = 'Task'
     if u'finishedBy' in task:
         finished_by = task[u'finishedBy']
         import_user(target, finished_by)
@@ -127,6 +136,8 @@ def to_yt_comment(target, comment):
     author = comment[u'author']
     import_user(target, author)
     c.text = comment[u'text']
+    if not len(c.text):
+        c.text = "Text is missing"
     c.author = author[u'userName']
     c.created = str(to_unix_date(comment[u'createTime']))
     return c
@@ -135,6 +146,35 @@ def to_yt_comment(target, comment):
 def to_unix_date(time):
     dt = datetime.datetime.strptime(time, "%Y-%m-%dT%H:%M:%S")
     return calendar.timegm(dt.timetuple()) * 1000
+
+
+def is_prefix_of_any_other_tag(tag, other_tags):
+    for t in other_tags:
+        if t.startswith(tag) and (t != tag):
+            return True
+    return False
+
+def import_tags(source, target, project_id, collected_tags):
+    tags_to_import_now = set([])
+    tags_to_import_then = set([])
+    for tag in collected_tags:
+        if is_prefix_of_any_other_tag(tag, collected_tags):
+            tags_to_import_then.add(tag)
+        else:
+            tags_to_import_now.add(tag)
+    last_page = False
+    current_page = 1
+    while not last_page:
+        stories = source.get_stories_for_project(project_id, current_page)
+        for story in stories[u'items']:
+            if u'tags' in story:
+                for tag in [t[u'name'] for t in story[u'tags'] if t[u'name'] in tags_to_import_now]:
+                    target.executeCommand("%s-%s" % (project_id, story[u'id']), "tag " + tag)
+        current_page += 1
+        if current_page == stories[u'totalPages']:
+            last_page = True
+    if len(tags_to_import_then):
+        import_tags(source, target, project_id, tags_to_import_then)
 
 
 def import_project(source, target, project):
@@ -167,6 +207,7 @@ def import_project(source, target, project):
     last_page = False
     current_page = 1
     max_story_id = 0
+    existing_tags = set()
     while not last_page:
         stories = source.get_stories_for_project(project_id, current_page)
         if current_page == stories[u'totalPages']:
@@ -174,18 +215,20 @@ def import_project(source, target, project):
         stories_to_import = []
         items = stories[u'items']
         for story in items:
-            story_id_ = story[u'id']
-            story = to_yt_issue(target, project_id, story)
-            if story_id_ > max_story_id:
-                max_story_id = story_id_
-            stories_to_import.append(story)
-        target.importIssues(project_id, project_id + " assignees", stories_to_import)
-        for story in items:
+            story_id = story[u'id']
+            yt_issue = to_yt_issue(target, project_id, story)
+            if story_id > max_story_id:
+                max_story_id = story_id
+            stories_to_import.append(yt_issue)
+            if len(source.get_attachments(project_id, str(story_id))[u'items']):
+                print 'Attachments found!'
+            # here we just collect tags, not actually import them to find tags that are prefixes of other tags
             if u'tags' in story:
-                for tag in [t[u'name'] for t in story[u'tags']]:
-                    target.executeCommand("%s-%s" % (project_id, story[u'id']), "tag " + tag)
+                existing_tags |= set([t[u'name'] for t in story[u'tags']])
+        target.importIssues(project_id, project_id + " assignees", stories_to_import)
         current_page += 1
 
+    import_tags(source, target, project_id, existing_tags)
     #now iterate again through stories to import tasks
     last_page = False
     current_page = 1
@@ -218,7 +261,7 @@ def import_project(source, target, project):
 #
 
 
-def agilezen2youtrack(source_url, source_token, target_url, target_login, target_password):
+def agilezen2youtrack(source_url, source_token, target_url, target_login, target_password, project_names_to_import):
     source = Client(source_url, source_token)
     target = Connection(target_url, target_login, target_password)
     last_page = False
@@ -259,7 +302,8 @@ def agilezen2youtrack(source_url, source_token, target_url, target_login, target
         if current_page == projects[u'totalPages']:
             last_page = True
         for project in projects[u'items']:
-            import_project(source, target, project)
+            if project[u'name'] in project_names_to_import:
+                import_project(source, target, project)
         current_page += 1
 
 

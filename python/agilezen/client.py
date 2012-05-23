@@ -22,6 +22,9 @@ class Client:
         return self._get_content("/projects/%s/stories?with=comments,details,tags,tasks,metrics&%s" %
                                  (project_id, self._get_page_query_params(page, page_size)))
 
+    def get_attachments(self, project_id, story_id, page=1, page_size=100):
+        return self._get_content("/projects/%s/stories/%s/attachments?%s" % (project_id, story_id, self._get_page_query_params(page, page_size)))
+
     def _get_page_query_params(self, page, page_size):
         return "page=%d&page_size=%d" % (page, page_size)
 
