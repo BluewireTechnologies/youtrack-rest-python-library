@@ -1,20 +1,40 @@
 import bugzilla
 
-bugzilla.STATUS = {
-    "UNCONFIRMED"   :   "Open",
-    "NEW"           :   "Submitted",
-    "ASSIGNED"      :   "Submitted",
-    "REOPENED"      :   "reopened"
+bugzilla.FIELD_TYPES = {
+    "created"           :   "date",
+    "updated"           :   "date",
+    "reporterName"      :   "reporter",
+    "Assignee"          :   "user[1]",
+    "Component"         :   "ownedField[1]",
+    "Affected versions" :   "version[*]",
+    "Severity"          :   "enum[1]",
+    "Status"            :   "state[1]",
+    "Resolution"        :   "state[1]",
+    "OS"                :   "enum[1]",
+    "Platform"          :   "enum[1]",
+    "watcherName"       :   "user[1]",
+    "Deadline"          :   "date",
+    "estimated_time"    :   "integer",
+    "QA contact"        :   "user[1]",
+    "Milestone"         :   "version[*]"
 }
 
-bugzilla.RESOLUTION = {
-    "FIXED"         :   "Fixed",
-    "INVALID"       :   "Can't Reproduce",
-    "WONTFIX"       :   "Won't fix",
-    "DUPLICATE"     :   "Duplicate",
-    "WORKSFORME"    :   "Can't Reproduce",
-    "MOVED"         :   "Won't fix",
-    "LATER"         :   "Won't fix",
+bugzilla.FIELD_NAMES = {
+    "bug_id"            :   "numberInProject",
+    "reporter"          :   "reporterName",
+    "version"           :   "Affected versions",
+    "voters"            :   "voterName",
+    "assigned_to"       :   "Assignee",
+    "bug_severity"      :   "Severity",
+    "bug_status"        :   "Status",
+    "creation_ts"       :   "created",
+    "rep_platform"      :   "Platform",
+    "short_desc"        :   "summary",
+    "cc"                :   "watcherName",
+    "delta_ts"          :   "updated",
+    "qa_contact"        :   "QA contact",
+    "estimated_time"    :   "Estimate",
+    "target_milestone"  :   "Milestone"
 }
 
 # mapping between cf types in bz and youtrack
@@ -27,16 +47,6 @@ bugzilla.CF_TYPES = {
     "7"             :   "string"    #FIELD_TYPE_BUG_URLS
 }
 
-
-bugzilla.PRIORITY = {
-    #bz priority         yt priority
-    "Lowest"        :   "4",        #Minor
-    "Low"           :   "3",        #Normal
-    "Normal"        :   "2",        #Major
-    "High"          :   "1",        #Critical
-    "Highest"       :   "0",        #Show-stopper
-    "---"           :   "3"         #Normal
-}
 
 # if we need to import empty comments
 bugzilla.ACCEPT_EMPTY_COMMENTS = False

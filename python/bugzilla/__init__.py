@@ -1,6 +1,11 @@
 from time import time
 
-DEFAULT_EMAIL = "anna.zhdan@gmail.com"
+FIELD_TYPES = dict()
+FIELD_NAMES = dict()
+#FIELD_VALUES = dict([])
+
+
+DEFAULT_EMAIL = "example@example.com"
 STATUS = dict([])
 RESOLUTION = dict([])
 PRIORITY = dict([])

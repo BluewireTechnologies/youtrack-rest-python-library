@@ -10,11 +10,14 @@
       <w>customfield</w>
       <w>customfieldtypes</w>
       <w>datetime</w>
+      <w>dependson</w>
       <w>doroshko</w>
+      <w>fielddefs</w>
       <w>func</w>
       <w>googlecode</w>
       <w>hhmm</w>
       <w>importid</w>
+      <w>initialowner</w>
       <w>iter</w>
       <w>jira</w>
       <w>jruby</w>
@@ -33,6 +36,7 @@
       <w>stoper</w>
       <w>strptime</w>
       <w>subsys</w>
+      <w>thedata</w>
       <w>thetext</w>
       <w>timedelta</w>
       <w>timegm</w>

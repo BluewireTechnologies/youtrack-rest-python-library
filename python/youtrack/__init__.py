@@ -6,6 +6,9 @@ from xml.dom import Node
 from xml.dom.minidom import Document
 from xml.dom import minidom
 
+EXISTING_FIELDS = ['numberInProject', 'projectShortName', 'summary', 'description', 'created',
+                   'updated', 'updaterName', 'resolved', 'reporterName']
+
 class YouTrackException(Exception):
     def __init__(self, url, response, content):
         self.response = response
