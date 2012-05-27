@@ -5,15 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bfb67218-c868-4b90-b6ff-44352675a3b4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/user.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/user.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bugzilla/__init__.py" afterPath="$PROJECT_DIR$/bugzilla/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bugzilla/bzClient.py" afterPath="$PROJECT_DIR$/bugzilla/bzClient.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bugzilla/defaultBzMapping.py" afterPath="$PROJECT_DIR$/bugzilla/defaultBzMapping.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bugzilla2youtrack.py" afterPath="$PROJECT_DIR$/bugzilla2youtrack.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/youtrack/__init__.py" afterPath="$PROJECT_DIR$/youtrack/__init__.py" />
     </list>
     <list id="d3847385-ad1a-4777-aa3d-907095886442" name="settings" comment="settings" />
     <ignored path="python.iws" />
@@ -36,10 +29,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="bugzilla2youtrack.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="bugzilla2youtrack.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bugzilla2youtrack.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="277" column="0" selection-start="10293" selection-end="10293" vertical-scroll-proportion="0.27038628">
+            <state line="278" column="0" selection-start="10330" selection-end="10330" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -85,10 +78,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="connection.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="connection.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/youtrack/connection.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="35" selection-start="353" selection-end="353" vertical-scroll-proportion="0.0">
+            <state line="40" column="119" selection-start="1499" selection-end="1499" vertical-scroll-proportion="0.51186943">
               <folding />
             </state>
           </provider>
@@ -578,7 +571,11 @@
       <created>1337755860529</created>
       <updated>1337755860529</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="fix bz import">
+      <created>1337882433611</created>
+      <updated>1337882433611</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -644,7 +641,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="some fixes for agilezen" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bz import" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -680,6 +677,7 @@
     <MESSAGE value="implement import from jira" />
     <MESSAGE value="small bugs related to command apply in the synchronization script fixed" />
     <MESSAGE value="some fixes for agilezen" />
+    <MESSAGE value="fix bz import" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -782,13 +780,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/youtrack/connection.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="35" selection-start="353" selection-end="353" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bugzilla/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="26" column="14" selection-start="542" selection-end="542" vertical-scroll-proportion="0.0">
@@ -807,10 +798,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bugzilla2youtrack.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="277" column="0" selection-start="10293" selection-end="10293" vertical-scroll-proportion="0.27038628">
+        <state line="278" column="0" selection-start="10330" selection-end="10330" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/youtrack/connection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="119" selection-start="1499" selection-end="1499" vertical-scroll-proportion="0.51186943">
+          <folding />
         </state>
       </provider>
     </entry>
