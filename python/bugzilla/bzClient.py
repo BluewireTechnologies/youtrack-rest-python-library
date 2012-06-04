@@ -115,6 +115,7 @@ class Client(object):
     def get_issues(self, product_id, from_id, to_id):
         component_row = "component_id"
         user_rows = ["assigned_to", "qa_contact", "reporter"]
+
         cursor = self.sql_cnx.cursor()
         cursor.execute('SELECT * FROM bugs WHERE (product_id = %s) AND '
                        '(bug_id >= %d) AND (bug_id < %d)' % (product_id, from_id, to_id))
@@ -124,19 +125,28 @@ class Client(object):
                 row["component"] = self._get_component_by_id(row[component_row])
             for user_row in user_rows:
                 if user_row in row:
-                    row[user_row] = self.get_user_by_id(row[user_row])
+                    user_row_value = row[user_row]
+                    if user_row_value is not None:
+                        row[user_row] = self.get_user_by_id(user_row_value)
             id = row["bug_id"]
             row["flags"] = self.get_flags_by_id(id)
             row["voters"] = self.get_voters_by_id(id)
-            row |= self.get_cf_values_by_id(id)
+            row.update(self.get_cf_values_by_id(id))
             row["comments"] = self.get_comments_by_id(id)
             row["attachments"] = self.get_attachments_by_id(id)
             row["cc"] = self._get_cc_by_id(id)
+            row["estimated_time"] = int(row["estimated_time"])
+            row["keywords"] = set([kw.strip() for kw in row["keywords"].split(",") if len(kw.strip())])
+            for key in row.keys():
+                if row[key] == "---":
+                    row[key] = None
             result.append(row)
         return result
 
     def get_issues_count(self, project_id):
-        return int(self.sql_cnx.cursor().exexute("SELECT COUNT (bug_id) FROM bugs WHERE product_id = %s" % project_id))
+        cursor = self.sql_cnx.cursor()
+        cursor.execute("SELECT COUNT(*) FROM bugs WHERE product_id = %s" % project_id)
+        return int(cursor.fetchone()["COUNT(*)"])
 
     def _get_cc_by_id(self, id):
         cc_cursor = self.sql_cnx.cursor()
@@ -179,9 +189,16 @@ class Client(object):
     def get_user_by_id(self, id):
         cursor = self.sql_cnx.cursor()
         login_name = 'login_name'
-        request = "SELECT %s FROM profiles WHERE userid = %s" % (login_name, id)
+        real_name = "realname"
+        user_id = "userid"
+        request = "SELECT %s, %s, %s FROM profiles WHERE userid = %s" %  (login_name, real_name, user_id, id)
         cursor.execute(request)
-        return cursor.fetchone()[login_name]
+        result = cursor.fetchone()
+        user = BzUser(result[user_id])
+        user.login = result[login_name]
+        user.email = result[login_name]
+        user.full_name = result[real_name]
+        return user
 
     def get_cf_values_by_id(self, bug_id):
         existing_custom_fields = self.get_custom_fields()
@@ -189,7 +206,7 @@ class Client(object):
         single_fields = list([])
         multiple_fields = list([])
         for cf in existing_custom_fields:
-            if cf.type == 3 :
+            if cf.type == '3' :
                 multiple_fields.append(cf.name)
             else:
                 single_fields.append(cf.name)
@@ -199,21 +216,22 @@ class Client(object):
         if len(single_fields):
             request = "SELECT "
             for elem in single_fields:
-                request = request + elem + ", "
+                request = request + "cf_" + elem + ", "
             request = request[:-2]
             request += " FROM bugs WHERE bug_id = %s" % (str(bug_id))
             sing_cursor.execute(request)
             for row in sing_cursor:
                 for elem in single_fields:
-                    if row[elem] != "---":
-                        result[elem[3:]] = list([row[elem]])
+                    elem_row = "cf_" + elem
+                    if (row[elem_row] != "---") and (row[elem_row] is not None):
+                        result[elem] = row[elem_row]
         for cf in multiple_fields:
             mult_cursor = self.sql_cnx.cursor()
-            mult_cursor.execute("SELECT value FROM bug_" + cf + " WHERE bug_id = %s", (str(bug_id)))
-            result[cf[3:]] = list([])
+            mult_cursor.execute("SELECT value FROM bug_cf_" + cf + " WHERE bug_id = %s", (str(bug_id)))
+            result[cf] = list([])
             for row in mult_cursor:
                 if row['value'] != '---':
-                    result[cf[3:]].append(row['value'])
+                    result[cf].append(row['value'])
         return result
 
     def get_comments_by_id(self, bug_id):
@@ -246,8 +264,11 @@ class Client(object):
             data_row = 'thedata'
             file_request = "SELECT %s FROM attach_data WHERE id = %s" % (data_row, str(row[id_row]))
             file_cursor.execute(file_request)
+            attach_row = file_cursor.fetchone()
+            if attach_row is None:
+                continue
             attach = BzAttachment(row[filename_row])
-            attach.content = file_cursor.fetchone()[data_row]
+            attach.content = attach_row[data_row]
             attach.reporter = self.get_user_by_id(row[submitter_row])
             attach.created = time.mktime(row[created_row].timetuple()) + 1e-6 * row[created_row].microsecond
             result.append(attach)
@@ -268,13 +289,13 @@ class Client(object):
         return result
 
     def get_voters_by_id(self, bug_id):
-        result = set([])
+        result = list([])
         cursor = self.sql_cnx.cursor()
         who_row = 'who'
-        request = "SELECT %s FROM votes WHERE bug_id = %s" % (who_row, str(bug_id))
+        request = "SELECT %s FROM votes WHERE bug_id=%s" % (who_row, str(bug_id))
         cursor.execute(request)
         for row in cursor:
-            result.add(self.get_user_by_id(row[who_row]))
+            result.append(self.get_user_by_id(row[who_row]))
         return result
 
     def _get_product_id_by_bug_id(self, bug_id):
@@ -288,7 +309,7 @@ class Client(object):
         cursor = self.sql_cnx.cursor()
         id_row = "id"
         name_row = "name"
-        request = "SELECT %s FROM products WHERE name = %s" % (id_row, name_row)
+        request = "SELECT %s FROM products WHERE products.name='%s'" % (id_row, name)
         cursor.execute(request)
         result = cursor.fetchone()
         return result[id_row] if result is not None else None

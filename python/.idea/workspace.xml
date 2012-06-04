@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="bfb67218-c868-4b90-b6ff-44352675a3b4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bugzilla/bzClient.py" afterPath="$PROJECT_DIR$/bugzilla/bzClient.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bugzilla/defaultBzMapping.py" afterPath="$PROJECT_DIR$/bugzilla/defaultBzMapping.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bugzilla2youtrack.py" afterPath="$PROJECT_DIR$/bugzilla2youtrack.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/youtrack/__init__.py" afterPath="$PROJECT_DIR$/youtrack/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/youtrack/importHelper.py" afterPath="$PROJECT_DIR$/youtrack/importHelper.py" />
     </list>
     <list id="d3847385-ad1a-4777-aa3d-907095886442" name="settings" comment="settings" />
     <ignored path="python.iws" />
@@ -29,10 +33,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="bugzilla2youtrack.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="bugzilla2youtrack.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bugzilla2youtrack.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="278" column="0" selection-start="10330" selection-end="10330" vertical-scroll-proportion="0.0">
+            <state line="20" column="1" selection-start="522" selection-end="522" vertical-scroll-proportion="0.24408284">
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -43,28 +47,19 @@
       <file leaf-file-name="importHelper.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/youtrack/importHelper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="4" selection-start="939" selection-end="958" vertical-scroll-proportion="0.0">
+            <state line="79" column="4" selection-start="3331" selection-end="3331" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="agilezen2youtrack.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/agilezen2youtrack.py">
+      <file leaf-file-name="csv2youtrack.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/csv2youtrack.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="231" column="14" selection-start="8014" selection-end="8019" vertical-scroll-proportion="-8.96">
+            <state line="73" column="46" selection-start="2621" selection-end="2652" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="e#0#15#0" expanded="true" />
+                <element signature="e#0#35#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jira/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="0" selection-start="1080" selection-end="1247" vertical-scroll-proportion="0.0">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -72,16 +67,16 @@
       <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/youtrack/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="541" column="6" selection-start="18148" selection-end="18148" vertical-scroll-proportion="0.0">
+            <state line="9" column="98" selection-start="315" selection-end="315" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="connection.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="connection.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/youtrack/connection.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="119" selection-start="1499" selection-end="1499" vertical-scroll-proportion="0.51186943">
+            <state line="50" column="44" selection-start="1910" selection-end="1910" vertical-scroll-proportion="-13.04">
               <folding />
             </state>
           </provider>
@@ -90,7 +85,7 @@
       <file leaf-file-name="bzClient.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bugzilla/bzClient.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="140" column="19" selection-start="5654" selection-end="5654" vertical-scroll-proportion="6.04">
+            <state line="268" column="24" selection-start="10983" selection-end="10983" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -98,19 +93,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="defaultBzMapping.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bugzilla/defaultBzMapping.py">
+      <file leaf-file-name="saxutils.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file:///usr/lib/python2.6/xml/sax/saxutils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="0" selection-start="1744" selection-end="1744" vertical-scroll-proportion="0.0">
+            <state line="38" column="0" selection-start="1050" selection-end="1050" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bugzilla/__init__.py">
+      <file leaf-file-name="defaultBzMapping.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bugzilla/defaultBzMapping.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="14" selection-start="542" selection-end="542" vertical-scroll-proportion="0.0">
+            <state line="35" column="23" selection-start="1259" selection-end="1259" vertical-scroll-proportion="-21.0">
               <folding />
             </state>
           </provider>
@@ -129,7 +124,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/googlecode2youtrack.py" />
         <option value="$PROJECT_DIR$/googleCode/__init__.py" />
         <option value="$PROJECT_DIR$/googleCode/youtrackAndroid.py" />
         <option value="$PROJECT_DIR$/googleCode/chromium.py" />
@@ -141,6 +135,7 @@
         <option value="$PROJECT_DIR$/agilezen/client.py" />
         <option value="$PROJECT_DIR$/agilezen2youtrack.py" />
         <option value="$PROJECT_DIR$/bugzilla/__init__.py" />
+        <option value="$PROJECT_DIR$/youtrack/importHelper.py" />
         <option value="$PROJECT_DIR$/youtrack/__init__.py" />
         <option value="$PROJECT_DIR$/bugzilla/defaultBzMapping.py" />
         <option value="$PROJECT_DIR$/bugzilla/bzClient.py" />
@@ -280,16 +275,16 @@
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="157" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="123" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth3" value="51" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="221" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="219" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2" value="146" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="238" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="236" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder0" value="0" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder3" value="3" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="227" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="225" />
     <property name="recentsLimit" value="5" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth2" value="128" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
@@ -297,13 +292,13 @@
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth1" value="140" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth0" value="113" />
     <property name="last_opened_file_path" value="$USER_HOME$/Downloads/BeautifulSoup-3.2.0" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="244" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="1151" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="1153" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="242" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="242" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="1143" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="1145" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="240" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth4" value="1038" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth3" value="113" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="236" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="234" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
@@ -329,27 +324,7 @@
       <PyConsoleSettings />
     </option>
   </component>
-  <component name="RunManager" selected="Python.agilezen2youtrack">
-    <configuration default="false" name="syncYtWithYt" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <module name="python" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/syncYtWithYt.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="MULTIPROCESS" value="false" />
-      <RunnerSettings RunnerId="PyDebugRunner" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PyDebugRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.bugzilla2youtrack">
     <configuration default="false" name="youtrackRestSamples" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -428,6 +403,26 @@
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PyDebugRunner" />
       <ConfigurationWrapper RunnerId="PythonCover" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="bugzilla2youtrack" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <module name="python" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bugzilla2youtrack.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="MULTIPROCESS" value="false" />
+      <RunnerSettings RunnerId="PyDebugRunner" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PyDebugRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
@@ -528,12 +523,12 @@
       <method />
     </configuration>
     <list size="6">
-      <item index="0" class="java.lang.String" itemvalue="Python.syncYtWithYt" />
-      <item index="1" class="java.lang.String" itemvalue="Python.youtrackRestSamples" />
-      <item index="2" class="java.lang.String" itemvalue="Python's test.Unittests in ConnectionTest.test_createIssue" />
-      <item index="3" class="java.lang.String" itemvalue="Python.jira2youtrack" />
-      <item index="4" class="java.lang.String" itemvalue="Python.agilezen2youtrack" />
-      <item index="5" class="java.lang.String" itemvalue="Python.google2youtrack" />
+      <item index="0" class="java.lang.String" itemvalue="Python.youtrackRestSamples" />
+      <item index="1" class="java.lang.String" itemvalue="Python's test.Unittests in ConnectionTest.test_createIssue" />
+      <item index="2" class="java.lang.String" itemvalue="Python.jira2youtrack" />
+      <item index="3" class="java.lang.String" itemvalue="Python.agilezen2youtrack" />
+      <item index="4" class="java.lang.String" itemvalue="Python.google2youtrack" />
+      <item index="5" class="java.lang.String" itemvalue="Python.bugzilla2youtrack" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -575,8 +570,32 @@
       <created>1337882433611</created>
       <updated>1337882433611</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="fix bugzill import">
+      <created>1338126847709</created>
+      <updated>1338126847709</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
+  </component>
+  <component name="TodoView" selected-index="0">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="24" width="1920" height="1152" extended-state="0" />
@@ -585,15 +604,15 @@
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="100" y="124" width="1720" height="952" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32865733" sideWeight="0.3253205" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27354708" sideWeight="0.48716578" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38677356" sideWeight="0.8326203" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27354708" sideWeight="0.48716578" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2965932" sideWeight="0.8326203" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.274" sideWeight="0.5090909" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286991" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32865733" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296593" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296593" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17735043" sideWeight="0.7264529" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18108974" sideWeight="0.7034068" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38777554" sideWeight="0.9037433" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -641,7 +660,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix bz import" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bugzill import" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -678,6 +697,7 @@
     <MESSAGE value="small bugs related to command apply in the synchronization script fixed" />
     <MESSAGE value="some fixes for agilezen" />
     <MESSAGE value="fix bz import" />
+    <MESSAGE value="fix bugzill import" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -694,102 +714,113 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///usr/lib/python2.6/xml/dom/expatbuilder.py">
+    <entry file="file:///usr/lib/python2.6/urllib.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="225" column="0" selection-start="8252" selection-end="8252" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file:///usr/lib/python2.6/xml/dom/minidom.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1927" column="0" selection-start="65601" selection-end="65601" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fb2youtrack.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="142" column="22" selection-start="5350" selection-end="5350" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/agilezen/client.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="19" selection-start="1118" selection-end="1118" vertical-scroll-proportion="0.5887372">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sync/issues.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jiraSOAP2youtrack.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jira2youtrack.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="30" selection-start="1925" selection-end="1932" vertical-scroll-proportion="0.3323442">
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jira/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="1080" selection-end="1247" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/agilezen2youtrack.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="231" column="14" selection-start="8014" selection-end="8019" vertical-scroll-proportion="-8.96">
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/youtrack/importHelper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="4" selection-start="939" selection-end="958" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bugzilla/defaultBzMapping.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="0" selection-start="1744" selection-end="1744" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/youtrack/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="541" column="6" selection-start="18148" selection-end="18148" vertical-scroll-proportion="0.0">
+        <state line="1221" column="0" selection-start="44144" selection-end="44144" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bugzilla/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="14" selection-start="542" selection-end="542" vertical-scroll-proportion="0.0">
+        <state line="15" column="8" selection-start="267" selection-end="267" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jira2youtrack.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="164" column="46" selection-start="6587" selection-end="6601" vertical-scroll-proportion="-20.08">
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/urllib2_file.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/trac2youtrack.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="187" column="0" selection-start="6390" selection-end="6390" vertical-scroll-proportion="-16.8">
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/csv2youtrack.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="73" column="46" selection-start="2621" selection-end="2652" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/lib/python2.6/xml/sax/saxutils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="0" selection-start="1050" selection-end="1050" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/lib/python2.6/httplib.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="349" column="0" selection-start="11351" selection-end="11351" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/youtrack/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="98" selection-start="315" selection-end="315" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/youtrack/connection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="50" column="44" selection-start="1910" selection-end="1910" vertical-scroll-proportion="-13.04">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/youtrack/importHelper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="79" column="4" selection-start="3331" selection-end="3331" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bugzilla/defaultBzMapping.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="23" selection-start="1259" selection-end="1259" vertical-scroll-proportion="-21.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/share/pyshared/MySQLdb/cursors.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="165" column="0" selection-start="5445" selection-end="5445" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/share/pyshared/MySQLdb/connections.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="0" selection-start="1060" selection-end="1060" vertical-scroll-proportion="0.33284023">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bugzilla/bzClient.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="140" column="19" selection-start="5654" selection-end="5654" vertical-scroll-proportion="6.04">
+        <state line="268" column="24" selection-start="10983" selection-end="10983" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
@@ -798,17 +829,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bugzilla2youtrack.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="278" column="0" selection-start="10330" selection-end="10330" vertical-scroll-proportion="0.0">
+        <state line="20" column="1" selection-start="522" selection-end="522" vertical-scroll-proportion="0.24408284">
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/youtrack/connection.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="119" selection-start="1499" selection-end="1499" vertical-scroll-proportion="0.51186943">
-          <folding />
         </state>
       </provider>
     </entry>

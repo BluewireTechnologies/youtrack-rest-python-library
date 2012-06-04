@@ -33,10 +33,13 @@ def create_custom_field(connection, cf_type, cf_name, auto_attached, value_names
         LogicException: If custom field already exists, but has wrong type.
         YouTrackException: If something is wrong with queries.
     """
-    if value_names is None:
+    if (value_names is None) and (not auto_attached or "[" not in cf_type):
         _create_custom_field_prototype(connection, cf_type, cf_name, auto_attached)
         return
-    value_names = set(value_names)
+    if value_names is None:
+        value_names = set([])
+    else:
+        value_names = set(value_names)
     field = _get_custom_field(connection, cf_name)
     bundle = None
     if field is not None:
@@ -51,8 +54,14 @@ def create_custom_field(connection, cf_type, cf_name, auto_attached, value_names
         _create_custom_field_prototype(connection, cf_type, cf_name, auto_attached,
                 {"defaultBundle": bundle.name,
                  "attachBundlePolicy": bundle_policy})
-    values_to_add = calculate_missing_value_names(bundle, value_names)
-    [connection.addValueToBundle(bundle, name) for name in values_to_add]
+    for value_name in value_names:
+        try:
+            connection.addValueToBundle(bundle, value_name)
+        except YouTrackException:
+            pass
+#
+#    values_to_add = calculate_missing_value_names(bundle, value_names)
+#    [connection.addValueToBundle(bundle, name) for name in values_to_add]
 
 
 #    if field is None:

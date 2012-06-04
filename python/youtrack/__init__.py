@@ -7,7 +7,7 @@ from xml.dom.minidom import Document
 from xml.dom import minidom
 
 EXISTING_FIELDS = ['numberInProject', 'projectShortName', 'summary', 'description', 'created',
-                   'updated', 'updaterName', 'resolved', 'reporterName']
+                   'updated', 'updaterName', 'resolved', 'reporterName', "watcherName", "voterName"]
 
 class YouTrackException(Exception):
     def __init__(self, url, response, content):

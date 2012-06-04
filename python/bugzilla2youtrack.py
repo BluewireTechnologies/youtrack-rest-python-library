@@ -1,3 +1,4 @@
+import calendar
 import youtrack
 from youtrack.connection import Connection
 from bugzilla.bzClient import Client
@@ -9,19 +10,18 @@ import sys
 from youtrack.importHelper import create_custom_field, process_custom_field
 
 def main():
-    target_url = "http://localhost:8081"
-    target_login = "root"
-    target_pass = "root"
-    bz_db = "bugs"
-    bz_host = "localhost"
-    bz_port = 3306
-    bz_login = "root"
-    bz_pass = "root"
-    bz_product_names = ["Botsman2", "BZProduct"]
+#    target_url = "http://localhost:8081"
+#    target_login = "root"
+#    target_pass = "root"
+#    bz_db = "bugs"
+#    bz_host = "localhost"
+#    bz_port = 3306
+#    bz_login = "root"
+#    bz_pass = "root"
+#    bz_product_names = ["Orpheus", "License Manager"]
     try:
-    #        target_url, target_login, target_pass, bz_db, bz_host, bz_port, bz_login, bz_pass = sys.argv[1:9]
-    #        bz_product_names = sys.argv[9:]
-        pass
+        target_url, target_login, target_pass, bz_db, bz_host, bz_port, bz_login, bz_pass = sys.argv[1:9]
+        bz_product_names = sys.argv[9:]
     except:
         sys.exit()
     bugzilla2youtrack(target_url, target_login, target_pass, bz_db, bz_host, bz_port, bz_login, bz_pass,
@@ -37,7 +37,7 @@ def to_yt_user(bz_user):
 
 
 def to_unix_date(value):
-    return str(value * 1000)
+    return str(calendar.timegm(value.timetuple()) * 1000)
 
 
 def import_single_user(bz_user, target):
@@ -55,7 +55,7 @@ def to_yt_comment(bz_comment, target):
         comment.text = bz_comment.content
     else:
         return None
-    comment.created = to_unix_date(bz_comment.time)
+    comment.created = str(int(bz_comment.time * 1000))
     return comment
 
 
@@ -81,7 +81,7 @@ def to_yt_issue_link(bz_issue_link):
 
 
 def add_value_to_field(field_name, field_type, field_value, project_id, target):
-    if field_type.startswith("user"):
+    if (field_type is not None) and field_type.startswith("user"):
         import_single_user(field_value, target)
         field_value = field_value.login
     if field_name in youtrack.EXISTING_FIELDS:
@@ -89,12 +89,19 @@ def add_value_to_field(field_name, field_type, field_value, project_id, target):
     custom_field = target.getProjectCustomField(project_id, field_name)
     if hasattr(custom_field, "bundle"):
         bundle = target.getBundle(field_type, custom_field.bundle)
-        target.addValueToBundle(bundle, field_value)
+        try:
+            target.addValueToBundle(bundle, field_value)
+        except YouTrackException:
+            pass
 
 
 def get_yt_field_type(field_name, target):
     if field_name in bugzilla.FIELD_TYPES:
         return bugzilla.FIELD_TYPES[field_name]
+    try:
+        return target.getCustomField(field_name).type
+    except YouTrackException:
+        return None
 
 
 def get_yt_field_name(field_name, target):
@@ -112,26 +119,47 @@ def get_yt_field_name(field_name, target):
 def to_yt_issue(bz_issue, project_id, target):
     issue = Issue()
     issue.comments = []
-    for key, value in bz_issue:
+    for key in bz_issue.keys():
+        value = bz_issue[key]
         if key in ['flags', 'tags', 'attachments', 'comments']:
             continue
         field_name = get_yt_field_name(key, target)
         if field_name is None:
             continue
-        if not len(value):
+        if value is None:
             continue
-        if not isinstance(value, list):
-            value = [value]
+
+        if isinstance(value, list):
+            if not len(value):
+                continue
+        elif not len(unicode(value)):
+            continue
         field_type = get_yt_field_type(field_name, target)
-        for v in value:
-            add_value_to_field(field_name, v, field_type, project_id, target)
-        if field_type.startswith("user"):
-            value = [v.login for v in value]
+        if (field_type is None) and (field_name not in youtrack.EXISTING_FIELDS):
+            continue
+
+        if isinstance(value, list):
+            for v in value:
+                add_value_to_field(field_name, field_type, v, project_id, target)
+        else:
+            add_value_to_field(field_name, field_type, value, project_id, target)
+
+        if (field_type is not None) and field_type.startswith("user"):
+            if isinstance(value, list):
+                value = [v.login for v in value]
+            else:
+                value = value.login
         if field_type == "date":
-            value = [to_unix_date(v) for v in value]
+            value = to_unix_date(value)
+        if not isinstance(value, list):
+            value = unicode(value)
+
         issue[field_name] = value
     if "comments" in bz_issue:
-        issue.comments = [to_yt_comment(comment, target) for comment in bz_issue["comments"]]
+        for comment in bz_issue["comments"]:
+            yt_comment = to_yt_comment(comment, target)
+            if yt_comment is not None:
+                issue.comments.append(yt_comment)
     return issue
 
 
@@ -165,20 +193,22 @@ def process_components(components, project_id, target):
             new_component = bundle.createElement(c.name)
             if isinstance(new_component, OwnedField):
                 if c.initial_owner is not None:
-                    import_single_user(c.initialowner, target)
-                    new_component.owner = c.login
+                    import_single_user(c.initial_owner, target)
+                    new_component.owner = c.initial_owner.login
             target.addValueToBundle(bundle, new_component)
+
 
 def process_versions(versions, project_id, target):
     cf, field_type = create_project_field(project_id, target, "version")
     if hasattr(cf, "bundle"):
-        bundle = cf.bundle
+        bundle = target.getBundle(field_type, cf.bundle)
         for v in versions:
             new_version = bundle.createElement(v.value)
             if isinstance(new_version, VersionField):
                 new_version.released = True
                 new_version.archived = False
             target.addValueToBundle(bundle, new_version)
+
 #
 #def process_milestones(milestones, project_id, target):
 #    cf, field_type = create_project_field(project_id, target, "milestone")
@@ -188,18 +218,13 @@ def process_versions(versions, project_id, target):
 #            target.addValueToBundle(bundle, milestone)
 #
 
+def get_number_in_project_field_name():
+    for key, value in bugzilla.FIELD_NAMES.items():
+        if value == "numberInProject":
+            return key
 
 def bugzilla2youtrack(target_url, target_login, target_pass, bz_db, bz_host, bz_port, bz_login, bz_pass,
                       bz_product_names):
-    print "target_url       :   " + target_url
-    print "target_login     :   " + target_login
-    print "target_pass      :   " + target_pass
-    print "bz_db            :   " + bz_db
-    print "bz_host          :   " + bz_host
-    print "bz_port          :   " + str(bz_port)
-    print "bz_login         :   " + bz_login
-    print "bz_pass          :   " + bz_pass
-
     # connecting to bz
     client = Client(bz_host, int(bz_port), bz_login, bz_pass, db_name=bz_db)
 
@@ -237,7 +262,7 @@ def bugzilla2youtrack(target_url, target_login, target_pass, bz_db, bz_host, bz_
     bz_product_ids = []
 
     for name in bz_product_names:
-        product_id = client.get_product_id_by_name(name)
+        product_id = str(client.get_product_id_by_name(name))
         bz_product_ids.append(product_id)
         print "Creating project [ %s ] with name [ %s ]" % (product_id, name)
         try:
@@ -268,13 +293,13 @@ def bugzilla2youtrack(target_url, target_login, target_pass, bz_db, bz_host, bz_
                 tags = issue["keywords"] | issue["flags"]
                 for t in tags:
                     print "Processing tag [ %s ]" % t.encode('utf8')
-                    target.executeCommand(str(product_id) + "-" + str(issue.id), "tag " + t.encode('utf8'))
+                    target.executeCommand(str(product_id) + "-" + str(issue[get_number_in_project_field_name()]), "tag " + t.encode('utf8'))
             for issue in batch:
                 for attach in issue["attachments"]:
                     print "Processing attachment [ %s ]" % (attach.name.encode('utf8'))
                     content = StringIO(attach.content)
-                    target.createAttachment(str(product_id) + "-" + str(issue.id), attach.name, content, attach.reporter
-                        , created=to_unix_date(attach.created))
+                    target.createAttachment(str(product_id) + "-" + str(issue[get_number_in_project_field_name()]), attach.name, content, attach.reporter
+                        , created=str(int(attach.created) * 1000))
         print "Importing issues to project [ %s ] finished" % product_id
 
     # todo add pagination to links
@@ -301,6 +326,7 @@ def bugzilla2youtrack(target_url, target_login, target_pass, bz_db, bz_host, bz_
             links_to_import.append(to_yt_issue_link(link))
     print target.importLinks(links_to_import)
     print "Importing issue links finished"
+
 
 if __name__ == "__main__":
     main()

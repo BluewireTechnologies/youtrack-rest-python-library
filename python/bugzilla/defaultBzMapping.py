@@ -3,7 +3,8 @@ import bugzilla
 bugzilla.FIELD_TYPES = {
     "created"           :   "date",
     "updated"           :   "date",
-    "reporterName"      :   "reporter",
+    "numberInProject"   :   "integer",
+    "reporterName"      :   "user[1]",
     "Assignee"          :   "user[1]",
     "Component"         :   "ownedField[1]",
     "Affected versions" :   "version[*]",
@@ -12,9 +13,10 @@ bugzilla.FIELD_TYPES = {
     "Resolution"        :   "state[1]",
     "OS"                :   "enum[1]",
     "Platform"          :   "enum[1]",
-    "watcherName"       :   "user[1]",
+    "watcherName"       :   "user[*]",
+    "voterName"         :   "user[*]",
     "Deadline"          :   "date",
-    "estimated_time"    :   "integer",
+    "Estimate"          :   "integer",
     "QA contact"        :   "user[1]",
     "Milestone"         :   "version[*]"
 }
@@ -34,7 +36,8 @@ bugzilla.FIELD_NAMES = {
     "delta_ts"          :   "updated",
     "qa_contact"        :   "QA contact",
     "estimated_time"    :   "Estimate",
-    "target_milestone"  :   "Milestone"
+    "target_milestone"  :   "Milestone",
+    "component"         :   "Component"
 }
 
 # mapping between cf types in bz and youtrack
@@ -43,7 +46,7 @@ bugzilla.CF_TYPES = {
     "2"             :   "enum[1]",  #FIELD_TYPE_SINGLE_SELECT
     "3"             :   "enum[*]",  #FIELD_TYPE_MULTY_SELECT
     "4"             :   "string",   #FIELD_TYPE_TEXTAREA
-    "5"             :   "string",   #FIELD_TYPE_DATETIME
+    "5"             :   "date",     #FIELD_TYPE_DATETIME
     "7"             :   "string"    #FIELD_TYPE_BUG_URLS
 }
 
