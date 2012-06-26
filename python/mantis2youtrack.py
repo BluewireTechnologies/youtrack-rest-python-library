@@ -10,17 +10,17 @@ from youtrack.importHelper import *
 import youtrack.importHelper
 
 def main() :
-    #target_url, target_login, target_pass, mantis_db, mantis_host, mantis_port, mantis_login, mantis_pass = sys.argv[1:9]
-    target_url = "http://localhost:8081"
-    target_login = "root"
-    target_pass = "root"
-    mantis_db = "mantisBT"
-    mantis_host = "localhost"
-    mantis_port = "3306"
-    mantis_login = "root"
-    mantis_pass = "root"
-    #        mantis_product_names = sys.argv[9:]
-    mantis_product_names = ["Sandbox"]
+    target_url, target_login, target_pass, mantis_db, mantis_host, mantis_port, mantis_login, mantis_pass = sys.argv[1:9]
+#    target_url = "http://localhost:8081"
+#    target_login = "root"
+#    target_pass = "root"
+#    mantis_db = "mantisBT"
+#    mantis_host = "localhost"
+#    mantis_port = "3306"
+#    mantis_login = "root"
+#    mantis_pass = "root"
+    mantis_product_names = sys.argv[9:]
+    #mantis_product_names = ["Sandbox"]
     mantis2youtrack(target_url, target_login, target_pass, mantis_db, mantis_host,
                     mantis_port, mantis_login, mantis_pass, mantis_product_names)
 

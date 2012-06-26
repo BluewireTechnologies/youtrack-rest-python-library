@@ -7,7 +7,7 @@ from youtrack.connection import Connection
 
 def main():
     source_url = "https://agilezen.com"
-    source_token = "f68fb10868d1425787e5013c90fe33d0"
+    source_token = "some secret token"
     target_url = "http://localhost:8081"
     target_login = "root"
     target_password = "root"

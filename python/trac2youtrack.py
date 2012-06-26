@@ -11,13 +11,13 @@ from youtrack.importHelper import *
 
 def main():
     try:
-        #target_url, target_login, target_password, project_ID, project_name, env_path = sys.argv[1:]
-        target_url = "http://localhost:8081"
-        target_login = "root"
-        target_password = "root"
-        project_ID = "jj"
-        project_name = "jjj"
-        env_path = "/home/user/trac/fix-date/"
+        target_url, target_login, target_password, project_ID, project_name, env_path = sys.argv[1:]
+#        target_url = "http://localhost:8081"
+#        target_login = "root"
+#        target_password = "root"
+#        project_ID = "jj"
+#        project_name = "jjj"
+#        env_path = "/home/user/trac/fix-date/"
         print "url                  : " + target_url
         print "login                : " + target_login
         print "pass                 : " + target_password

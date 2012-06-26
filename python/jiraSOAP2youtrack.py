@@ -107,7 +107,7 @@ def to_yt_issue(target, jira_issue):
 
 
 
-source = JiraSoapClient("http://bugs.adobe.com/jira", "anna239", "948200")
+source = JiraSoapClient("jira url", "jira login", "jira pass")
 target = Connection('http://localhost:8081', 'root', 'root')
 
 project_ids = {'ACS'        : 100,

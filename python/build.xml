@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="build-python-library" default="package">
+    <!-- actual value to be subst by teamcity configuration -->
+    <property name="charisma.version.number" value="DEV"/>
+    <property name="library.path" value="."/>
+
+    <target name="package">
+        <zip destfile="youtrack-rest-python-library-4.0.zip" encoding="utf-8">
+            <fileset dir="${library.path}">
+                <include name="python/**/*.py"/>
+                <include name="python/*.py"/>
+            </fileset>
+        </zip>
+    </target>
+</project>

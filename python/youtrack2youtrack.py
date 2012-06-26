@@ -1,4 +1,5 @@
 # migrate project from youtrack to youtrack
+import sys
 from youtrack.connection import Connection, youtrack
 #from sets import Set
 
@@ -8,15 +9,15 @@ from sync.links import LinkImporter
 
 def main():
     try:
-    #        source_url, source_login, source_password, target_url, target_login, target_password = sys.argv[1:7]
-        source_url = "http://localhost:8080"
-        source_login = "root"
-        source_password = "root"
-        target_url = "http://localhost:8081"
-        target_login = "root"
-        target_password = "root"
-        #        project_ids = sys.argv[7:]
-        project_ids = ['JT']
+        source_url, source_login, source_password, target_url, target_login, target_password = sys.argv[1:7]
+#        source_url = "http://localhost:8080"
+#        source_login = "root"
+#        source_password = "root"
+#        target_url = "http://localhost:8081"
+#        target_login = "root"
+#        target_password = "root"
+        project_ids = sys.argv[7:]
+        #project_ids = ['JT']
     except BaseException, e:
         print "Usage: youtrack2youtrack source_url source_login source_password target_url target_login target_password projectId"
         return

@@ -1,6 +1,6 @@
 from youtrack.connection import Connection
 
-target = Connection("http://jetforum.myjetbrains.com/youtrack", "root", "aFYk3z")
+target = Connection("some url", "root", "root")
 for user in target.getUsers() :
     yt_user = target.getUser(user.login)
     try :

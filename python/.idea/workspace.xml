@@ -4,14 +4,16 @@
     <bookmark url="file://$PROJECT_DIR$/agilezen/client.py" line="34" mnemonic="9" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bfb67218-c868-4b90-b6ff-44352675a3b4" name="Default" comment="fix bugzilla import">
+    <list default="true" id="bfb67218-c868-4b90-b6ff-44352675a3b4" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agilezen2youtrack.py" afterPath="$PROJECT_DIR$/agilezen2youtrack.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bugzilla/defaultBzMapping.py" afterPath="$PROJECT_DIR$/bugzilla/defaultBzMapping.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bugzilla2youtrack.py" afterPath="$PROJECT_DIR$/bugzilla2youtrack.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/googleCode2youtrack.py" afterPath="$PROJECT_DIR$/googleCode2youtrack.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/urllib2_file.py" afterPath="$PROJECT_DIR$/urllib2_file.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/youtrack/connection.py" afterPath="$PROJECT_DIR$/youtrack/connection.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/deleteAllUsers.py" afterPath="$PROJECT_DIR$/deleteAllUsers.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/getAllEmailsFromProject.py" afterPath="$PROJECT_DIR$/getAllEmailsFromProject.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jiraSOAP2youtrack.py" afterPath="$PROJECT_DIR$/jiraSOAP2youtrack.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mantis2youtrack.py" afterPath="$PROJECT_DIR$/mantis2youtrack.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/trac2youtrack.py" afterPath="$PROJECT_DIR$/trac2youtrack.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/youtrack2youtrack.py" afterPath="$PROJECT_DIR$/youtrack2youtrack.py" />
     </list>
     <list id="d3847385-ad1a-4777-aa3d-907095886442" name="settings" comment="settings" />
     <ignored path="python.iws" />
@@ -34,19 +36,30 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="googleCode2youtrack.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/googleCode2youtrack.py">
+      <file leaf-file-name="getAllEmailsFromProject.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/getAllEmailsFromProject.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="63" selection-start="1879" selection-end="1879" vertical-scroll-proportion="0.0">
+            <state line="11" column="25" selection-start="390" selection-end="390" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="agilezen2youtrack.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/agilezen2youtrack.py">
+      <file leaf-file-name="googleCode2youtrack.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/googleCode2youtrack.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="153" column="23" selection-start="4953" selection-end="4953" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#0#17#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="jira2youtrack.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jira2youtrack.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -54,10 +67,43 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test.py">
+      <file leaf-file-name="jiraSOAP2youtrack.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jiraSOAP2youtrack.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="0" selection-start="314" selection-end="314" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mantis2youtrack.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mantis2youtrack.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#0#42#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="moveIssue.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/moveIssue.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="trac2youtrack.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/trac2youtrack.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="8" selection-start="283" selection-end="283" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -65,39 +111,30 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bugzilla2youtrack.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/bugzilla2youtrack.py">
+      <file leaf-file-name="youtrack2youtrack.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/youtrack2youtrack.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="97" column="0" selection-start="3156" selection-end="3156" vertical-scroll-proportion="0.57793343">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="connection.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/youtrack/connection.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="241" column="8" selection-start="10528" selection-end="10528" vertical-scroll-proportion="26.76">
+            <state line="18" column="24" selection-start="603" selection-end="603" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="e#0#15#0" expanded="true" />
+                <element signature="e#44#54#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="countRequest.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/countRequest.xml">
+      <file leaf-file-name="youtrackRestSamples.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/youtrackRestSamples.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="24" column="11" selection-start="735" selection-end="735" vertical-scroll-proportion="0.41530946">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="spock.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/googleCode/spock.py">
+      <file leaf-file-name="fb2youtrack.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/fb2youtrack.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="52" selection-start="442" selection-end="442" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -116,22 +153,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/httplib2/__init__.py" />
-        <option value="$PROJECT_DIR$/jira2youtrack.py" />
-        <option value="$PROJECT_DIR$/agilezen/client.py" />
-        <option value="$PROJECT_DIR$/bugzilla/__init__.py" />
-        <option value="$PROJECT_DIR$/youtrack/importHelper.py" />
-        <option value="$PROJECT_DIR$/youtrack/__init__.py" />
-        <option value="$PROJECT_DIR$/bugzilla/defaultBzMapping.py" />
         <option value="$PROJECT_DIR$/bugzilla/bzClient.py" />
         <option value="$PROJECT_DIR$/urllib2_file.py" />
         <option value="$PROJECT_DIR$/googleCode/spock.py" />
         <option value="$PROJECT_DIR$/googleCode2youtrack.py" />
-        <option value="$PROJECT_DIR$/agilezen2youtrack.py" />
         <option value="$PROJECT_DIR$/countRequest.xml" />
         <option value="$PROJECT_DIR$/youtrack/connection.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/bugzilla2youtrack.py" />
+        <option value="$PROJECT_DIR$/build.xml" />
+        <option value="$PROJECT_DIR$/agilezen2youtrack.py" />
+        <option value="$PROJECT_DIR$/deleteAllUsers.py" />
+        <option value="$PROJECT_DIR$/getAllEmailsFromProject.py" />
+        <option value="$PROJECT_DIR$/jiraSOAP2youtrack.py" />
+        <option value="$PROJECT_DIR$/mantis2youtrack.py" />
+        <option value="$PROJECT_DIR$/trac2youtrack.py" />
+        <option value="$PROJECT_DIR$/youtrack2youtrack.py" />
       </list>
     </option>
   </component>
@@ -531,7 +568,11 @@
       <created>1338815229523</created>
       <updated>1338815229523</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="fix bugzilla import">
+      <created>1340723632581</created>
+      <updated>1340723632581</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -558,22 +599,22 @@
     <frame x="-1" y="24" width="1922" height="1157" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296593" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32865733" sideWeight="0.3253205" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32801595" sideWeight="0.3253205" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296593" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20170757" sideWeight="0.19441675" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20170757" sideWeight="0.39381856" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20170757" sideWeight="0.21934198" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20170757" sideWeight="0.445663" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29210275" sideWeight="0.8326203" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.274" sideWeight="0.5090909" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40478563" sideWeight="0.9037433" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.11964107" sideWeight="0.9037433" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32865733" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="100" y="124" width="1720" height="952" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27354708" sideWeight="0.48716578" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296593" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -671,98 +712,134 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/bugzilla/defaultBzMapping.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="40" selection-start="917" selection-end="917" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/youtrack/importHelper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="4" selection-start="3331" selection-end="3331" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/youtrack/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="529" column="47" selection-start="17877" selection-end="17877" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file:///usr/lib/python2.6/urllib2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="390" column="0" selection-start="12831" selection-end="12831" vertical-scroll-proportion="0.32331902" />
-      </provider>
-    </entry>
-    <entry file="file:///usr/share/pyshared/MySQLdb/connections.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="0" selection-start="1060" selection-end="1060" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file:///usr/share/pyshared/MySQLdb/cursors.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="165" column="0" selection-start="5445" selection-end="5445" vertical-scroll-proportion="0.32331902" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/urllib2_file.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="280" column="39" selection-start="10687" selection-end="10687" vertical-scroll-proportion="1.3962804" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bugzilla/bzClient.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="0" selection-start="609" selection-end="609" vertical-scroll-proportion="0.25751072" />
-      </provider>
-    </entry>
-    <entry file="file:///usr/lib/python2.6/dist-packages/mx/DateTime/NIST.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="326" column="0" selection-start="10755" selection-end="10755" vertical-scroll-proportion="0.33235294" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/googleCode/spock.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="52" selection-start="442" selection-end="442" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/agilezen2youtrack.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="153" column="23" selection-start="4953" selection-end="4953" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/googleCode2youtrack.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="63" selection-start="1879" selection-end="1879" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/youtrack/connection.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="241" column="8" selection-start="10528" selection-end="10528" vertical-scroll-proportion="26.76">
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/countRequest.xml">
+    <entry file="file://$PROJECT_DIR$/syncYtWithYt.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test.py">
+    <entry file="file://$PROJECT_DIR$/agilezen2youtrack.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="0" selection-start="314" selection-end="314" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#0#29#0" expanded="true" />
+            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bugzilla2youtrack.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="97" column="0" selection-start="3156" selection-end="3156" vertical-scroll-proportion="0.57793343">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/copyOneIssue.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/csv2youtrack.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deleteAllUsers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fb2youtrack.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/getAllEmailsFromProject.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="25" selection-start="390" selection-end="390" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/googleCode2youtrack.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#17#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jira2youtrack.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jiraSOAP2youtrack.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mantis2youtrack.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/moveIssue.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/trac2youtrack.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="8" selection-start="283" selection-end="283" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/youtrack2youtrack.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="24" selection-start="603" selection-end="603" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#44#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/youtrackRestSamples.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="11" selection-start="735" selection-end="735" vertical-scroll-proportion="0.41530946">
           <folding />
         </state>
       </provider>
