@@ -1,6 +1,5 @@
 import calendar
-from mx.DateTime.NIST import now
-from zope.interface.tests.unitfixtures import IC
+from datetime import datetime
 import httplib2
 from xml.dom import minidom
 import youtrack
@@ -147,7 +146,7 @@ class Connection(object):
             try:
                 params['created'] = self.getIssue(issueId).created
             except youtrack.YouTrackException:
-                params['created'] = str(calendar.timegm(now().timetuple()) * 1000)
+                params['created'] = str(calendar.timegm(datetime.now().timetuple()) * 1000)
 
         r = urllib2.Request(self.baseUrl + url_prefix + issueId + "/attachment?" +
                             urllib.urlencode(params),

@@ -24,8 +24,9 @@ def main():
         bz_product_names = sys.argv[9:]
     except:
         sys.exit()
+#    issues_filter = lambda issue: ("bug_status" in issue) and (issue["bug_status"] in ['UNCONFIRMED', 'NEW', 'ASSIGNED', 'REOPENED'])
     bugzilla2youtrack(target_url, target_login, target_pass, bz_db, bz_host, bz_port, bz_login, bz_pass,
-        bz_product_names)
+        bz_product_names, lambda issue: True)
 
 
 def to_yt_user(bz_user):
@@ -138,6 +139,8 @@ def to_yt_issue(bz_issue, project_id, target):
         if (field_type is None) and (field_name not in youtrack.EXISTING_FIELDS):
             continue
 
+        value = get_yt_field_value_from_bz_field_value(field_name, field_type, value)
+
         if isinstance(value, list):
             for v in value:
                 add_value_to_field(field_name, field_type, v, project_id, target)
@@ -190,7 +193,7 @@ def process_components(components, project_id, target):
     if hasattr(cf, "bundle"):
         bundle = target.getBundle(field_type, cf.bundle)
         for c in components:
-            new_component = bundle.createElement(c.name)
+            new_component = bundle.createElement(get_yt_field_value_from_bz_field_value(cf.name, field_type, c.name))
             if isinstance(new_component, OwnedField):
                 if c.initial_owner is not None:
                     import_single_user(c.initial_owner, target)
@@ -203,7 +206,7 @@ def process_versions(versions, project_id, target):
     if hasattr(cf, "bundle"):
         bundle = target.getBundle(field_type, cf.bundle)
         for v in versions:
-            new_version = bundle.createElement(v.value)
+            new_version = bundle.createElement(get_yt_field_value_from_bz_field_value(cf.name, field_type, v.value))
             if isinstance(new_version, VersionField):
                 new_version.released = True
                 new_version.archived = False
@@ -223,8 +226,16 @@ def get_number_in_project_field_name():
         if value == "numberInProject":
             return key
 
+def get_yt_field_value_from_bz_field_value(yt_field_name, yt_field_type, bz_value):
+    if isinstance(bz_value, str) or isinstance(bz_value, unicode):
+        return bz_value.replace("/", "_")
+    if isinstance(bz_value, list) and len(bz_value) and (isinstance(bz_value[0], str) or isinstance(bz_value[0], unicode)):
+        return [v.replace("/", "_") for v in bz_value]
+    return bz_value
+
+
 def bugzilla2youtrack(target_url, target_login, target_pass, bz_db, bz_host, bz_port, bz_login, bz_pass,
-                      bz_product_names):
+                      bz_product_names, issues_filter):
     # connecting to bz
     client = Client(bz_host, int(bz_port), bz_login, bz_pass, db_name=bz_db)
 
@@ -286,6 +297,7 @@ def bugzilla2youtrack(target_url, target_login, target_pass, bz_db, bz_host, bz_
         while count < bz_issues_count:
             batch = client.get_issues(product_id, count, max_count)
             count += max_count
+            batch = [bz_issue for bz_issue in batch if (issues_filter(bz_issue))]
             target.importIssues(product_id, product_id + " assignees",
                 [to_yt_issue(bz_issue, product_id, target) for bz_issue in batch])
             # todo convert to good tags import

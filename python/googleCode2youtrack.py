@@ -1,3 +1,4 @@
+import HTMLParser
 import calendar
 import re
 from urllib import unquote
@@ -103,7 +104,8 @@ def to_yt_issue(target, project_id, g_issue, g_comments):
     issue = Issue()
     issue.numberInProject = issue_id(g_issue)
     issue.summary = g_issue.title.text.encode('utf-8')
-    issue.description = g_issue.content.text.encode('utf-8')
+    issue.description = HTMLParser.HTMLParser().unescape(g_issue.content.text).replace("<b>", "*").replace("</b>", "*").encode('utf-8')
+#    issue.description = g_issue.content.text.encode('utf-8')
     issue.created = to_unix_date(g_issue.published.text)
     issue.updated = to_unix_date(g_issue.updated.text)
     reporter = g_issue.author[0].name.text
@@ -137,7 +139,7 @@ def to_yt_issue(target, project_id, g_issue, g_comments):
 
 def get_tags(issue):
     return [label.text for label in issue.label if
-            get_yt_field_name((label.text.split("-")[0]) not in googleCode.FIELD_TYPES.keys())]
+            get_yt_field_name(label.text.split("-")[0]) not in googleCode.FIELD_TYPES.keys()]
 
 
 def import_tags(target, project_id, issue):

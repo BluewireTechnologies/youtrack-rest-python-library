@@ -6,12 +6,11 @@ bugzilla.FIELD_TYPES = {
     "numberInProject"   :   "integer",
     "reporterName"      :   "user[1]",
     "Assignee"          :   "user[1]",
-    "Component"         :   "ownedField[1]",
+    "Subsystem"         :   "ownedField[1]",
     "Affected versions" :   "version[*]",
     "Severity"          :   "enum[1]",
     "Status"            :   "state[1]",
     "Resolution"        :   "state[1]",
-    "OS"                :   "enum[1]",
     "Platform"          :   "enum[1]",
     "watcherName"       :   "user[*]",
     "voterName"         :   "user[*]",
@@ -30,14 +29,14 @@ bugzilla.FIELD_NAMES = {
     "bug_severity"      :   "Severity",
     "bug_status"        :   "Status",
     "creation_ts"       :   "created",
-    "rep_platform"      :   "Platform",
+    "OS"                :   "Platform",
     "short_desc"        :   "summary",
     "cc"                :   "watcherName",
     "delta_ts"          :   "updated",
     "qa_contact"        :   "QA contact",
     "estimated_time"    :   "Estimate",
     "target_milestone"  :   "Milestone",
-    "component"         :   "Component"
+    "component"         :   "Subsystem",
 }
 
 # mapping between cf types in bz and youtrack

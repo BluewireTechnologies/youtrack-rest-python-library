@@ -11,7 +11,7 @@ def main():
     target_url = "http://localhost:8081"
     target_login = "root"
     target_password = "root"
-    project_names_to_import = [u'dotAny']
+    project_names_to_import = [u'project_name']
     agilezen2youtrack(source_url, source_token, target_url, target_login, target_password, project_names_to_import)
 
 
@@ -50,7 +50,7 @@ def import_role(target, project_id, role):
 
 
 def import_phase(target, project_id, phase):
-    bundle = target.getBundle("state[1]", target.getProjectCustomField(project_id, "Phase").bundle)
+    bundle = target.getBundle("state[1]", target.getProjectCustomField(project_id, "State").bundle)
     value = StateField()
     value.name = phase[u'name']
     value.description = phase[u'description']
@@ -220,8 +220,8 @@ def import_project(source, target, project):
             if story_id > max_story_id:
                 max_story_id = story_id
             stories_to_import.append(yt_issue)
-            if len(source.get_attachments(project_id, str(story_id))[u'items']):
-                print 'Attachments found!'
+#            if len(source.get_attachments(project_id, str(story_id))[u'items']):
+#                print 'Attachments found!'
             # here we just collect tags, not actually import them to find tags that are prefixes of other tags
             if u'tags' in story:
                 existing_tags |= set([t[u'name'] for t in story[u'tags']])
@@ -267,7 +267,7 @@ def agilezen2youtrack(source_url, source_token, target_url, target_login, target
     last_page = False
     current_page = 1
     try:
-        target.createCustomFieldDetailed("Phase", "state[1]", False, True, True, {"attachBundlePolicy": "2"})
+        target.createCustomFieldDetailed("State", "state[1]", False, True, True, {"attachBundlePolicy": "2"})
     except YouTrackException, e:
         print str(e)
     colors_bundle = EnumBundle()
