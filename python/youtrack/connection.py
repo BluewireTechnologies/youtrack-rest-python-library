@@ -211,7 +211,7 @@ class Connection(object):
 
         xml = '<list>\n'
         for u in users:
-            xml += '  <user ' + "".join(k + '=' + quoteattr(u[k].encode('utf8')) + ' ' for k in u) + '/>\n'
+            xml += '  <user ' + "".join(k + '=' + quoteattr(u[k]) + ' ' for k in u) + '/>\n'
         xml += '</list>'
         print xml
         #TODO: convert response xml into python objects

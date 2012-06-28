@@ -4,49 +4,39 @@ import csvClient
 class Client(object) :
 
     def __init__(self, file_path) :
-        self.file_path = file_path
+        self._file_path = file_path
+        self._issues_reader = self._get_reader()
+        self._header = self._read_header()
 
-    def get_distinct(self, key) :
-        result = set([])
-        reader = csv.reader(open(self.file_path), delimiter = csvClient.CSV_DELIMITER)
-        header = reader.next()
-        ind = 0
-        while (ind < len(header)) and (header[ind].strip() != key):
-            ind += 1
-        if ind < len(header):
-            for row in reader :
-                value = row[ind].strip()
-                if len(value):
-                    result.add(value)
-        return result                     
+    def _read_header(self):
+        header = self._issues_reader.next()
+        return [field_name for field_name in [h.strip() for h in header] if len(field_name)]
 
+    def _get_reader(self):
+        return csv.reader(open(self._file_path, "r"), delimiter=csvClient.CSV_DELIMITER)
 
-    def get_issue_list(self) :
-        reader = csv.reader(open(self.file_path), delimiter = csvClient.CSV_DELIMITER)
-        reader.next()
+    def get_issue_list(self, batch_size):
         issues = list([])
-        header = self.get_header()
-        for row in reader :
-            issue = dict([])
-            issue["comments"] = list([])
-            ind = 0
-            for elem in row :
-                if ind < len(header):
-                    issue[header[ind].strip()] = elem.strip()
-                else :
-                    issue["comments"].append(elem.strip())
-                ind += 1
+        header_len = len(self._header)
+        for row in self._issues_reader:
+            if batch_size:
+                batch_size -= 1
+            else:
+                break
+
+            issue = {"comments": []}
+            for i in range(len(row)):
+                value = row[i].strip()
+                if len(value):
+                    if i < header_len:
+                        issue[self._header[i]] = value
+                    else:
+                        issue["comments"].append(value)
             issues.append(issue)
         return issues
 
     def get_header(self) :
-        reader = csv.reader(open(self.file_path), delimiter = csvClient.CSV_DELIMITER)
-        header = reader.next()
-        result = []
-        for h in header :
-            h = h.strip()
-            if h != "":
-                result.append(h)
-        return result
+        return self._header
+
 
         

@@ -5,9 +5,20 @@ YouTrack 2.0 REST API
 from xml.dom import Node
 from xml.dom.minidom import Document
 from xml.dom import minidom
+EXISTING_FIELD_TYPES = {
+    'numberInProject'   :   'integer',
+    'summary'           :   'string',
+    'description'       :   'string',
+    'created'           :   'date',
+    'updated'           :   'date',
+    'updaterName'       :   'user[1]',
+    'resolved'          :   'date',
+    'reporterName'      :   'user[1]',
+    'watcherName'       :   'user[*]',
+    'voterName'         :   'user[*]'
+}
 
-EXISTING_FIELDS = ['numberInProject', 'projectShortName', 'summary', 'description', 'created',
-                   'updated', 'updaterName', 'resolved', 'reporterName', "watcherName", "voterName"]
+EXISTING_FIELDS = ['numberInProject', 'projectShortName'] + EXISTING_FIELD_TYPES.keys()
 
 class YouTrackException(Exception):
     def __init__(self, url, response, content):

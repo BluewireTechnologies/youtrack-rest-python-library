@@ -1,39 +1,35 @@
 import csvClient
-import time
 
-csvClient.FIELDS = {
-    "numberInProject"   :   "Issue Id",
-    "summary"           :   "Summary",
-    "description"       :   "Description",
-    "created"           :   "Created",
-    "updated"           :   "Updated",
-    "resolved"          :   "Resolved",
-    "reporterName"      :   "Reporter",
-    "assigneeName"      :   "Assignee",
-    "type"              :   "Type",
-    "priority"          :   "Priority",
-    "state"             :   "State",
-    "subsystem"         :   "Subsystem",
-    "tags"              :   "Tags",
+csvClient.FIELD_NAMES = {
+    "Project"       :   "project",
+    "Summary"       :   "summary",
+    "Reporter"      :   "reporterName",
+    "Created"       :   "created",
+    "Updated"       :   "updated",
+    "Description"   :   "description",
+    "Issue Id"       :   "numberInProject"
 }
-csvClient.IGNORE_VALUES = {
-    "Assignee"          :   "<no user>",
-    "Subsystem"         :   "No subsystem",
-    "tags"              :   "Watched Issues"
+csvClient.FIELD_TYPES = {
+    "Fix versions"      :   "version[*]",
+    "State"             :   "state[1]",
+    "Assignee"          :   "user[1]",
+    "Affected versions" :   "version[*]",
+    "Fixed in build"    :   "build[1]",
+    "Priority"          :   "enum[1]",
+    "Subsystem"         :   "ownedField[1]",
+    "Browser"           :   "enum[1]",
+    "OS"                :   "enum[1]",
+    "Verified in build" :   "build[1]",
+    "Verified by"       :   "user[1]",
+    "Affected builds"   :   "build[*]",
+    "Fixed in builds"   :   "build[*]",
+    "Reviewed by"       :   "user[1]",
+    "Story points"      :   "integer",
+    "Value"             :   "integer",
+    "Marketing value"   :   "integer"
 }
-csvClient.IGNORE_COLUMNS = ["Project"]
-csvClient.VALUES = {
-    "priority"      :   {"Minor" : "4", "Normal" : "3", "Major" : "2", "Critical" : "1", "Show-stoper" : "0"}
-}
-csvClient.DEFAULT_VALUES = {
-    "summary"           :   "summary",
-    "created"           :   str(int(time.time() * 1000)),
-    "reporterName"      :   "guest",
-    "type"              :   "Bug",
-    "priority"          :   "1",
-    "state"             :   "Submitted"
-}
-csvClient.DEFAULT_EMAIL = "anna.zhdan@gmail.com"
-csvClient.CSV_DELIMITER = ";"
-csvClient.GENERATE_ID_FOR_ISSUES = True
-csvClient.DATE_FORMAT_STRING = "%A, %B %d, %Y %I:%M:%S %p %Z"
+
+
+csvClient.CSV_DELIMITER = ","
+csvClient.GENERATE_ID_FOR_ISSUES = False
+csvClient.DATE_FORMAT_STRING = "%A, %B %d, %Y %I:%M:%S %p %z"
