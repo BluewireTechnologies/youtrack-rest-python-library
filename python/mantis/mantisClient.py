@@ -152,7 +152,7 @@ class MantisClient(object) :
             issue.summary = row[summary_row]
             issue.cf_values["category"] = [self._get_category_by_id(row[category_id_row])]
             issue.date_submitted = self._to_epoch_time(row[date_submitted_row])
-            issue[due_date_row] = self._to_epoch_time(row[due_date_row])
+            issue.due_date = self._to_epoch_time(row[due_date_row])
             issue.last_updated = self._to_epoch_time(row[last_updated_row])
             #custom fields
 
@@ -326,7 +326,7 @@ class MantisClient(object) :
         issue.cf_values[priority_row] = [mantis.PRIORITY_VALUES[row[priority_row]]]
         issue.cf_values[severity_row] = [mantis.SEVERITY_VALUES[row[severity_row]]]
         issue.cf_values[reproducibility_row] = [mantis.REPRODUCIBILITY_VALUES[row[reproducibility_row]]]
-        issue.cf_values[status_row] = [mantis.SEVERITY_VALUES[row[status_row]]]
+        issue.cf_values[status_row] = [mantis.STATUS_VALUES[row[status_row]]]
         issue.cf_values[resolution_row] = [mantis.RESOLUTION_VALUES[row[resolution_row]]]
 
     def _set_os_issue_parameters(self, issue) :
@@ -374,7 +374,11 @@ class MantisClient(object) :
             result.append(row[name_row])
         return result
 
-    def _to_epoch_time(self, time_string):
-        if len(time_string) :
-            return str(int(time_string) * 1000)
+    def _to_epoch_time(self, time):
+        if time is None:
+            return ""
+        if isinstance(time, long):
+            return str(time * 1000)
+        if len(time) :
+            return str(int(time) * 1000)
         return ""

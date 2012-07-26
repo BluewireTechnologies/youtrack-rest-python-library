@@ -24,7 +24,8 @@ SEVERITY_VALUES = {
     50 : "Minor",
     60 : "Major",
     70 : "Crash",
-    80 : "Block"
+    80 : "Block",
+    90 : "Super Blocker"
 }
 
 REPRODUCIBILITY_VALUES = {
@@ -43,7 +44,10 @@ STATUS_VALUES = {
     40 : "confirmed",
     50 : "assigned",
     60 : "resolved",
-    70 : "closed"
+    70 : "closed",
+    75 : "some_status_3",
+    80 : "some_status_1",
+    90 : "some_status_2"
 }
 
 RESOLUTION_VALUES = {

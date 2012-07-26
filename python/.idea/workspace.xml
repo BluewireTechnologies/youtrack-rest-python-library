@@ -5,17 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bfb67218-c868-4b90-b6ff-44352675a3b4" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/csvClient/defaultTracMapping.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/csvClient/exampleTracMapping.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/csvClient/jrubyJiraMapping.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/csvClient/myYoutrackMapping.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/csv2youtrack.py" afterPath="$PROJECT_DIR$/csv2youtrack.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/csvClient/__init__.py" afterPath="$PROJECT_DIR$/csvClient/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/csvClient/client.py" afterPath="$PROJECT_DIR$/csvClient/client.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/csvClient/youtrackMapping.py" afterPath="$PROJECT_DIR$/csvClient/youtrackMapping.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/youtrack/__init__.py" afterPath="$PROJECT_DIR$/youtrack/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/youtrack/connection.py" afterPath="$PROJECT_DIR$/youtrack/connection.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mantis/__init__.py" afterPath="$PROJECT_DIR$/mantis/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mantis/mantisClient.py" afterPath="$PROJECT_DIR$/mantis/mantisClient.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mantis2youtrack.py" afterPath="$PROJECT_DIR$/mantis2youtrack.py" />
     </list>
     <list id="d3847385-ad1a-4777-aa3d-907095886442" name="settings" comment="settings" />
     <ignored path="python.iws" />
@@ -38,41 +31,30 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="csv2youtrack.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/csv2youtrack.py">
+      <file leaf-file-name="mantis2youtrack.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mantis2youtrack.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="0" selection-start="599" selection-end="599" vertical-scroll-proportion="0.5058651">
+            <state line="276" column="0" selection-start="11090" selection-end="11090" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="e#0#15#0" expanded="true" />
+                <element signature="e#0#42#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="connection.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/youtrack/connection.py">
+      <file leaf-file-name="cursors.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file:///usr/share/pyshared/MySQLdb/cursors.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="192" column="32" selection-start="8083" selection-end="8083" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="importHelper.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/youtrack/importHelper.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="58" selection-start="1787" selection-end="1787" vertical-scroll-proportion="0.0">
+            <state line="108" column="41" selection-start="3375" selection-end="3375" vertical-scroll-proportion="1.3722944">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/csvClient/__init__.py">
+      <file leaf-file-name="socket.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file:///usr/lib/python2.6/socket.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="228" selection-end="228" vertical-scroll-proportion="0.0">
+            <state line="396" column="0" selection-start="14079" selection-end="14079" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -81,28 +63,64 @@
       <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/youtrack/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="54" selection-start="1137" selection-end="1137" vertical-scroll-proportion="0.0">
+            <state line="89" column="0" selection-start="2970" selection-end="2970" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="youtrackMapping.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/csvClient/youtrackMapping.py">
+      <file leaf-file-name="connection.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/youtrack/connection.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="60" selection-start="1148" selection-end="1148" vertical-scroll-proportion="0.0">
+            <state line="159" column="0" selection-start="6616" selection-end="6616" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="client.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/csvClient/client.py">
+      <file leaf-file-name="pydevd.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="28" selection-start="890" selection-end="890" vertical-scroll-proportion="0.0">
+            <state line="1400" column="0" selection-start="56465" selection-end="56465" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="importHelper.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/youtrack/importHelper.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="144" column="0" selection-start="6560" selection-end="6560" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="connections.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file:///usr/share/pyshared/MySQLdb/connections.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="53" column="12" selection-start="1529" selection-end="1529" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mantisClient.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mantis/mantisClient.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="47" column="0" selection-start="1810" selection-end="1810" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="e#0#10#0" expanded="true" />
+                <element signature="e#0#14#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mantis/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="95" column="22" selection-start="1988" selection-end="1988" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -120,14 +138,9 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/agilezen2youtrack.py" />
-        <option value="$PROJECT_DIR$/deleteAllUsers.py" />
-        <option value="$PROJECT_DIR$/getAllEmailsFromProject.py" />
         <option value="$PROJECT_DIR$/jiraSOAP2youtrack.py" />
-        <option value="$PROJECT_DIR$/mantis2youtrack.py" />
         <option value="$PROJECT_DIR$/trac2youtrack.py" />
         <option value="$PROJECT_DIR$/youtrack2youtrack.py" />
-        <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/jira2youtrack.py" />
         <option value="$PROJECT_DIR$/youtrack/__init__.py" />
         <option value="$PROJECT_DIR$/csvClient/myYoutrackMapping.py" />
@@ -136,6 +149,11 @@
         <option value="$PROJECT_DIR$/csvClient/client.py" />
         <option value="$PROJECT_DIR$/csv2youtrack.py" />
         <option value="$PROJECT_DIR$/csvClient/youtrackMapping.py" />
+        <option value="$PROJECT_DIR$/bugzilla/__init__.py" />
+        <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/mantis/__init__.py" />
+        <option value="$PROJECT_DIR$/mantis/mantisClient.py" />
+        <option value="$PROJECT_DIR$/mantis2youtrack.py" />
       </list>
     </option>
   </component>
@@ -192,6 +210,16 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -234,18 +262,22 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="csvClient" />
+              <option name="myItemId" value="mantis" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
           <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
+            <PATH_ELEMENT>
+              <option name="myItemId" value="python" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="python" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bugzilla" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -256,17 +288,17 @@
   <component name="PropertiesComponent">
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="157" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="123" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="218" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth3" value="51" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="234" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="218" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2" value="146" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="234" />
     <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder0" value="0" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder3" value="3" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder2" value="2" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="223" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="223" />
     <property name="recentsLimit" value="5" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth2" value="128" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
@@ -279,10 +311,10 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="1137" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="239" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth4" value="1038" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="232" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth3" value="113" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="232" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4" value="1055" />
     <property name="options.splitter.details.proportions" value="0.2" />
@@ -290,7 +322,7 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="options.lastSelected" value="com.jetbrains.python.configuration.PythonSdkConfigurable" />
+    <property name="options.lastSelected" value="com.jetbrains.python.configuration.PyIntegratedToolsModulesConfigurable" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder4" value="4" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
@@ -306,7 +338,7 @@
       <PyConsoleSettings />
     </option>
   </component>
-  <component name="RunManager" selected="Python.csv2youtrack">
+  <component name="RunManager" selected="Python.mantis2youtrack">
     <configuration default="false" name="jira2youtrack" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -505,13 +537,32 @@
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
-    <list size="6">
+    <configuration default="false" name="mantis2youtrack" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <module name="python" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mantis2youtrack.py" />
+      <option name="PARAMETERS" value="http://localhost:8081 root root mantis localhost 3306 root root TV-Server &quot;MediaPortal 2&quot; Installers Documentation MPTagThat Administration MediaPortal" />
+      <option name="MULTIPROCESS" value="false" />
+      <RunnerSettings RunnerId="PyDebugRunner" />
+      <ConfigurationWrapper RunnerId="PyDebugRunner" />
+      <method />
+    </configuration>
+    <list size="7">
       <item index="0" class="java.lang.String" itemvalue="Python.jira2youtrack" />
       <item index="1" class="java.lang.String" itemvalue="Python.agilezen2youtrack" />
       <item index="2" class="java.lang.String" itemvalue="Python.bugzilla2youtrack" />
       <item index="3" class="java.lang.String" itemvalue="Python.test" />
       <item index="4" class="java.lang.String" itemvalue="Python.google2youtrack" />
       <item index="5" class="java.lang.String" itemvalue="Python.csv2youtrack" />
+      <item index="6" class="java.lang.String" itemvalue="Python.mantis2youtrack" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -593,21 +644,21 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="24" width="1920" height="1152" extended-state="2" />
+    <frame x="0" y="24" width="1920" height="1152" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32801595" sideWeight="0.3253205" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2745491" sideWeight="0.48716578" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29058117" sideWeight="0.8326203" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.274" sideWeight="0.5090909" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32865733" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296593" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32765532" sideWeight="0.3253205" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296593" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20192307" sideWeight="0.23246492" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20192307" sideWeight="0.4699399" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2745491" sideWeight="0.48716578" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20405982" sideWeight="0.3977956" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20405982" sideWeight="0.72044086" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2795591" sideWeight="0.8326203" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.274" sideWeight="0.5090909" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26252505" sideWeight="0.9037433" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32865733" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="100" y="124" width="1720" height="952" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -709,131 +760,123 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/trac2youtrack.py">
+    <entry file="file:///usr/lib/pymodules/python2.6/MySQLdb/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="8" selection-start="283" selection-end="283" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/youtrack2youtrack.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="24" selection-start="603" selection-end="603" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#44#54#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/youtrackRestSamples.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="11" selection-start="735" selection-end="735" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="358" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bugzilla2youtrack.py">
+    <entry file="file://$PROJECT_DIR$/userTool.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="136" column="20" selection-start="4282" selection-end="4282" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jira/__init__.py">
+    <entry file="file://$USER_HOME$/.PyCharm10/system/python_stubs/-1247972724/__builtin__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="1080" selection-end="1248" vertical-scroll-proportion="0.5259467">
+        <state line="1724" column="8" selection-start="57232" selection-end="57232" vertical-scroll-proportion="0.33239436">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jira2youtrack.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="164" column="66" selection-start="6566" selection-end="6621" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="115" selection-end="115" vertical-scroll-proportion="0.0">
+        <state line="20" column="0" selection-start="810" selection-end="810" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#0#29#0" expanded="true" />
+            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/csvClient/__init__.py">
+    <entry file="file://$PROJECT_DIR$/mantis/defaultMantis.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="228" selection-end="228" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/youtrack/importHelper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="58" selection-start="1787" selection-end="1787" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/lib/python2.6/_strptime.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="327" column="0" selection-start="14171" selection-end="14171" vertical-scroll-proportion="0.0">
+        <state line="90" column="43" selection-start="2920" selection-end="2920" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/youtrack/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="54" selection-start="1137" selection-end="1137" vertical-scroll-proportion="0.0">
+        <state line="89" column="0" selection-start="2970" selection-end="2970" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/lib/python2.6/xml/sax/saxutils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="59" column="4" selection-start="1761" selection-end="1761" vertical-scroll-proportion="0.3323263">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mantis/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="95" column="22" selection-start="1988" selection-end="1988" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1400" column="0" selection-start="56465" selection-end="56465" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/youtrack/connection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="159" column="0" selection-start="6616" selection-end="6616" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/share/pyshared/MySQLdb/connections.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="12" selection-start="1529" selection-end="1529" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file:///usr/lib/python2.6/socket.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="396" column="0" selection-start="14079" selection-end="14079" vertical-scroll-proportion="0.33282906">
+        <state line="396" column="0" selection-start="14079" selection-end="14079" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/csvClient/client.py">
+    <entry file="file://$PROJECT_DIR$/mantis/mantisClient.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="28" selection-start="890" selection-end="890" vertical-scroll-proportion="0.0">
+        <state line="47" column="0" selection-start="1810" selection-end="1810" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/youtrack/connection.py">
+    <entry file="file://$PROJECT_DIR$/youtrack/importHelper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="192" column="32" selection-start="8083" selection-end="8083" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/csvClient/youtrackMapping.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="60" selection-start="1148" selection-end="1148" vertical-scroll-proportion="0.0">
+        <state line="144" column="0" selection-start="6560" selection-end="6560" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/csv2youtrack.py">
+    <entry file="file://$PROJECT_DIR$/mantis2youtrack.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="0" selection-start="599" selection-end="599" vertical-scroll-proportion="0.5058651">
+        <state line="276" column="0" selection-start="11090" selection-end="11090" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#0#42#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/share/pyshared/MySQLdb/cursors.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="108" column="41" selection-start="3375" selection-end="3375" vertical-scroll-proportion="1.3722944">
+          <folding />
         </state>
       </provider>
     </entry>
