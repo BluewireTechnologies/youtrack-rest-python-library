@@ -416,14 +416,14 @@ def trac2youtrack(target_url, target_login, target_password, project_ID, project
         print "Processing issue [ %s ]" % (str(issue.id))
         issue_attach = issue.attachment
         for attach in issue_attach:
-            print "Processing attachment [ %s ]" % attach.filename
+            print "Processing attachment [ %s ]" % attach.filename.encode('utf-8')
             if not (attach.author_name in registered_users):
                 yt_user, registered_users = process_non_authorised_user(target, registered_users, attach.author_name)
                 if yt_user is None :
                     attach.author_name = "guest"
                 else:
                     attach.author_name = yt_user
-            content = open(urllib.quote(attach.filename))
+            content = open(urllib.quote(attach.filename.encode('utf-8')))
             target.createAttachment(str(project_ID) + "-" + str(issue.id), attach.filename, content, attach.author_name,
                                     created=attach.time)
     print "Importing attachments finished"
