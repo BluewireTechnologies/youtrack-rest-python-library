@@ -3,17 +3,17 @@ import tracLib
 #if you defined your own types you should add them to the map
 TYPES = {
     "defect"        :   "Bug",
-    "enhancement"   :   "Feature",
+    "feature request"   :   "Feature",
     "task"          :   "Task",
+    "usability issue" : "Usability Problem",
+    "technical debt" : "Technical Debt"
 }
 
 #if you defined your own priorities you should add them to the map
 PRIORITIES = {
-    "trivial"       :   "Minor",        #Minor
-    "minor"         :   "Normal",        #Normal
-    "major"         :   "Major",        #Major
-    "critical"      :   "Critical",        #Critical
-    "blocker"       :   "Show-stopper"         #Show-stopper
+    "low"       :   "Minor",        #Minor
+    "medium"         :   "Normal",        #Normal
+    "high"         :   "Major",        #Major
 }
 #we convert resolutions and statuses into statuses
 RESOLUTIONS = {
@@ -21,7 +21,7 @@ RESOLUTIONS = {
     "fixed"         :   "Fixed",
     "wontfix"       :   "Won't fix",
     "worksforme"    :   "Can't Reproduce",
-    "invalid"       :   "Can't Reproduce"
+    "invalid"       :   "Won't fix"
     #   :   "To be discussed
 }
 STATES = {
@@ -29,7 +29,9 @@ STATES = {
     "new"           :   "Open",
     "reopened"      :   "Reopened",
     "assigned"      :   "Submitted",
-    "closed"        :   None
+    "closed"        :   None,
+    "test"          :   "Test",
+    "blocked"       :   "Blocked"
 }
 
 # if you don't change rules of importing, don't change this map
@@ -38,14 +40,13 @@ tracLib.CUSTOM_FIELD_TYPES = {
     "checkbox"      :   "enum[*]",
     "select"        :   "enum[1]",
     "radio"         :   "enum[1]",
-    "teaxtarea"     :   "string"
+    "textarea"     :   "string"
 }
 
 tracLib.FIELD_VALUES = {
     "Priority"      :   PRIORITIES,
     "Type"          :   TYPES,
     "State"         :   dict(RESOLUTIONS.items() + STATES.items()),
-    "YT Select"     :   {"uno" : "1", "dos" : "2", "tres" : "3", "cuatro" : "4"}
 }
 
 tracLib.FIELD_TYPES = {
@@ -56,7 +57,6 @@ tracLib.FIELD_TYPES = {
     "Affected versions" :   "version[*]",
     "Assignee"          :   "user[1]",
     "Severity"          :   "enum[1]",
-    "YT Select"         :   "enum[*]",
     "Subsystem"         :   "ownedField[1]"
 }
 
@@ -66,14 +66,10 @@ tracLib.FIELD_NAMES = {
     "Owner"             :   "Assignee",
     "Version"           :   "Fix versions",
     "Component"         :   "Subsystem",
-    "Test_five"         :   "YT Select"
 }
 
-
 # the default email to register users who doesn't have one
-tracLib.DEFAULT_EMAIL = "anna.zhdan@gmail.com"
+tracLib.DEFAULT_EMAIL = "unknown@bluewire-technologies.com"
 # if true users who were not authorized are registered
 # else they are known as guests
 tracLib.ACCEPT_NON_AUTHORISED_USERS = True
-
-
