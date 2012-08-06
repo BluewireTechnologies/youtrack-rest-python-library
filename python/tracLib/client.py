@@ -111,11 +111,26 @@ class Client(object):
                 version.description = row[2]
             trac_versions.append(version)
         return trac_versions
+		
+	def get_milestones(self):
+        cursor = self.db_cnx.cursor()
+        cursor.execute("SELECT name, due, completed, description FROM milestone")
+        trac_milestones = list([])
+        for row in cursor:
+            version = TracMilestone(row[0])
+            if row[1]:
+                version.due = self.to_unix_time(row[1])
+			if row[2]:
+                version.completed = self.to_unix_time(row[2])
+            if row[3] is not None:
+                version.description = row[3]
+            trac_milestones.append(version)
+        return trac_milestones
 
     def get_issues(self):
         cursor = self.db_cnx.cursor()
         cursor.execute("SELECT id, type, time, changetime, component, severity, priority, owner, reporter,"
-                       "cc, version, status, resolution, summary, description, keywords FROM ticket")
+                       "cc, version, status, resolution, summary, description, keywords, milestone FROM ticket")
         trac_issues = list([])
         for row in cursor:
             issue = TracIssue(row[0])
@@ -131,6 +146,7 @@ class Client(object):
                             issue.cc.add(cc_name)
             issue.summary = row[13]
             issue.description = row[14]
+            issue.custom_fields["Milestone"] = row[16]
             issue.custom_fields["Type"] = row[1]
             issue.custom_fields["Component"] = row[4]
             issue.custom_fields["Severity"] = row[5]

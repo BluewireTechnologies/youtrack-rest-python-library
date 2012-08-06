@@ -64,7 +64,6 @@ tracLib.FIELD_NAMES = {
     "Resolution"        :   "State",
     "Status"            :   "State",
     "Owner"             :   "Assignee",
-    "Version"           :   "Fix versions",
     "Component"         :   "Subsystem",
     "Milestone"         :   "Fix versions",
 }

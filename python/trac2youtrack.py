@@ -160,9 +160,28 @@ def to_youtrack_issue(trac_issue, check_box_fields):
     return issue
 
 
-def to_youtrack_version(trac_version, yt_bundle):
+# def to_youtrack_version(trac_version, yt_bundle):
+    # """"
+    # This method converts trac version to YT version.
+
+    # Args:
+        # trac_version: Trac version to convert.
+        # yt_bundle: YT field bundle to create version in.
+
+    # Returns:
+        # YT version that has same name, description and release date as trac version.
+        # New version is released and not archived.
+    # """""
+    # version = yt_bundle.createElement(trac_version.name)
+    # version.isReleased = True
+    # version.isArchived = False
+    # version.description = trac_version.description
+    # version.releaseDate = trac_version.time
+    # return version
+	
+def to_youtrack_version(trac_milestone, yt_bundle):
     """"
-    This method converts trac version to YT version.
+    This method converts trac milestone to YT version.
 
     Args:
         trac_version: Trac version to convert.
@@ -172,11 +191,15 @@ def to_youtrack_version(trac_version, yt_bundle):
         YT version that has same name, description and release date as trac version.
         New version is released and not archived.
     """""
-    version = yt_bundle.createElement(trac_version.name)
-    version.isReleased = True
+    version = yt_bundle.createElement(trac_milestone.name)
     version.isArchived = False
-    version.description = trac_version.description
-    version.releaseDate = trac_version.time
+    version.description = trac_milestone.description
+	
+	if trac_milestone.completed:
+		version.isReleased = True
+		version.releaseDate = str(trac_milestone.completed)
+	else
+		version.isReleased = False
     return version
 
 def to_youtrack_comment(trac_comment):
@@ -325,10 +348,14 @@ def trac2youtrack(target_url, target_login, target_password, project_ID, project
     trac_resolution_to_yt_state = lambda track_field, yt_bundle : to_youtrack_state(track_field, yt_bundle)
     create_yt_bundle_custom_field(target, project_ID, "Resolution", client.get_issue_resolutions(), trac_resolution_to_yt_state)
 
-    trac_versions = client.get_versions()
-    trac_version_to_yt_version = lambda trac_field, yt_bundle : to_youtrack_version(trac_field, yt_bundle)
-    create_yt_bundle_custom_field(target, project_ID, "Version", trac_versions, trac_version_to_yt_version)
+    #trac_versions = client.get_versions()
+    #trac_version_to_yt_version = lambda trac_field, yt_bundle : to_youtrack_version(trac_field, yt_bundle)
+    #create_yt_bundle_custom_field(target, project_ID, "Version", trac_versions, trac_version_to_yt_version)
     #create_yt_bundle_custom_field(target, project_ID, "Affected versions", trac_versions, trac_version_to_yt_version)
+	
+	trac_milestones = client.get_milestones()
+    trac_milestone_to_yt_version = lambda trac_field, yt_bundle : to_youtrack_version(trac_field, yt_bundle)
+    create_yt_bundle_custom_field(target, project_ID, "Version", trac_milestones, trac_milestone_to_yt_version)
 
     trac_components = client.get_components()
     for cmp in trac_components :
