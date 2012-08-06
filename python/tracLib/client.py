@@ -122,12 +122,13 @@ class Client(object):
             issue.time = self.to_unix_time(row[2])
             issue.changetime = self.to_unix_time(row[3])
             issue.reporter = self._get_user_login(row[8])
-            cc = row[9].split(",")
-            for c in cc:
-                if len(c) > 0:
-                    cc_name = self._get_user_login(c.strip())
-                    if cc_name is not None:
-                        issue.cc.add(cc_name)
+            if row[9] is not None:
+                cc = row[9].split(",")
+                for c in cc:
+                    if len(c) > 0:
+                        cc_name = self._get_user_login(c.strip())
+                        if cc_name is not None:
+                            issue.cc.add(cc_name)
             issue.summary = row[13]
             issue.description = row[14]
             issue.custom_fields["Type"] = row[1]
@@ -138,10 +139,11 @@ class Client(object):
             issue.custom_fields["Version"] = row[10]
             issue.custom_fields["Status"] = row[11]
             issue.custom_fields["Resolution"] = row[12]
-            keywords = row[15].rsplit(",")
-            for kw in keywords:
-                if len(kw) > 0:
-                    issue.keywords.add(kw.strip())
+            if row[15] is not None:
+                keywords = row[15].rsplit(",")
+                for kw in keywords:
+                    if len(kw) > 0:
+                        issue.keywords.add(kw.strip())
             #getting custom fields from ticket_custom table
             custom_field_cursor = self.db_cnx.cursor()
             custom_field_cursor.execute("SELECT name, value FROM ticket_custom WHERE ticket=%s", (str(row[0]),))
@@ -165,7 +167,7 @@ class Client(object):
             change_cursor = self.db_cnx.cursor()
             change_cursor.execute("SELECT time, author, newvalue, oldvalue FROM ticket_change WHERE ticket = %s AND field = %s ORDER BY time DESC", (str(row[0]), "comment",))
             for elem in change_cursor:
-                if not len(elem[2]):
+                if (elem[2] is None) or (not len(elem[2])):
                     continue
                 comment = TracComment(self.to_unix_time(elem[0]))
                 comment.author = str(elem[1])
