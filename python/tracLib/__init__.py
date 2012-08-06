@@ -43,6 +43,13 @@ class TracVersion(object):
         self.time = None
         self.description = ""
 
+class TracMilestone(object):
+    def __init__(self, name):
+        self.name = name
+        self.due = None
+        self.completed = None
+        self.description = ""
+
 class TracComponent(object):
 
     def __init__(self, name):
