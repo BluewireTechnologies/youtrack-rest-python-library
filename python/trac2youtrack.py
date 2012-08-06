@@ -197,7 +197,7 @@ def to_youtrack_comment(trac_comment):
     else:
         comment.author = trac_comment.author
     comment.text = trac_comment.content
-    comment.created = trac_comment.time
+    comment.created = str(trac_comment.time)
     return comment
 
 
