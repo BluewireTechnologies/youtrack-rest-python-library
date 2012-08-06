@@ -216,5 +216,5 @@ class Client(object):
         return [row[0] for row in cursor]
 
     def to_unix_time(self, time):
-        return time / 1000
+        return time * 1000 # Trac 0.11 stores seconds since epoch. YouTrack wants MS.
 
