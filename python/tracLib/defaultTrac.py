@@ -66,6 +66,7 @@ tracLib.FIELD_NAMES = {
     "Owner"             :   "Assignee",
     "Version"           :   "Fix versions",
     "Component"         :   "Subsystem",
+    "Milestone"         :   "Fix versions",
 }
 
 # the default email to register users who doesn't have one
