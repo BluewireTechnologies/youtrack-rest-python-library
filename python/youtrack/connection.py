@@ -313,10 +313,7 @@ class Connection(object):
                     print "Reason : "
                     print item.toxml()
                     print "Request was :"
-                    if isinstance(issue_records, unicode):
-                        print issue_records[id].encode('utf-8')
-                    else:
-                        print issue_records[id]
+                    print issue_records[id].encode('utf-8')
                 print ""
         return response
 
