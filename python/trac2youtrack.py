@@ -195,11 +195,11 @@ def to_youtrack_version(trac_milestone, yt_bundle):
     version.isArchived = False
     version.description = trac_milestone.description
 	
-	if trac_milestone.completed:
-		version.isReleased = True
-		version.releaseDate = str(trac_milestone.completed)
-	else
-		version.isReleased = False
+    if trac_milestone.completed:
+ 	version.isReleased = str(True)
+        version.releaseDate = str(trac_milestone.completed)
+    else:
+	version.isReleased = str(False)
     return version
 
 def to_youtrack_comment(trac_comment):
@@ -352,10 +352,10 @@ def trac2youtrack(target_url, target_login, target_password, project_ID, project
     #trac_version_to_yt_version = lambda trac_field, yt_bundle : to_youtrack_version(trac_field, yt_bundle)
     #create_yt_bundle_custom_field(target, project_ID, "Version", trac_versions, trac_version_to_yt_version)
     #create_yt_bundle_custom_field(target, project_ID, "Affected versions", trac_versions, trac_version_to_yt_version)
-	
-	trac_milestones = client.get_milestones()
+
+    trac_milestones = client.get_milestones()
     trac_milestone_to_yt_version = lambda trac_field, yt_bundle : to_youtrack_version(trac_field, yt_bundle)
-    create_yt_bundle_custom_field(target, project_ID, "Version", trac_milestones, trac_milestone_to_yt_version)
+    create_yt_bundle_custom_field(target, project_ID, "Milestone", trac_milestones, trac_milestone_to_yt_version)
 
     trac_components = client.get_components()
     for cmp in trac_components :
@@ -430,13 +430,13 @@ def trac2youtrack(target_url, target_login, target_password, project_ID, project
     print target.importIssues(project_ID, project_name + ' Assignees', yt_issues)
     print 'Importing issues finished'
     #importing tags
-    print "Importing keywords"
-    for issue in trac_issues:
-        print "Importing tags from issue [ %s ]" % (str(issue.id))
-        tags = issue.keywords
-        for t in tags:
-            target.executeCommand(str(project_ID) + "-" + str(issue.id), "tag " + t.encode('utf-8'))
-    print "Importing keywords finished"
+    #print "Importing keywords"
+    #for issue in trac_issues:
+    #    print "Importing tags from issue [ %s ]" % (str(issue.id))
+    #    tags = issue.keywords
+    #    for t in tags:
+    #        target.executeCommand(str(project_ID) + "-" + str(issue.id), "tag " + t.encode('utf-8'))
+    #print "Importing keywords finished"
 
     print "Importing attachments"
     for issue in trac_issues:

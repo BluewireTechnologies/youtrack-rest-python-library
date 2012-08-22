@@ -112,7 +112,7 @@ class Client(object):
             trac_versions.append(version)
         return trac_versions
 		
-	def get_milestones(self):
+    def get_milestones(self):
         cursor = self.db_cnx.cursor()
         cursor.execute("SELECT name, due, completed, description FROM milestone")
         trac_milestones = list([])
@@ -120,7 +120,7 @@ class Client(object):
             version = TracMilestone(row[0])
             if row[1]:
                 version.due = self.to_unix_time(row[1])
-			if row[2]:
+            if row[2]:
                 version.completed = self.to_unix_time(row[2])
             if row[3] is not None:
                 version.description = row[3]
@@ -152,7 +152,7 @@ class Client(object):
             issue.custom_fields["Severity"] = row[5]
             issue.custom_fields["Priority"] = row[6]
             issue.custom_fields["Owner"] = self._get_user_login(row[7])
-            issue.custom_fields["Version"] = row[10]
+            #issue.custom_fields["Version"] = row[10]
             issue.custom_fields["Status"] = row[11]
             issue.custom_fields["Resolution"] = row[12]
             if row[15] is not None:
