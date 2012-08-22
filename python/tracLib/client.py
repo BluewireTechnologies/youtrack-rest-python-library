@@ -2,6 +2,7 @@ from trac.env import Environment
 from tracLib import *
 from ConfigParser import ConfigParser
 import tracLib
+import re
 
 
 class Client(object):
@@ -145,7 +146,7 @@ class Client(object):
                         if cc_name is not None:
                             issue.cc.add(cc_name)
             issue.summary = row[13]
-            issue.description = row[14]
+            issue.description = trac_to_youtrack_content(row[14])
             issue.custom_fields["Milestone"] = row[16]
             issue.custom_fields["Type"] = row[1]
             issue.custom_fields["Component"] = row[4]
@@ -187,10 +188,17 @@ class Client(object):
                     continue
                 comment = TracComment(self.to_unix_time(elem[0]))
                 comment.author = str(elem[1])
-                comment.content = unicode(elem[2])
+                comment.content = trac_to_youtrack_content(elem[2])
                 comment.id = elem[3]
                 issue.comments.add(comment)
         return trac_issues
+
+    def trac_to_youtrack_content(self, content):
+        output = unicode(content)
+        output = re.sub(r'#(\d+)', r'E-\1', output) #other tickets
+        output = re.sub(r'\[(\d+)\]', r'[https://www.clifton.bluewire-technologies.com/projects/trac/changeset/\1 \1]', output) #changesets
+        output = re.sub(r'\[\[Image\((.*)\)\]\]', r'[file:\1]', output) #images
+        return output
 
 
     def get_custom_fields_declared(self):
